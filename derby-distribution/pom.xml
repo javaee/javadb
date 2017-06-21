@@ -2,7 +2,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.glassfish.external</groupId>
     <artifactId>derby-distribution</artifactId>
-    <version>10.13.1.1</version>
+    <version>10.13.1.2-SNAPSHOT</version>
     <packaging>pom</packaging>
  
     <!-- some properties to set the classpath manually -->
