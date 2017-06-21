@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN"
+ "../dtd/task.dtd">
+<!-- 
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at      
+
+   http://www.apache.org/licenses/LICENSE-2.0  
+
+Unless required by applicable law or agreed to in writing, software  
+distributed under the License is distributed on an "AS IS" BASIS,  
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+See the License for the specific language governing permissions and  
+limitations under the License.
+-->
+<task id="tsecnetservrun" xml:lang="en-us">
+<title>Running the Network Server with a security manager</title>
+<shortdesc>If you start the Network Server without specifying a security
+manager, the Network Server installs a default Java security manager that
+enforces a Basic policy.</shortdesc>
+<prolog><metadata><keywords>
+<indexterm>Network Server<indexterm>running under security manager</indexterm></indexterm>
+<indexterm>Network Server<indexterm>basic policy</indexterm></indexterm>
+</keywords></metadata></prolog>
+<taskbody>
+<context>
+<p>You are encouraged to customize this policy to fit the security needs of your
+application and its runtime environment.</p>
+<p>You may also run the Network Server without a security manager, although this
+is not recommended.</p>
+<p>The default policy is used if you boot the Network Server as your VM's entry
+point, using a command like the following:</p>
+<codeblock><b>java org.apache.derby.drda.NetworkServerControl start ...</b></codeblock>
+<p>Some of your application code may run as procedures and functions that you
+have declared using the CREATE PROCEDURE and CREATE FUNCTION statements. You
+will need to add privileged blocks to your declared procedures and functions if
+they perform sensitive operations, such as file and network I/O, classloading,
+system property reading, and the like.</p>
+<p>The Network Server attempts to install a security manager only if you start
+the server as the entry point of your VM. The Network Server will not attempt to
+install a security manager if you start the server from your application using
+the programmatic API described in "Starting the Network Server from a Java
+application" in the <ph conref="../conrefs.dita#pub/citadmin"></ph>.</p>
+</context>
+</taskbody>
+</task>

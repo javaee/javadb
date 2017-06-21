@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN"
+ "../dtd/concept.dtd">
+<!-- 
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at      
+
+   http://www.apache.org/licenses/LICENSE-2.0  
+
+Unless required by applicable law or agreed to in writing, software  
+distributed under the License is distributed on an "AS IS" BASIS,  
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+See the License for the specific language governing permissions and  
+limitations under the License.
+-->
+<concept id="csecjavasecurity" xml:lang="en-us">
+<title>Configuring Java security</title>
+<shortdesc>The Java security manager lets you reduce the damage that your
+application can do.</shortdesc>
+<prolog><metadata>
+<keywords></keywords>
+</metadata></prolog>
+<conbody>
+<p>Using a security manager, the System Administrator can restrict how an
+application cooperates with other applications running in the same virtual
+machine (VM) or elsewhere on the same machine. When you run
+<ph conref="../conrefs.dita#prod/productshortname"></ph> under a security
+manager, you can restrict the following:</p>
+<ul>
+<li><b>Backups</b>: You control where the
+<ph conref="../conrefs.dita#prod/productshortname"></ph> engine writes and reads
+database backup files.</li>
+<li><b>Imports and exports</b>: You control where the engine imports data from
+and where it exports data to.</li>
+<li><b>Jar files</b>: You control where the engine obtains jar files of
+customer-coded functions and procedures.</li>
+<li><b>Sockets</b>: You control what machines can connect to the server and
+What machines the server can connect to.</li>
+</ul>
+<p>To take advantage of these powerful controls, first customize a copy of the 
+<ph conref="../conrefs.dita#prod/productshortname"></ph> security policy
+template. You will find a template security policy in the
+<ph conref="../conrefs.dita#prod/productshortname"></ph> distribution at 
+<codeph>demo/templates/server.policy</codeph>.</p>
+<p><xref href="rsecnetservbasic.dita"/> shows this basic policy. It grants
+permissions to both the <codeph>derby.jar</codeph> and
+<codeph>derbynet.jar</codeph> codebases. To run
+<ph conref="../conrefs.dita#prod/productshortname"></ph> in embedded mode, you
+must grant permissions to <codeph>derby.jar</codeph>. To run the
+<ph conref="../conrefs.dita#prod/productshortname"></ph> Network Server, you
+must grant permissions to both <codeph>derby.jar</codeph> and
+<codeph>derbynet.jar</codeph>.</p>
+<p><xref href="rsecpolicysample.dita#rsecpolicysample"></xref> shows a sample
+customized policy file.</p>
+<p>To customize the file, make the following edits:</p>
+<ul>
+<li><b>URLs</b>: Replace the <codeph>${derby.install.url}</codeph> variables
+with a URL pointing to the directory that holds the
+<ph conref="../conrefs.dita#prod/productshortname"></ph> jar files. For example:
+<codeblock>file:///Users/me/javadb/lib/</codeblock></li>
+<li><b>System home</b>: Look for instances of the string
+<codeph>${derby.system.home}</codeph>. Replace them with the name of the
+directory that holds your <codeph>derby.properties</codeph> file.</li>
+<li><b>Tracing</b>: Grant
+<ph conref="../conrefs.dita#prod/productshortname"></ph> the power to manage a
+directory tree that will hold server trace information. Look for the
+<codeph>${derby.drda.traceDirectory}</codeph> variable and replace it with the
+directory where the server should write its diagnostic traces. For more
+information on <ph conref="../conrefs.dita#prod/productshortname"></ph> tracing,
+see "Controlling tracing by using the trace facility" in the
+<ph conref="../conrefs.dita#pub/citadmin"></ph>.</li>
+<li><b>Backups/imports/jars</b>: Look for the first instance of the string
+<codeph>&lt;&lt;ALL FILES>></codeph>. Make two more copies of this line so that
+there are three copies of this line in the file. On the first line, replace
+<codeph>&lt;&lt;ALL FILES>></codeph> with the directory tree that you will use
+for holding database backups. For example:
+<codeblock>/Users/me/backups</codeblock>
+<p>Similarly, on the second line, replace <codeph>&lt;&lt;ALL FILES>></codeph>
+with the directory tree which you will use for staging imported/exported data.
+On the third line, replace <codeph>&lt;&lt;ALL FILES>></codeph> with the
+directory tree that holds the jar files of functions and procedures that you
+will load into databases. For the detailed syntax of these lines, see the
+API documentation for <codeph>java.io.FilePermission</codeph>.</p></li>
+<li><b>Sysinfo</b>: The <codeph>sysinfo</codeph> logic appears redundantly in
+several <ph conref="../conrefs.dita#prod/productshortname"></ph> jar files:
+<codeblock>derby.jar
+derbynet.jar
+derbyclient.jar
+derbytools.jar</codeblock>
+<p>If you want to run the <codeph>sysinfo</codeph> command, you will need to
+grant permissions to the first of these jar files that appears in your
+classpath.</p>
+<p><note>If you are running
+<ph conref="../conrefs.dita#prod/productshortname"></ph> by using the command
+<codeph>java -jar derbyrun.jar</codeph>, the first relevant jar file in the
+classpath is <codeph>derby.jar</codeph>. The template policy file grants these
+permissions to <codeph>derbynet.jar</codeph>. Note that the template policy file
+grants <codeph>sysinfo</codeph> the privilege to read all files in the system.
+You can restrict this to just the directory that contains the jar files wired
+into your classpath.</note></p></li>
+<li><b>Sockets</b>: The template policy file accepts connection requests from
+all hosts. You may want to restrict the template file's
+<codeph>java.net.SocketPermission</codeph> to connections from a particular
+subdomain. For details, see the API documentation for
+<codeph>java.net.SocketPermission</codeph>. In addition, if you are using LDAP
+authentication, then you must grant <codeph>derby.jar</codeph> the privilege to
+connect to the LDAP server.</li>
+</ul>
+<p>This manual does not describe the Java security manager in depth. For more
+information, see <xref format="html"
+href="http://docs.oracle.com/javase/8/docs/technotes/guides/security/"
+scope="external"/>. In particular, you may want to read the
+Security Architecture paper (<xref format="html"
+href="http://docs.oracle.com/javase/8/docs/technotes/guides/security/spec/security-spec.doc.html"
+scope="external"/>)
+and the Default Policy Implementation and Policy File Syntax information
+(<xref format="html"
+href="http://docs.oracle.com/javase/8/docs/technotes/guides/security/PolicyFiles.html"
+scope="external"/>).</p>
+</conbody>
+</concept>

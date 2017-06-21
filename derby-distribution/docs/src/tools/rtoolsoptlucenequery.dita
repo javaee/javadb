@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at      
+
+http://www.apache.org/licenses/LICENSE-2.0  
+
+Unless required by applicable law or agreed to in writing, software  
+distributed under the License is distributed on an "AS IS" BASIS,  
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+See the License for the specific language governing permissions and  
+limitations under the License.
+-->
+<!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN"
+ "../dtd/reference.dtd">
+<reference id="rtoolsoptlucenequery" xml:lang="en-us">
+<title>Querying an index</title>
+<shortdesc>To query an index, use the table function created by
+<codeph>CREATEINDEX</codeph>.</shortdesc>
+<prolog><metadata>
+<keywords>
+<indexterm>luceneSupport optional tool<indexterm>querying an index</indexterm></indexterm>
+</keywords>
+</metadata></prolog>
+<refbody>
+<section>
+<p>The table function created by <codeph>CREATEINDEX</codeph> has the following
+shape:</p>
+<codeblock>$SCHEMANAME.$TABLENAME__TEXTCOL
+(
+    QUERY VARCHAR( 32672 ),
+    WINDOWSIZE INT,
+    SCORECEILING REAL
+)
+RETURNS TABLE
+(
+    $keyColumn1 $keyColumn1datatype,
+    ...
+    $keyColumnN $keyColumnNdatatype,
+    DOCUMENTID INT,
+    SCORE REAL
+)</codeblock>
+<p>The arguments have the following meaning:</p>
+<ul>
+<li><codeph>QUERY</codeph>: This is the Lucene query text. For more information, see the
+description of the <xref format="html"
+href="https://builds.apache.org/job/Lucene-Artifacts-trunk/javadoc/queryparser/org/apache/lucene/queryparser/classic/package-summary.html#package_description"
+scope="external">Lucene query language</xref>.</li>
+<li><codeph>WINDOWSIZE</codeph>: This is the maximum number of rows (matches) to
+return.</li>
+<li><codeph>SCORECEILING</codeph>: This causes Lucene to return only rows whose
+score is less than this number. <codeph>WINDOWSIZE</codeph> and
+<codeph>SCORECEILING</codeph> are the variables which Lucene uses to process a
+result into windows. See the example below. A value of NULL means "return the
+best WINDOWSIZE matches".</li>
+</ul>
+<p>Remember that when the index was created, the application specified how the
+query should be parsed. </p>
+<p>In the returned result set, the key columns join back to the original table
+or view, and they identify which row of that table/view holds the scored text.
+The other columns in the returned result set have the following meanings:</p>
+<ul>
+<li><codeph>DOCUMENTID</codeph>: This is a Lucene-generated number which may be
+useful for debugging Lucene-related issues. This number has no meaning to
+<ph conref="../conrefs.dita#prod/productshortname"></ph> or to the end
+user.</li>
+<li><codeph>SCORE</codeph>: This value measures how well Lucene thought the
+column fit the query. A higher score means a better fit.</li>
+</ul>
+<p><ph conref="../conrefs.dita#prod/productshortname"></ph> uses the same
+analyzer to query the index that was last used to create or update the
+index.</p>
+</section>
+<section><title>Example</title>
+<codeblock><b>-- Selects the primary key and score for the best 3 matches for
+-- the text.
+select presidentID, speechID, score
+from table
+(
+    us.presidentsSpeeches__speechText
+    (
+        'When in the course of human events',
+        3,
+        null
+    )
+) t;
+
+-- The last row in the previous result had score 1.0.
+-- This selects the primary key and score for the next 4 matches for the
+-- text.
+select presidentID, speechID, score
+from table
+(
+    us.presidentsSpeeches__speechText
+    (
+        'When in the course of human events',
+        4,
+        1.0
+    )
+) t;</b></codeblock>
+</section>
+</refbody>
+</reference>

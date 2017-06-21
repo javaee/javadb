@@ -1,0 +1,2009 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at  
+
+http://www.apache.org/licenses/LICENSE-2.0  
+
+Unless required by applicable law or agreed to in writing, software  
+distributed under the License is distributed on an "AS IS" BASIS,  
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+See the License for the specific language governing permissions and  
+limitations under the License.
+-->
+<!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN"
+ "../dtd/reference.dtd">
+<reference id="rrefsqlstandard" xml:lang="en-us">
+<title><ph conref="../conrefs.dita#prod/productshortname"></ph> support for
+SQL:2011 features</title>
+<shortdesc>The SQL:2011 standard puts features into two categories, mandatory
+and optional.</shortdesc>
+<prolog><metadata>
+<keywords>
+<indexterm>SQL:2011<indexterm>features supported by Derby</indexterm></indexterm>
+</keywords>
+</metadata></prolog>
+<refbody>
+<section>
+<p>In the tables that follow, the support status of each feature is indicated as
+follows:</p>
+<ul>
+<li><p><b>Yes</b>: The feature is supported.</p></li>
+<li><p><b>Yes*</b>: The feature is supported (for example, through JDBC) but not
+according to the SQL standard. See Note for details.</p></li>
+<li><p><b>Partial</b>: The feature is partially supported.</p></li>
+<li><p><b>No</b>: The feature is unsupported.</p></li>
+</ul>
+<p><ph conref="../conrefs.dita#prod/productshortname"></ph> supports many
+features of the SQL:2011 standard. Most are in Part 2 (Foundation), but some are
+in other parts. The supported optional features with the prefix J are in
+Part 13 (JRT). The supported optional features with the prefix X are in
+Part 14 (SQL/XML).</p>
+<p><xref href="rrefsqlstandardnot.dita"/> lists the features in Part 2 that
+<ph conref="../conrefs.dita#prod/productshortname"></ph> does not support.</p>
+</section>
+<section><title>Support for mandatory features</title>
+<p>The following tables describe support for SQL:2011 mandatory features.</p>
+<p>
+<table>
+<title>E011: Numeric data types</title>
+<desc>This table describes support for E011, numeric data types.</desc>
+<tgroup cols="3" colsep="1" rowsep="1">
+<colspec colname="1" colnum="1" colwidth="25*"/>
+<colspec colname="2" colnum="2" colwidth="50*"/>
+<colspec colname="3" colnum="3" colwidth="25*"/>
+<thead>
+<row valign="bottom">
+<entry colname="1">Feature ID</entry>
+<entry colname="2">Feature Name</entry>
+<entry colname="3">SQL:2011 Mandatory</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry colname="1">E011-01</entry>
+<entry colname="2">INTEGER and SMALLINT data types (including all
+spellings)</entry>
+<entry colname="3">Yes</entry>
+</row>
+<row>
+<entry colname="1">E011-02</entry>
+<entry colname="2">REAL, DOUBLE PRECISION, and FLOAT data types</entry>
+<entry colname="3">Yes</entry>
+</row>
+<row>
+<entry colname="1">E011-03</entry>
+<entry colname="2">DECIMAL and NUMERIC data types</entry>
+<entry colname="3">Yes</entry>
+</row>
+<row>
+<entry colname="1">E011-04</entry>
+<entry colname="2">Arithmetic operators</entry>
+<entry colname="3">Yes</entry>
+</row>
+<row>
+<entry colname="1">E011-05</entry>
+<entry colname="2">Numeric comparison</entry>
+<entry colname="3">Yes</entry>
+</row>
+<row>
+<entry colname="1">E011-06</entry>
+<entry colname="2">Implicit casting among the numeric data types</entry>
+<entry colname="3">Yes</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+</p>
+<p>
+<table>
+<title>E021: Character data types</title>
+<desc>This table describes support for E021, character data types.</desc>
+<tgroup cols="4" colsep="1" rowsep="1">
+<colspec colname="1" colnum="1" colwidth="15*"/>
+<colspec colname="2" colnum="2" colwidth="35*"/>
+<colspec colname="3" colnum="3" colwidth="15*"/>
+<colspec colname="4" colnum="4" colwidth="35*"/>
+<thead>
+<row valign="bottom">
+<entry colname="1">Feature ID</entry>
+<entry colname="2">Feature Name</entry>
+<entry colname="3">SQL:2011 Mandatory</entry>
+<entry colname="4">Note</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry colname="1">E021-01</entry>
+<entry colname="2">CHARACTER data type (including all its spellings)</entry>
+<entry colname="3">Yes</entry>
+<entry colname="4">None</entry>
+</row>
+<row>
+<entry colname="1">E021-02</entry>
+<entry colname="2">CHARACTER VARYING data type (including all its spellings)</entry>
+<entry colname="3">Yes</entry>
+<entry colname="4">None</entry>
+</row>
+<row>
+<entry colname="1">E021-03</entry>
+<entry colname="2">Character literals</entry>
+<entry colname="3">Yes</entry>
+<entry colname="4">None</entry>
+</row>
+<row>
+<entry colname="1">E021-04</entry>
+<entry colname="2">CHARACTER_LENGTH function</entry>
+<entry colname="3">Yes*</entry>
+<entry colname="4">Called LENGTH. <codeph>{fn LENGTH(...)}</codeph> is according to JDBC specification.</entry>
+</row>
+<row>
+<entry colname="1">E021-05</entry>
+<entry colname="2">OCTET_LENGTH function</entry>
+<entry colname="3">No</entry>
+<entry colname="4">None</entry>
+</row>
+<row>
+<entry colname="1">E021-06</entry>
+<entry colname="2">SUBSTRING function</entry>
+<entry colname="3">Yes*</entry>
+<entry colname="4">Called SUBSTR. <codeph>{fn SUBSTRING(....)}</codeph> is according to JDBC specification.</entry>
+</row>
+<row>
+<entry colname="1">E021-07</entry>
+<entry colname="2">Character concatenation</entry>
+<entry colname="3">Yes</entry>
+<entry colname="4">None</entry>
+</row>
+<row>
+<entry colname="1">E021-08</entry>
+<entry colname="2">UPPER and LOWER functions</entry>
+<entry colname="3">Yes</entry>
+<entry colname="4">None</entry>
+</row>
+<row>
+<entry colname="1">E021-09</entry>
+<entry colname="2">TRIM function</entry>
+<entry colname="3">Yes</entry>
+<entry colname="4">None</entry>
+</row>
+<row>
+<entry colname="1">E021-10</entry>
+<entry colname="2">Implicit casting among the character data types</entry>
+<entry colname="3">Yes</entry>
+<entry colname="4">None</entry>
+</row>
+<row>
+<entry colname="1">E021-11</entry>
+<entry colname="2">POSITION function</entry>
+<entry colname="3">Yes*</entry>
+<entry colname="4">Called LOCATE. <codeph>{fn LOCATE(...)}</codeph> is according to JDBC specification.</entry>
+</row>
+<row>
+<entry colname="1">E021-12</entry>
+<entry colname="2">Character comparison</entry>
+<entry colname="3">Yes</entry>
+<entry colname="4">None</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+</p>
+<p>
+<table>
+<title>E031: Identifiers</title>
+<desc>This table describes support for E031, identifiers.</desc>
+<tgroup cols="3" colsep="1" rowsep="1">
+<colspec colname="1" colnum="1" colwidth="25*"/>
+<colspec colname="2" colnum="2" colwidth="50*"/>
+<colspec colname="3" colnum="3" colwidth="25*"/>
+<thead>
+<row valign="bottom">
+<entry colname="1">Feature ID</entry>
+<entry colname="2">Feature Name</entry>
+<entry colname="3">SQL:2011 Mandatory</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry colname="1">E031-01</entry>
+<entry colname="2">Delimited identifiers</entry>
+<entry colname="3">Yes</entry>
+</row>
+<row>
+<entry colname="1">E031-02</entry>
+<entry colname="2">Lower case identifiers</entry>
+<entry colname="3">Yes</entry>
+</row>
+<row>
+<entry colname="1">E031-03</entry>
+<entry colname="2">Trailing underscore</entry>
+<entry colname="3">Yes</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+</p>
+<p>
+<table>
+<title>E051: Basic query specification</title>
+<desc>This table describes support for E051, basic query specification.</desc>
+<tgroup cols="3" colsep="1" rowsep="1">
+<colspec colname="1" colnum="1" colwidth="25*"/>
+<colspec colname="2" colnum="2" colwidth="50*"/>
+<colspec colname="3" colnum="3" colwidth="25*"/>
+<thead>
+<row valign="bottom">
+<entry colname="1">Feature ID</entry>
+<entry colname="2">Feature Name</entry>
+<entry colname="3">SQL:2011 Mandatory</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry colname="1">E051-01</entry>
+<entry colname="2">SELECT DISTINCT</entry>
+<entry colname="3">Yes</entry>
+</row>
+<row>
+<entry colname="1">E051-02</entry>
+<entry colname="2">GROUP BY clause</entry>
+<entry colname="3">Yes</entry>
+</row>
+<row>
+<entry colname="1">E051-04</entry>
+<entry colname="2">GROUP BY can contain columns not in select-list</entry>
+<entry colname="3">Yes</entry>
+</row>
+<row>
+<entry colname="1">E051-05</entry>
+<entry colname="2">Select list items can be renamed</entry>
+<entry colname="3">Yes</entry>
+</row>
+<row>
+<entry colname="1">E051-06</entry>
+<entry colname="2">HAVING clause</entry>
+<entry colname="3">Yes</entry>
+</row>
+<row>
+<entry colname="1">E051-07</entry>
+<entry colname="2">Qualified * in select list</entry>
+<entry colname="3">Yes</entry>
+</row>
+<row>
+<entry colname="1">E051-08</entry>
+<entry colname="2">Correlation names in the FROM clause</entry>
+<entry colname="3">Yes</entry>
+</row>
+<row>
+<entry colname="1">E051-09</entry>
+<entry colname="2">Rename columns in the FROM clause</entry>
+<entry colname="3">Yes</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+</p>
+<p>
+<table>
+<title>E061: Basic predicates and search conditions</title>
+<desc>This table describes support for E061, basic predicates and search conditions.</desc>
+<tgroup cols="3" colsep="1" rowsep="1">
+<colspec colname="1" colnum="1" colwidth="25*"/>
+<colspec colname="2" colnum="2" colwidth="50*"/>
+<colspec colname="3" colnum="3" colwidth="25*"/>
+<thead>
+<row valign="bottom">
+<entry colname="1">Feature ID</entry>
+<entry colname="2">Feature Name</entry>
+<entry colname="3">SQL:2011 Mandatory</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry colname="1">E061-01</entry>
+<entry colname="2">Comparison predicate</entry>
+<entry colname="3">Yes</entry>
+</row>
+<row>
+<entry colname="1">E061-02</entry>
+<entry colname="2">BETWEEN predicate</entry>
+<entry colname="3">Yes</entry>
+</row>
+<row>
+<entry colname="1">E061-03</entry>
+<entry colname="2">IN predicate with list of values</entry>
+<entry colname="3">Yes</entry>
+</row>
+<row>
+<entry colname="1">E061-04</entry>
+<entry colname="2">LIKE predicate</entry>
+<entry colname="3">Yes</entry>
+</row>
+<row>
+<entry colname="1">E061-05</entry>
+<entry colname="2">LIKE predicate: ESCAPE clause</entry>
+<entry colname="3">Yes</entry>
+</row>
+<row>
+<entry colname="1">E061-06</entry>
+<entry colname="2">NULL predicate</entry>
+<entry colname="3">Yes</entry>
+</row>
+<row>
+<entry colname="1">E061-07</entry>
+<entry colname="2">Quantified comparison predicate</entry>
+<entry colname="3">Yes</entry>
+</row>
+<row>
+<entry colname="1">E061-08</entry>
+<entry colname="2">EXISTS predicate</entry>
+<entry colname="3">Yes</entry>
+</row>
+<row>
+<entry colname="1">E061-09</entry>
+<entry colname="2">Subqueries in comparison predicate</entry>
+<entry colname="3">Yes</entry>
+</row>
+<row>
+<entry colname="1">E061-11</entry>
+<entry colname="2">Subqueries in IN predicate</entry>
+<entry colname="3">Yes</entry>
+</row>
+<row>
+<entry colname="1">E061-12</entry>
+<entry colname="2">Subqueries in quantified comparison predicate</entry>
+<entry colname="3">Yes</entry>
+</row>
+<row>
+<entry colname="1">E061-13</entry>
+<entry colname="2">Correlated subqueries</entry>
+<entry colname="3">Yes</entry>
+</row>
+<row>
+<entry colname="1">E061-14</entry>
+<entry colname="2">Search condition</entry>
+<entry colname="3">Yes</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+</p>
+<p>
+<table>
+<title>E071: Basic query expressions</title>
+<desc>This table describes support for E071, basic query expressions.</desc>
+<tgroup cols="3" colsep="1" rowsep="1">
+<colspec colname="1" colnum="1" colwidth="25*"/>
+<colspec colname="2" colnum="2" colwidth="50*"/>
+<colspec colname="3" colnum="3" colwidth="25*"/>
+<thead>
+<row valign="bottom">
+<entry colname="1">Feature ID</entry>
+<entry colname="2">Feature Name</entry>
+<entry colname="3">SQL:2011 Mandatory</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry colname="1">E071-01</entry>
+<entry colname="2">UNION DISTINCT table operator</entry>
+<entry colname="3">Yes</entry>
+</row>
+<row>
+<entry colname="1">E071-02</entry>
+<entry colname="2">UNION ALL table operator</entry>
+<entry colname="3">Yes</entry>
+</row>
+<row>
+<entry colname="1">E071-03</entry>
+<entry colname="2">EXCEPT DISTINCT table operator</entry>
+<entry colname="3">Yes</entry>
+</row>
+<row>
+<entry colname="1">E071-05</entry>
+<entry colname="2">Columns combined via table operators need not have exactly the same data type</entry>
+<entry colname="3">Yes</entry>
+</row>
+<row>
+<entry colname="1">E071-06</entry>
+<entry colname="2">Table operators in subqueries</entry>
+<entry colname="3">Yes</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+</p>
+<p>
+<table>
+<title>E081: Basic privileges</title>
+<desc>This table describes support for E081, basic privileges.</desc>
+<tgroup cols="3" colsep="1" rowsep="1">
+<colspec colname="1" colnum="1" colwidth="25*"/>
+<colspec colname="2" colnum="2" colwidth="50*"/>
+<colspec colname="3" colnum="3" colwidth="25*"/>
+<thead>
+<row valign="bottom">
+<entry colname="1">Feature ID</entry>
+<entry colname="2">Feature Name</entry>
+<entry colname="3">SQL:2011 Mandatory</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry colname="1">E081-01</entry>
+<entry colname="2">SELECT privilege at the table level</entry>
+<entry colname="3">Yes</entry>
+</row>
+<row>
+<entry colname="1">E081-02</entry>
+<entry colname="2">DELETE privilege</entry>
+<entry colname="3">Yes</entry>
+</row>
+<row>
+<entry colname="1">E081-03</entry>
+<entry colname="2">INSERT privilege at the table level</entry>
+<entry colname="3">Yes</entry>
+</row>
+<row>
+<entry colname="1">E081-04</entry>
+<entry colname="2">UPDATE privilege at the table level</entry>
+<entry colname="3">Yes</entry>
+</row>
+<row>
+<entry colname="1">E081-05</entry>
+<entry colname="2">UPDATE privilege at the column level</entry>
+<entry colname="3">Yes</entry>
+</row>
+<row>
+<entry colname="1">E081-06</entry>
+<entry colname="2">REFERENCES privilege at the table level</entry>
+<entry colname="3">Yes</entry>
+</row>
+<row>
+<entry colname="1">E081-07</entry>
+<entry colname="2">REFERENCES privilege at the column level</entry>
+<entry colname="3">Yes</entry>
+</row>
+<row>
+<entry colname="1">E081-08</entry>
+<entry colname="2">WITH GRANT OPTION</entry>
+<entry colname="3">No</entry>
+</row>
+<row>
+<entry colname="1">E081-09</entry>
+<entry colname="2">USAGE privilege</entry>
+<entry colname="3">No</entry>
+</row>
+<row>
+<entry colname="1">E081-10</entry>
+<entry colname="2">EXECUTE privilege</entry>
+<entry colname="3">Yes</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+</p>
+<p>
+<table>
+<title>E091: Set functions</title>
+<desc>This table describes support for E091, set functions.</desc>
+<tgroup cols="3" colsep="1" rowsep="1">
+<colspec colname="1" colnum="1" colwidth="25*"/>
+<colspec colname="2" colnum="2" colwidth="50*"/>
+<colspec colname="3" colnum="3" colwidth="25*"/>
+<thead>
+<row valign="bottom">
+<entry colname="1">Feature ID</entry>
+<entry colname="2">Feature Name</entry>
+<entry colname="3">SQL:2011 Mandatory</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry colname="1">E091-01</entry>
+<entry colname="2">AVG</entry>
+<entry colname="3">Yes</entry>
+</row>
+<row>
+<entry colname="1">E091-02</entry>
+<entry colname="2">COUNT</entry>
+<entry colname="3">Yes</entry>
+</row>
+<row>
+<entry colname="1">E091-03</entry>
+<entry colname="2">MAX</entry>
+<entry colname="3">Yes</entry>
+</row>
+<row>
+<entry colname="1">E091-04</entry>
+<entry colname="2">MIN</entry>
+<entry colname="3">Yes</entry>
+</row>
+<row>
+<entry colname="1">E091-05</entry>
+<entry colname="2">SUM</entry>
+<entry colname="3">Yes</entry>
+</row>
+<row>
+<entry colname="1">E091-06</entry>
+<entry colname="2">ALL quantifier</entry>
+<entry colname="3">Yes</entry>
+</row>
+<row>
+<entry colname="1">E091-07</entry>
+<entry colname="2">DISTINCT qualifier</entry>
+<entry colname="3">Yes</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+</p>
+<p>
+<table>
+<title>E101: Basic data manipulation</title>
+<desc>This table describes support for E101, basic data manipulation.</desc>
+<tgroup cols="4" colsep="1" rowsep="1">
+<colspec colname="1" colnum="1" colwidth="15*"/>
+<colspec colname="2" colnum="2" colwidth="35*"/>
+<colspec colname="3" colnum="3" colwidth="15*"/>
+<colspec colname="4" colnum="4" colwidth="35*"/>
+<thead>
+<row valign="bottom">
+<entry colname="1">Feature ID</entry>
+<entry colname="2">Feature Name</entry>
+<entry colname="3">SQL:2011 Mandatory</entry>
+<entry colname="4">Note</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry colname="1">E101-01</entry>
+<entry colname="2">INSERT statement</entry>
+<entry colname="3">Yes</entry>
+<entry colname="4">None</entry>
+</row>
+<row>
+<entry colname="1">E101-03</entry>
+<entry colname="2">Searched UPDATE statement</entry>
+<entry colname="3">Partial</entry>
+<entry colname="4"><i>correlation name</i> not supported</entry>
+</row>
+<row>
+<entry colname="1">E101-04</entry>
+<entry colname="2">Searched DELETE statement</entry>
+<entry colname="3">Partial</entry>
+<entry colname="4"><i>correlation name</i> not supported</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+</p>
+<p>
+<table>
+<title>E121: Basic cursor support (through JDBC)</title>
+<desc>This table describes support for E121, basic cursor support.</desc>
+<tgroup cols="4" colsep="1" rowsep="1">
+<colspec colname="1" colnum="1" colwidth="15*"/>
+<colspec colname="2" colnum="2" colwidth="35*"/>
+<colspec colname="3" colnum="3" colwidth="15*"/>
+<colspec colname="4" colnum="4" colwidth="35*"/>
+<thead>
+<row valign="bottom">
+<entry colname="1">Feature ID</entry>
+<entry colname="2">Feature Name</entry>
+<entry colname="3">SQL:2011 Mandatory</entry>
+<entry colname="4">Note</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry colname="1">E121-01</entry>
+<entry colname="2">Declare cursor</entry>
+<entry colname="3">No</entry>
+<entry colname="4">None</entry>
+</row>
+<row>
+<entry colname="1">E121-02</entry>
+<entry colname="2">ORDER BY columns need not be in select list</entry>
+<entry colname="3">Yes</entry>
+<entry colname="4">None</entry>
+</row>
+<row>
+<entry colname="1">E121-03</entry>
+<entry colname="2">Value expressions in ORDER BY clause</entry>
+<entry colname="3">Yes</entry>
+<entry colname="4">None</entry>
+</row>
+<row>
+<entry colname="1">E121-06</entry>
+<entry colname="2">Positioned UPDATE statement</entry>
+<entry colname="3">Partial</entry>
+<entry colname="4"><i>correlation name</i> not supported</entry>
+</row>
+<row>
+<entry colname="1">E121-07</entry>
+<entry colname="2">Positioned DELETE statement</entry>
+<entry colname="3">Partial</entry>
+<entry colname="4"><i>correlation name</i> not supported</entry>
+</row>
+<row>
+<entry colname="1">E121-08</entry>
+<entry colname="2">CLOSE statement</entry>
+<entry colname="3">No</entry>
+<entry colname="4">None</entry>
+</row>
+<row>
+<entry colname="1">E121-10</entry>
+<entry colname="2">FETCH statement</entry>
+<entry colname="3">No</entry>
+<entry colname="4">None</entry>
+</row>
+<row>
+<entry colname="1">E121-17</entry>
+<entry colname="2">WITH HOLD cursors</entry>
+<entry colname="3">No</entry>
+<entry colname="4">None</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+</p>
+<p>
+<table>
+<title>E141: Basic integrity constraints</title>
+<desc>This table describes support for E141, basic integrity constraints.</desc>
+<tgroup cols="3" colsep="1" rowsep="1">
+<colspec colname="1" colnum="1" colwidth="25*"/>
+<colspec colname="2" colnum="2" colwidth="50*"/>
+<colspec colname="3" colnum="3" colwidth="25*"/>
+<thead>
+<row valign="bottom">
+<entry colname="1">Feature ID</entry>
+<entry colname="2">Feature Name</entry>
+<entry colname="3">SQL:2011 Mandatory</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry colname="1">E141-01</entry>
+<entry colname="2">NOT NULL constraints</entry>
+<entry colname="3">Yes</entry>
+</row>
+<row>
+<entry colname="1">E141-02</entry>
+<entry colname="2">UNIQUE constraints of NOT NULL columns</entry>
+<entry colname="3">Yes</entry>
+</row>
+<row>
+<entry colname="1">E141-03</entry>
+<entry colname="2">PRIMARY KEY constraints</entry>
+<entry colname="3">Yes</entry>
+</row>
+<row>
+<entry colname="1">E141-04</entry>
+<entry colname="2">Basic FOREIGN KEY constraint with the NO ACTION default</entry>
+<entry colname="3">Yes</entry>
+</row>
+<row>
+<entry colname="1">E141-06</entry>
+<entry colname="2">CHECK constraints</entry>
+<entry colname="3">Yes</entry>
+</row>
+<row>
+<entry colname="1">E141-07</entry>
+<entry colname="2">Column defaults</entry>
+<entry colname="3">Yes</entry>
+</row>
+<row>
+<entry colname="1">E141-08</entry>
+<entry colname="2">NOT NULL inferred on PRIMARY KEY</entry>
+<entry colname="3">Yes</entry>
+</row>
+<row>
+<entry colname="1">E141-10</entry>
+<entry colname="2">Names in a foreign key can be specified in any order</entry>
+<entry colname="3">Yes</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+</p>
+<p>
+<table>
+<title>E151: Transaction support</title>
+<desc>This table describes support for E151, transaction support.</desc>
+<tgroup cols="4" colsep="1" rowsep="1">
+<colspec colname="1" colnum="1" colwidth="15*"/>
+<colspec colname="2" colnum="2" colwidth="35*"/>
+<colspec colname="3" colnum="3" colwidth="15*"/>
+<colspec colname="4" colnum="4" colwidth="35*"/>
+<thead>
+<row valign="bottom">
+<entry colname="1">Feature ID</entry>
+<entry colname="2">Feature Name</entry>
+<entry colname="3">SQL:2011 Mandatory</entry>
+<entry colname="4">Note</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry colname="1">E151-01</entry>
+<entry colname="2">COMMIT statement</entry>
+<entry colname="3">Yes*</entry>
+<entry colname="4">Through JDBC <codeph>Connection.commit</codeph>, <codeph>ij</codeph> supports COMMIT statement</entry>
+</row>
+<row>
+<entry colname="1">E151-02</entry>
+<entry colname="2">ROLLBACK statement</entry>
+<entry colname="3">Yes*</entry>
+<entry colname="4">Through JDBC <codeph>Connection.rollback</codeph>, <codeph>ij</codeph> supports ROLLBACK statement</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+</p>
+<p>
+<table>
+<title>E152: Basic SET TRANSACTION statement</title>
+<desc>This table describes support for E152, basic SET TRANSACTION statement.</desc>
+<tgroup cols="4" colsep="1" rowsep="1">
+<colspec colname="1" colnum="1" colwidth="15*"/>
+<colspec colname="2" colnum="2" colwidth="35*"/>
+<colspec colname="3" colnum="3" colwidth="15*"/>
+<colspec colname="4" colnum="4" colwidth="35*"/>
+<thead>
+<row valign="bottom">
+<entry colname="1">Feature ID</entry>
+<entry colname="2">Feature Name</entry>
+<entry colname="3">SQL:2011 Mandatory</entry>
+<entry colname="4">Note</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry colname="1">E152-01</entry>
+<entry colname="2">SET TRANSACTION statement: ISOLATION LEVEL SERIALIZABLE clause</entry>
+<entry colname="3">Yes*</entry>
+<entry colname="4">SET [CURRENT] ISOLATION SERIALIZABLE.
+<codeph>Connection.setTransactionIsolation(
+Connection.TRANSACTION_SERIALIZABLE)</codeph>
+is according to JDBC specification.</entry>
+</row>
+<row>
+<entry colname="1">E152-02</entry>
+<entry colname="2">SET TRANSACTION statement: READ ONLY and READ WRITE clauses</entry>
+<entry colname="3">Yes*</entry>
+<entry colname="4">No SQL syntax. <codeph>Connection.setReadWrite()</codeph> is
+according to JDBC specification.</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+</p>
+<p>
+<table>
+<title>F031: Basic schema manipulation</title>
+<desc>This table describes support for F031, basic schema manipulation.</desc>
+<tgroup cols="3" colsep="1" rowsep="1">
+<colspec colname="1" colnum="1" colwidth="25*"/>
+<colspec colname="2" colnum="2" colwidth="50*"/>
+<colspec colname="3" colnum="3" colwidth="25*"/>
+<thead>
+<row valign="bottom">
+<entry colname="1">Feature ID</entry>
+<entry colname="2">Feature Name</entry>
+<entry colname="3">SQL:2011 Mandatory</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry colname="1">F031-01</entry>
+<entry colname="2">CREATE TABLE statement to create persistent base
+tables</entry>
+<entry colname="3">Yes</entry>
+</row>
+<row>
+<entry colname="1">F031-02</entry>
+<entry colname="2">CREATE VIEW statement</entry>
+<entry colname="3">Yes</entry>
+</row>
+<row>
+<entry colname="1">F031-03</entry>
+<entry colname="2">GRANT statement</entry>
+<entry colname="3">Yes</entry>
+</row>
+<row>
+<entry colname="1">F031-04</entry>
+<entry colname="2">ALTER TABLE statement: ADD COLUMN clause</entry>
+<entry colname="3">Yes</entry>
+</row>
+<row>
+<entry colname="1">F031-13</entry>
+<entry colname="2">DROP TABLE statement: RESTRICT clause</entry>
+<entry colname="3">Yes (implicit)</entry>
+</row>
+<row>
+<entry colname="1">F031-16</entry>
+<entry colname="2">DROP VIEW statement: RESTRICT clause</entry>
+<entry colname="3">Yes (implicit)</entry>
+</row>
+<row>
+<entry colname="1">F031-19</entry>
+<entry colname="2">REVOKE statement: RESTRICT clause</entry>
+<entry colname="2"> Yes</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+</p>
+<p>
+<table>
+<title>F041: Basic joined tables</title>
+<desc>This table describes support for F041, basic joined tables.</desc>
+<tgroup cols="3" colsep="1" rowsep="1">
+<colspec colname="1" colnum="1" colwidth="25*"/>
+<colspec colname="2" colnum="2" colwidth="50*"/>
+<colspec colname="3" colnum="3" colwidth="25*"/>
+<thead>
+<row valign="bottom">
+<entry colname="1">Feature ID</entry>
+<entry colname="2">Feature Name</entry>
+<entry colname="3">SQL:2011 Mandatory</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry colname="1">F041-01</entry>
+<entry colname="2">Inner join (but not necessarily the INNER keyword)</entry>
+<entry colname="3">Yes</entry>
+</row>
+<row>
+<entry colname="1">F041-02</entry>
+<entry colname="2">INNER keyword</entry>
+<entry colname="3">Yes</entry>
+</row>
+<row>
+<entry colname="1">F041-03</entry>
+<entry colname="2">LEFT OUTER JOIN</entry>
+<entry colname="3">Yes</entry>
+</row>
+<row>
+<entry colname="1">F041-04</entry>
+<entry colname="2">RIGHT OUTER JOIN</entry>
+<entry colname="3">Yes</entry>
+</row>
+<row>
+<entry colname="1">F041-05</entry>
+<entry colname="2">Outer joins can be nested</entry>
+<entry colname="3">Yes</entry>
+</row>
+<row>
+<entry colname="1">F041-07</entry>
+<entry colname="2">The inner table in a left or right outer join can also be used in an
+inner join</entry>
+<entry colname="3">No</entry>
+</row>
+<row>
+<entry colname="1">F041-08</entry>
+<entry colname="2">All comparison operators are supported (rather than just =)</entry>
+<entry colname="3">Yes</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+</p>
+<p>
+<table>
+<title>F051: Basic date and time</title>
+<desc>This table describes support for F051, basic date and time.</desc>
+<tgroup cols="4" colsep="1" rowsep="1">
+<colspec colname="1" colnum="1" colwidth="15*"/>
+<colspec colname="2" colnum="2" colwidth="35*"/>
+<colspec colname="3" colnum="3" colwidth="15*"/>
+<colspec colname="4" colnum="4" colwidth="35*"/>
+<thead>
+<row valign="bottom">
+<entry colname="1">Feature ID</entry>
+<entry colname="2">Feature Name</entry>
+<entry colname="3">SQL:2011 Mandatory</entry>
+<entry colname="4">Note</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry colname="1">F051-01</entry>
+<entry colname="2">DATE data type (including DATE literal)</entry>
+<entry colname="3">Yes*</entry>
+<entry colname="4">DATE literal is implemented as built-in function.
+<codeph>{d 'yyyy-mm-ff'}</codeph> is according to JDBC specification.</entry>
+</row>
+<row>
+<entry colname="1">F051-02</entry>
+<entry colname="2">TIME data type (including TIME literal) with fractional seconds precision of 0</entry>
+<entry colname="3">Yes*</entry>
+<entry colname="4">TIME literal is implemented as built-in function. No
+precision in datatype. <codeph>{t' hh:mm:ss'}</codeph> is according to JDBC
+specification.</entry>
+</row>
+<row>
+<entry colname="1">F051-03</entry>
+<entry colname="2">TIMESTAMP data type (including TIMESTAMP literal) with
+fractional seconds precision of 0 and 6</entry>
+<entry colname="3">Yes*</entry>
+<entry colname="4">TIMESTAMP literal is implemented as built-in function. No
+precision in datatype. No timezone in datatype.
+<codeph>{ts 'yyyy-mm-dd hh:mm:ss.f...'}</codeph> is according to JDBC
+specification.</entry>
+</row>
+<row>
+<entry colname="1">F051-04</entry>
+<entry colname="2">Comparison predicate on DATE, TIME, and TIMESTAMP data
+types</entry>
+<entry colname="3">Yes</entry>
+<entry colname="4">None</entry>
+</row>
+<row>
+<entry colname="1">F051-05</entry>
+<entry colname="2">Explicit CAST between datetime types and character
+types</entry>
+<entry colname="3">Yes</entry>
+<entry colname="4">None</entry>
+</row>
+<row>
+<entry colname="1">F051-06</entry>
+<entry colname="2">CURRENT_DATE</entry>
+<entry colname="3">Yes*</entry>
+<entry colname="4">No time zone in datetime value expression</entry>
+</row>
+<row>
+<entry colname="1">F051-07</entry>
+<entry colname="2">LOCALTIME</entry>
+<entry colname="3">Yes*</entry>
+<entry colname="4"><codeph>{fn CURTIME()}</codeph> is according to JDBC
+specification</entry>
+</row>
+<row>
+<entry colname="1">F051-08</entry>
+<entry colname="2">LOCALTIMESTAMP</entry>
+<entry colname="3">No</entry>
+<entry colname="4">None</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+</p>
+<p>
+<table>
+<title>F131: Grouped operations</title>
+<desc>This table describes support for F131, grouped operations.</desc>
+<tgroup cols="3" colsep="1" rowsep="1">
+<colspec colname="1" colnum="1" colwidth="25*"/>
+<colspec colname="2" colnum="2" colwidth="50*"/>
+<colspec colname="3" colnum="3" colwidth="25*"/>
+<thead>
+<row valign="bottom">
+<entry colname="1">Feature ID</entry>
+<entry colname="2">Feature Name</entry>
+<entry colname="3">SQL:2011 Mandatory</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry colname="1">F131-01</entry>
+<entry colname="2">WHERE, GROUP BY, and HAVING clauses supported in queries with
+grouped views</entry>
+<entry colname="3">Yes</entry>
+</row>
+<row>
+<entry colname="1">F131-02</entry>
+<entry colname="2">Multiple tables supported in queries with grouped
+views</entry>
+<entry colname="3">Yes</entry>
+</row>
+<row>
+<entry colname="1">F131-03</entry>
+<entry colname="2">Set functions supported in queries with grouped views</entry>
+<entry colname="3">Yes</entry>
+</row>
+<row>
+<entry colname="1">F131-04</entry>
+<entry colname="2">Subqueries with GROUP BY and HAVING clauses and grouped
+views</entry>
+<entry colname="3">Yes</entry>
+</row>
+<row>
+<entry colname="1">F131-05</entry>
+<entry colname="2">Single row SELECT with GROUP BY and HAVING clauses and
+grouped views</entry>
+<entry colname="3">Yes</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+</p>
+<p>
+<table>
+<title>F261: CASE expression</title>
+<desc>This table describes support for F261, CASE expression.</desc>
+<tgroup cols="3" colsep="1" rowsep="1">
+<colspec colname="1" colnum="1" colwidth="25*"/>
+<colspec colname="2" colnum="2" colwidth="50*"/>
+<colspec colname="3" colnum="3" colwidth="25*"/>
+<thead>
+<row valign="bottom">
+<entry colname="1">Feature ID</entry>
+<entry colname="2">Feature Name</entry>
+<entry colname="3">SQL:2011 Mandatory</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry colname="1">F261-01</entry>
+<entry colname="2">Simple CASE</entry>
+<entry colname="3">Yes</entry>
+</row>
+<row>
+<entry colname="1">F261-02</entry>
+<entry colname="2">Searched CASE</entry>
+<entry colname="3">Yes</entry>
+</row>
+<row>
+<entry colname="1">F261-03</entry>
+<entry colname="2">NULLIF function</entry>
+<entry colname="3">Yes</entry>
+</row>
+<row>
+<entry colname="1">F261-04</entry>
+<entry colname="2">COALESCE function</entry>
+<entry colname="3">Yes</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+</p>
+<p>
+<table>
+<title>F311: Schema definition statement</title>
+<desc>This table describes support for F311, schema definition statement.</desc>
+<tgroup cols="3" colsep="1" rowsep="1">
+<colspec colname="1" colnum="1" colwidth="25*"/>
+<colspec colname="2" colnum="2" colwidth="50*"/>
+<colspec colname="3" colnum="3" colwidth="25*"/>
+<thead>
+<row valign="bottom">
+<entry colname="1">Feature ID</entry>
+<entry colname="2">Feature Name</entry>
+<entry colname="3">SQL:2011 Mandatory</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry colname="1">F311-01</entry>
+<entry colname="2">Create schema</entry>
+<entry colname="3">Yes</entry>
+</row>
+<row>
+<entry colname="1">F311-02</entry>
+<entry colname="2">CREATE TABLE for persistent base tables</entry>
+<entry colname="3">Yes</entry>
+</row>
+<row>
+<entry colname="1">F311-03</entry>
+<entry colname="2">CREATE VIEW</entry>
+<entry colname="3">Yes</entry>
+</row>
+<row>
+<entry colname="1">F311-04</entry>
+<entry colname="2">CREATE VIEW: WITH CHECK OPTION</entry>
+<entry colname="3">No</entry>
+</row>
+<row>
+<entry colname="1">F311-05</entry>
+<entry colname="2">GRANT statement</entry>
+<entry colname="3">Yes</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+</p>
+<p>
+<table>
+<title>T321: Basic SQL invoked routines</title>
+<desc>This table describes support for T321, basic SQL invoked routines.</desc>
+<tgroup cols="3" colsep="1" rowsep="1">
+<colspec colname="1" colnum="1" colwidth="25*"/>
+<colspec colname="2" colnum="2" colwidth="50*"/>
+<colspec colname="3" colnum="3" colwidth="25*"/>
+<thead>
+<row valign="bottom">
+<entry colname="1">Feature ID</entry>
+<entry colname="2">Feature Name</entry>
+<entry colname="3">SQL:2011 Mandatory</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry colname="1">T321-01</entry>
+<entry colname="2">User-defined functions with no overloading</entry>
+<entry colname="3">Yes</entry>
+</row>
+<row>
+<entry colname="1">T321-02</entry>
+<entry colname="2">User-defined stored procedures with no overloading</entry>
+<entry colname="3">Yes</entry>
+</row>
+<row>
+<entry colname="1">T321-03</entry>
+<entry colname="2">Function invocation</entry>
+<entry colname="3">Yes</entry>
+</row>
+<row>
+<entry colname="1">T321-04</entry>
+<entry colname="2">CALL statement</entry>
+<entry colname="3">Yes</entry>
+</row>
+<row>
+<entry colname="1">T321-05</entry>
+<entry colname="2">RETURN statement</entry>
+<entry colname="3">No</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+</p>
+<p>
+<table>
+<title>Miscellaneous mandatory features</title>
+<desc>This table describes support for miscellaneous mandatory features.</desc>
+<tgroup cols="3" colsep="1" rowsep="1">
+<colspec colname="1" colnum="1" colwidth="25*"/>
+<colspec colname="2" colnum="2" colwidth="50*"/>
+<colspec colname="3" colnum="3" colwidth="25*"/>
+<thead>
+<row valign="bottom">
+<entry colname="1">Feature ID</entry>
+<entry colname="2">Feature Name</entry>
+<entry colname="3">SQL:2011 Mandatory</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry colname="1">E111</entry>
+<entry colname="2">Single row select statement</entry>
+<entry colname="3">Yes</entry>
+</row>
+<row>
+<entry colname="1">E131</entry>
+<entry colname="2">Null value support (nulls in lieu of values)</entry>
+<entry colname="3">Yes</entry>
+</row>
+<row>
+<entry colname="1">E161</entry>
+<entry colname="2">SQL comments using leading double minus</entry>
+<entry colname="3">Yes</entry>
+</row>
+<row>
+<entry colname="1">E171</entry>
+<entry colname="2">SQLSTATE support</entry>
+<entry colname="3">Yes</entry>
+</row>
+<row>
+<entry colname="1">F201</entry>
+<entry colname="2">CAST function</entry>
+<entry colname="3">Yes</entry>
+</row>
+<row>
+<entry colname="1">F221</entry>
+<entry colname="2">Explicit defaults</entry>
+<entry colname="3">Yes</entry>
+</row>
+<row>
+<entry colname="1">F471</entry>
+<entry colname="2">Scalar subquery values</entry>
+<entry colname="3">Yes</entry>
+</row>
+<row>
+<entry colname="1">F481</entry>
+<entry colname="2">Expanded NULL predicate</entry>
+<entry colname="3">Yes</entry>
+</row>
+<row>
+<entry colname="1">T631</entry>
+<entry colname="2">IN predicate with one list element</entry>
+<entry colname="3">Yes</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+</p>
+</section>
+<section><title>Support for optional features</title>
+<p>The following tables show
+<ph conref="../conrefs.dita#prod/productshortname"></ph> support for
+SQL:2011 optional features.</p>
+<p><table>
+<title>F111: Isolation levels other than SERIALIZABLE</title>
+<desc>This table describes support for F111, isolation levels other than SERIALIZABLE.</desc>
+<tgroup cols="3" colsep="1" rowsep="1">
+<colspec colname="1" colnum="1" colwidth="25*"/>
+<colspec colname="2" colnum="2" colwidth="50*"/>
+<colspec colname="3" colnum="3" colwidth="25*"/>
+<thead>
+<row valign="bottom">
+<entry colname="1">Feature ID</entry>
+<entry colname="2">Feature Name</entry>
+<entry colname="3">SQL:2011 Optional</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry colname="1">F111-01</entry>
+<entry colname="2">READ UNCOMMITTED isolation level</entry>
+<entry colname="3">Yes</entry>
+</row>
+<row>
+<entry colname="1">F111-02</entry>
+<entry colname="2">READ COMMITTED isolation level</entry>
+<entry colname="3">Yes</entry>
+</row>
+<row>
+<entry colname="1">F111-03</entry>
+<entry colname="2">REPEATABLE READ isolation level</entry>
+<entry colname="3">Yes</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+</p>
+<p>
+<table>
+<title>F302: INTERSECT table operator</title>
+<desc>This table describes support for F302, INTERSECT table operator.</desc>
+<tgroup cols="3" colsep="1" rowsep="1">
+<colspec colname="1" colnum="1" colwidth="25*"/>
+<colspec colname="2" colnum="2" colwidth="50*"/>
+<colspec colname="3" colnum="3" colwidth="25*"/>
+<thead>
+<row valign="bottom">
+<entry colname="1">Feature ID</entry>
+<entry colname="2">Feature Name</entry>
+<entry colname="3">SQL:2011 Optional</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry colname="1">F302-01</entry>
+<entry colname="2">INTERSECT DISTINCT table operator</entry>
+<entry colname="3">Yes</entry>
+</row>
+<row>
+<entry colname="1">F302-02</entry>
+<entry colname="2">INTERSECT ALL table operator</entry>
+<entry colname="3">Yes</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+</p>
+<p>
+<table>
+<title>F381: Extended schema manipulation</title>
+<desc>This table describes support for F381, extended schema manipulation.</desc>
+<tgroup cols="3" colsep="1" rowsep="1">
+<colspec colname="1" colnum="1" colwidth="25*"/>
+<colspec colname="2" colnum="2" colwidth="50*"/>
+<colspec colname="3" colnum="3" colwidth="25*"/>
+<thead>
+<row valign="bottom">
+<entry colname="1">Feature ID</entry>
+<entry colname="2">Feature Name</entry>
+<entry colname="3">SQL:2011 Optional</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry colname="1">F381-01</entry>
+<entry colname="2">ALTER TABLE statement: ALTER COLUMN clause</entry>
+<entry colname="3">Partial</entry>
+</row>
+<row>
+<entry colname="1">F381-02</entry>
+<entry colname="2">ALTER TABLE statement: ADD CONSTRAINT clause</entry>
+<entry colname="3">Partial</entry>
+</row>
+<row>
+<entry colname="1">F381-03</entry>
+<entry colname="2">ALTER TABLE statement: DROP CONSTRAINT clause</entry>
+<entry colname="3">Yes</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+</p>
+<p>
+<table>
+<title>F401: Extended joined table</title>
+<desc>This table describes support for F401, extended joined table.</desc>
+<tgroup cols="3" colsep="1" rowsep="1">
+<colspec colname="1" colnum="1" colwidth="25*"/>
+<colspec colname="2" colnum="2" colwidth="50*"/>
+<colspec colname="3" colnum="3" colwidth="25*"/>
+<thead>
+<row valign="bottom">
+<entry colname="1">Feature ID</entry>
+<entry colname="2">Feature Name</entry>
+<entry colname="3">SQL:2011 Optional</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry colname="1">F401-01</entry>
+<entry colname="2">NATURAL JOIN</entry>
+<entry colname="3">Yes</entry>
+</row>
+<row>
+<entry colname="1">F401-02</entry>
+<entry colname="2">FULL OUTER JOIN</entry>
+<entry colname="3">No</entry>
+</row>
+<row>
+<entry colname="1">F401-04</entry>
+<entry colname="2">CROSS JOIN</entry>
+<entry colname="3">Yes</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+</p>
+<p>
+<table>
+<title>F831: Full cursor update</title>
+<desc>This table describes support for F831, full cursor update.</desc>
+<tgroup cols="4" colsep="1" rowsep="1">
+<colspec colname="1" colnum="1" colwidth="15*"/>
+<colspec colname="2" colnum="2" colwidth="35*"/>
+<colspec colname="3" colnum="3" colwidth="15*"/>
+<colspec colname="4" colnum="4" colwidth="35*"/>
+<thead>
+<row valign="bottom">
+<entry colname="1">Feature ID</entry>
+<entry colname="2">Feature Name</entry>
+<entry colname="3">SQL:2011 Optional</entry>
+<entry colname="4">Note</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry colname="1">F831-01</entry>
+<entry colname="2">Updatable scrollable cursors</entry>
+<entry colname="3">Partial</entry>
+<entry colname="4">Insensitive result set cursors</entry>
+</row>
+<row>
+<entry colname="1">F831-02</entry>
+<entry colname="2">Updatable ordered cursors</entry>
+<entry colname="3">No</entry>
+<entry colname="4">None</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+</p>
+<p>
+<table>
+<title>T041: Basic LOB data type support</title>
+<desc>This table describes support for T041, basic LOB data type support.</desc>
+<tgroup cols="4" colsep="1" rowsep="1">
+<colspec colname="1" colnum="1" colwidth="15*"/>
+<colspec colname="2" colnum="2" colwidth="35*"/>
+<colspec colname="3" colnum="3" colwidth="15*"/>
+<colspec colname="4" colnum="4" colwidth="35*"/>
+<thead>
+<row valign="bottom">
+<entry colname="1">Feature ID</entry>
+<entry colname="2">Feature Name</entry>
+<entry colname="3">SQL:2011 Optional</entry>
+<entry colname="4">Note</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry colname="1">T041-01</entry>
+<entry colname="2">BLOB data type</entry>
+<entry colname="3">Yes</entry>
+<entry colname="4">None</entry>
+</row>
+<row>
+<entry colname="1">T041-02</entry>
+<entry colname="2">CLOB data type</entry>
+<entry colname="3">Yes</entry>
+<entry colname="4">None</entry>
+</row>
+<row>
+<entry colname="1">T041-03</entry>
+<entry colname="2">POSITION, LENGTH, LOWER, TRIM, UPPER, and SUBSTRING
+functions for LOB data types</entry>
+<entry colname="3">Yes*</entry>
+<entry colname="4">Not standard SQL syntax. See notes on features E021-04,
+E021-06, E021-09 and E021-11</entry>
+</row>
+<row>
+<entry colname="1">T041-04</entry>
+<entry colname="2">Concatenation of LOB data types</entry>
+<entry colname="3">Yes</entry>
+<entry colname="4">None</entry>
+</row>
+<row>
+<entry colname="1">T041-05</entry>
+<entry colname="2">LOB locator: non-holdable</entry>
+<entry colname="3">No</entry>
+<entry colname="4">None</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+</p>
+<p>
+<table>
+<title>T211: Basic trigger capability</title>
+<desc>This table describes support for T211, basic trigger capability.</desc>
+<tgroup cols="4" colsep="1" rowsep="1">
+<colspec colname="1" colnum="1" colwidth="15*"/>
+<colspec colname="2" colnum="2" colwidth="35*"/>
+<colspec colname="3" colnum="3" colwidth="15*"/>
+<colspec colname="4" colnum="4" colwidth="35*"/>
+<thead>
+<row valign="bottom">
+<entry colname="1">Feature ID</entry>
+<entry colname="2">Feature Name</entry>
+<entry colname="3">SQL:2011 Optional</entry>
+<entry colname="4">Note</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry colname="1">T211-01</entry>
+<entry colname="2">Triggers activated on UPDATE, INSERT, or DELETE of one base
+table</entry>
+<entry colname="3">Yes</entry>
+<entry colname="4">None</entry>
+</row>
+<row>
+<entry colname="1">T211-02</entry>
+<entry colname="2">BEFORE triggers</entry>
+<entry colname="3">Yes*</entry>
+<entry colname="4">Need to specify non-standard ON CASCADE BEFORE. Before
+triggers cannot have INSERT, UPDATE or DELETE statements as their action</entry>
+</row>
+<row>
+<entry colname="1">T211-03</entry>
+<entry colname="2">AFTER triggers</entry>
+<entry colname="3">Yes</entry>
+<entry colname="4">None</entry>
+</row>
+<row>
+<entry colname="1">T211-04</entry>
+<entry colname="2">FOR EACH ROW triggers</entry>
+<entry colname="3">Yes</entry>
+<entry colname="4">None</entry>
+</row>
+<row>
+<entry colname="1">T211-05</entry>
+<entry colname="2">Ability to specify a search condition that shall be True
+before the trigger is invoked</entry>
+<entry colname="3">Yes</entry>
+<entry colname="4">None</entry>
+</row>
+<row>
+<entry colname="1">T211-06</entry>
+<entry colname="2">Support for run-time rules for the interaction of triggers
+and constraints</entry>
+<entry colname="3">No</entry>
+<entry colname="4">None</entry>
+</row>
+<row>
+<entry colname="1">T211-07</entry>
+<entry colname="2">TRIGGER privilege</entry>
+<entry colname="3">Yes</entry>
+<entry colname="4">None</entry>
+</row>
+<row>
+<entry colname="1">T211-08</entry>
+<entry colname="2">Multiple triggers for the same event are executed in the
+order in which they were created in the catalog</entry>
+<entry colname="3">Yes</entry>
+<entry colname="4">None</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+</p>
+<p>
+<table>
+<title>Miscellaneous optional features</title>
+<desc>This table describes support for miscellaneous optional features.</desc>
+<tgroup cols="4" colsep="1" rowsep="1">
+<colspec colname="1" colnum="1" colwidth="15*"/>
+<colspec colname="2" colnum="2" colwidth="35*"/>
+<colspec colname="3" colnum="3" colwidth="15*"/>
+<colspec colname="4" colnum="4" colwidth="35*"/>
+<thead>
+<row valign="bottom">
+<entry colname="1">Feature ID</entry>
+<entry colname="2">Feature Name</entry>
+<entry colname="3">SQL:2011 Optional</entry>
+<entry colname="4">Note</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry colname="1">F033</entry>
+<entry colname="2">ALTER TABLE statement: DROP COLUMN clause</entry>
+<entry colname="3">Yes</entry>
+<entry colname="4">None</entry>
+</row>
+<row>
+<entry colname="1">F200</entry>
+<entry colname="2">TRUNCATE TABLE statement</entry>
+<entry colname="3">Yes</entry>
+<entry colname="4">None</entry>
+</row>
+<row>
+<entry colname="1">F262</entry>
+<entry colname="2">Extended CASE expression</entry>
+<entry colname="3">Yes</entry>
+<entry colname="4">None</entry>
+</row>
+<row>
+<entry colname="1">F263</entry>
+<entry colname="2">Comma-separated predicates in simple CASE expression</entry>
+<entry colname="3">Yes</entry>
+<entry colname="4">None</entry>
+</row>
+<row>
+<entry colname="1">F281</entry>
+<entry colname="2">LIKE enhancements</entry>
+<entry colname="3">Yes</entry>
+<entry colname="4">None</entry>
+</row>
+<row>
+<entry colname="1">F304</entry>
+<entry colname="2">EXCEPT ALL table operator</entry>
+<entry colname="3">Yes</entry>
+<entry colname="4">None</entry>
+</row>
+<row>
+<entry colname="1">F312</entry>
+<entry colname="2">MERGE statement</entry>
+<entry colname="3">Yes</entry>
+<entry colname="4">None</entry>
+</row>
+<row>
+<entry colname="1">F313</entry>
+<entry colname="2">Enhanced MERGE statement</entry>
+<entry colname="3">Yes</entry>
+<entry colname="4">None</entry>
+</row>
+<row>
+<entry colname="1">F314</entry>
+<entry colname="2">MERGE statement with DELETE branch</entry>
+<entry colname="3">Yes</entry>
+<entry colname="4">None</entry>
+</row>
+<row>
+<entry colname="1">F382</entry>
+<entry colname="2">Alter column data type</entry>
+<entry colname="3">Partial</entry>
+<entry colname="4">You can alter only VARCHAR, VARCHAR FOR BIT DATA, BLOB, and
+CLOB columns, and you can change only the length. That is, you can change the
+data type from VARCHAR(10) to VARCHAR(100), but not from VARCHAR(10) to
+CLOB(100).</entry>
+</row>
+<row>
+<entry colname="1">F383</entry>
+<entry colname="2">Set column not null clause</entry>
+<entry colname="3">Yes</entry>
+<entry colname="4">None</entry>
+</row>
+<row>
+<entry colname="1">F391</entry>
+<entry colname="2">Long identifiers</entry>
+<entry colname="3">Yes</entry>
+<entry colname="4">None</entry>
+</row>
+<row>
+<entry colname="1">F402</entry>
+<entry colname="2">Named column joins for LOBs, arrays, and multisets</entry>
+<entry colname="3">Yes</entry>
+<entry colname="4">None</entry>
+</row>
+<row>
+<entry colname="1">F431</entry>
+<entry colname="2">Read-only scrollable cursors</entry>
+<entry colname="3">Yes*</entry>
+<entry colname="4">Through JDBC (only insensitive cursors)</entry>
+</row>
+<row>
+<entry colname="1">F491</entry>
+<entry colname="2">Constraint management</entry>
+<entry colname="3">Yes</entry>
+<entry colname="4">None</entry>
+</row>
+<row>
+<entry colname="1">F492</entry>
+<entry colname="2">Optional table constraint enforcement</entry>
+<entry colname="3">Yes</entry>
+<entry colname="4">None</entry>
+</row>
+<row>
+<entry colname="1">F531</entry>
+<entry colname="2">Temporary tables</entry>
+<entry colname="3">Partial</entry>
+<entry colname="4">Global tables (DECLARE GLOBAL TEMPORARY TABLE statement)</entry>
+</row>
+<row>
+<entry colname="1">F591</entry>
+<entry colname="2">Derived tables</entry>
+<entry colname="3">Yes</entry>
+<entry colname="4">None</entry>
+</row>
+<row>
+<entry colname="1">F641</entry>
+<entry colname="2">Row and table constructors</entry>
+<entry colname="3">Yes</entry>
+<entry colname="4">None</entry>
+</row>
+<row>
+<entry colname="1">F690</entry>
+<entry colname="2">Collation support</entry>
+<entry colname="3">Partial</entry>
+<entry colname="4">Users can create a database with territory-based
+collation</entry>
+</row>
+<row>
+<entry colname="1">F701</entry>
+<entry colname="2">Referential update actions</entry>
+<entry colname="3">Partial</entry>
+<entry colname="4">None</entry>
+</row>
+<row>
+<entry colname="1">F721</entry>
+<entry colname="2">Deferrable constraints</entry>
+<entry colname="3">Partial</entry>
+<entry colname="4">Deferrable NOT NULL constraints are not supported</entry>
+</row>
+<row>
+<entry colname="1">F763</entry>
+<entry colname="2">CURRENT_SCHEMA</entry>
+<entry colname="3">Partial</entry>
+<entry colname="4">Non-standard syntax (CURRENT SCHEMA instead of
+CURRENT_SCHEMA), and it is not allowed in a DEFAULT clause</entry>
+</row>
+<row>
+<entry colname="1">F781</entry>
+<entry colname="2">Self-referencing operations</entry>
+<entry colname="3">Yes</entry>
+<entry colname="4">None</entry>
+</row>
+<row>
+<entry colname="1">F791</entry>
+<entry colname="2">Insensitive cursors</entry>
+<entry colname="3">Yes*</entry>
+<entry colname="4">Through JDBC</entry>
+</row>
+<row>
+<entry colname="1">F801</entry>
+<entry colname="2">Full set function</entry>
+<entry colname="3">Partial</entry>
+<entry colname="4">DISTINCT in more than one aggregate function will not work,
+but SELECT DISTINCT with DISTINCT in one aggregate function will work</entry>
+</row>
+<row>
+<entry colname="1">F850</entry>
+<entry colname="2">Top-level &lt;order by clause> in &lt;query
+expression></entry>
+<entry colname="3">Yes</entry>
+<entry colname="4">None</entry>
+</row>
+<row>
+<entry colname="1">F851</entry>
+<entry colname="2">&lt;order by clause> in subqueries</entry>
+<entry colname="3">Yes</entry>
+<entry colname="4">None</entry>
+</row>
+<row>
+<entry colname="1">F852</entry>
+<entry colname="2">Top-level &lt;order by clause> in views</entry>
+<entry colname="3">Yes</entry>
+<entry colname="4">None</entry>
+</row>
+<row>
+<entry colname="1">F855</entry>
+<entry colname="2">Nested &lt;order by clause> in &lt;query expression></entry>
+<entry colname="3">Yes</entry>
+<entry colname="4">None</entry>
+</row>
+<row>
+<entry colname="1">F856</entry>
+<entry colname="2">Nested &lt;fetch first clause> in &lt;query
+expression></entry>
+<entry colname="3">Yes</entry>
+<entry colname="4">None</entry>
+</row>
+<row>
+<entry colname="1">F857</entry>
+<entry colname="2">Top-level &lt;fetch first clause> in &lt;query
+expression></entry>
+<entry colname="3">Yes</entry>
+<entry colname="4">None</entry>
+</row>
+<row>
+<entry colname="1">F858</entry>
+<entry colname="2">&lt;fetch first clause> in subqueries</entry>
+<entry colname="3">Yes</entry>
+<entry colname="4">None</entry>
+</row>
+<row>
+<entry colname="1">F859</entry>
+<entry colname="2">Top-level &lt;fetch first clause> in views</entry>
+<entry colname="3">Yes</entry>
+<entry colname="4">None</entry>
+</row>
+<row>
+<entry colname="1">F860</entry>
+<entry colname="2">Dynamic &lt;fetch first row count> in
+&lt;fetch first clause></entry>
+<entry colname="3">Yes</entry>
+<entry colname="4">None</entry>
+</row>
+<row>
+<entry colname="1">F861</entry>
+<entry colname="2">Top-level &lt;result offset clause> in &lt;query
+expression></entry>
+<entry colname="3">Yes</entry>
+<entry colname="4">None</entry>
+</row>
+<row>
+<entry colname="1">F862</entry>
+<entry colname="2">&lt;result offset clause> in subqueries</entry>
+<entry colname="3">Yes</entry>
+<entry colname="4">None</entry>
+</row>
+<row>
+<entry colname="1">F863</entry>
+<entry colname="2">Nested &lt;result offset clause> in &lt;query
+expression></entry>
+<entry colname="3">Yes</entry>
+<entry colname="4">None</entry>
+</row>
+<row>
+<entry colname="1">F864</entry>
+<entry colname="2">Top-level &lt;result offset clause> in views</entry>
+<entry colname="3">Yes</entry>
+<entry colname="4">None</entry>
+</row>
+<row>
+<entry colname="1">F865</entry>
+<entry colname="2">Dynamic &lt;offset row count> in &lt;result offset
+clause></entry>
+<entry colname="3">Yes</entry>
+<entry colname="4">None</entry>
+</row>
+<row>
+<entry colname="1">J581</entry>
+<entry colname="2">Output parameters</entry>
+<entry colname="3">Yes</entry>
+<entry colname="4">None</entry>
+</row>
+<row>
+<entry colname="1">J621</entry>
+<entry colname="2">External Java routines</entry>
+<entry colname="3">Yes</entry>
+<entry colname="4">None</entry>
+</row>
+<row>
+<entry colname="1">J622</entry>
+<entry colname="2">External Java types</entry>
+<entry colname="3">Yes</entry>
+<entry colname="4">None</entry>
+</row>
+<row>
+<entry colname="1">T021</entry>
+<entry colname="2">BINARY and VARBINARY data types</entry>
+<entry colname="3">Yes*</entry>
+<entry colname="4">Non-standard type names CHAR FOR BIT DATA and VARCHAR FOR BIT
+DATA instead of BINARY and VARBINARY</entry>
+</row>
+<row>
+<entry colname="1">T031</entry>
+<entry colname="2">BOOLEAN data type</entry>
+<entry colname="3">Yes</entry>
+<entry colname="4">None</entry>
+</row>
+<row>
+<entry colname="1">T042</entry>
+<entry colname="2">Extended LOB data type support</entry>
+<entry colname="3">Partial</entry>
+<entry colname="4">CAST and string value functions implemented. No comparison or
+ordering.</entry>
+</row>
+<row>
+<entry colname="1">T071</entry>
+<entry colname="2">BIGINT data type</entry>
+<entry colname="3">Yes</entry>
+<entry colname="4">None</entry>
+</row>
+<row>
+<entry colname="1">T101</entry>
+<entry colname="2">Enhanced nullability determination</entry>
+<entry colname="3">Yes</entry>
+<entry colname="4">None</entry>
+</row>
+<row>
+<entry colname="1">T174</entry>
+<entry colname="2">Identity columns</entry>
+<entry colname="3">Yes*</entry>
+<entry colname="4">MAXVALUE and CYCLE not supported. Deviation from standard: A comma (<codeph>,</codeph>) is required before INCREMENT.</entry>
+</row>
+<row>
+<entry colname="1">T175</entry>
+<entry colname="2">Generated columns</entry>
+<entry colname="3">Yes</entry>
+<entry colname="4">None</entry>
+</row>
+<row>
+<entry colname="1">T176</entry>
+<entry colname="2">Sequence generator support</entry>
+<entry colname="3">Yes*</entry>
+<entry colname="4">ALTER SEQUENCE not supported. Only one NEXT VALUE FOR clause per sequence in each statement</entry>
+</row>
+<row>
+<entry colname="1">T191</entry>
+<entry colname="2">Referential action RESTRICT</entry>
+<entry colname="3">Yes</entry>
+<entry colname="4">None</entry>
+</row>
+<row>
+<entry colname="1">T212</entry>
+<entry colname="2">Enhanced trigger capability</entry>
+<entry colname="3">Yes</entry>
+<entry colname="4">None</entry>
+</row>
+<row>
+<entry colname="1">T271</entry>
+<entry colname="2">Savepoints</entry>
+<entry colname="3">Yes</entry>
+<entry colname="4">None</entry>
+</row>
+<row>
+<entry colname="1">T281</entry>
+<entry colname="2">SELECT privilege with column granularity</entry>
+<entry colname="3">Yes</entry>
+<entry colname="4">None</entry>
+</row>
+<row>
+<entry colname="1">T323</entry>
+<entry colname="2">Explicit security for external routines</entry>
+<entry colname="3">Yes</entry>
+<entry colname="4">None</entry>
+</row>
+<row>
+<entry colname="1">T326</entry>
+<entry colname="2">Table functions</entry>
+<entry colname="3">Partial</entry>
+<entry colname="4">None</entry>
+</row>
+<row>
+<entry colname="1">T331</entry>
+<entry colname="2">Basic roles</entry>
+<entry colname="3">Partial</entry>
+<entry colname="4">None</entry>
+</row>
+<row>
+<entry colname="1">T332</entry>
+<entry colname="2">Extended roles</entry>
+<entry colname="3">Partial</entry>
+<entry colname="4">None</entry>
+</row>
+<row>
+<entry colname="1">T351</entry>
+<entry colname="2">Bracketed SQL comments (<codeph>/*...*/</codeph> comments)</entry>
+<entry colname="3">Yes</entry>
+<entry colname="4">None</entry>
+</row>
+<row>
+<entry colname="1">T431</entry>
+<entry colname="2">Extended grouping capabilities</entry>
+<entry colname="3">Partial</entry>
+<entry colname="4">Partial support for GROUP BY ROLLUP</entry>
+</row>
+<row>
+<entry colname="1">T441</entry>
+<entry colname="2">ABS and MOD functions</entry>
+<entry colname="3">Yes</entry>
+<entry colname="4">None</entry>
+</row>
+<row>
+<entry colname="1">T501</entry>
+<entry colname="2">Enhanced EXISTS predicate</entry>
+<entry colname="3">Yes</entry>
+<entry colname="4">None</entry>
+</row>
+<row>
+<entry colname="1">T591</entry>
+<entry colname="2">UNIQUE constraints of possibly null columns</entry>
+<entry colname="3">Yes</entry>
+<entry colname="4">None</entry>
+</row>
+<row>
+<entry colname="1">T611</entry>
+<entry colname="2">Elementary OLAP operations</entry>
+<entry colname="3">Partial</entry>
+<entry colname="4">Partial support for ROW_NUMBER</entry>
+</row>
+<row>
+<entry colname="1">X010</entry>
+<entry colname="2">XML type</entry>
+<entry colname="3">Yes</entry>
+<entry colname="4">None</entry>
+</row>
+<row>
+<entry colname="1">X016</entry>
+<entry colname="2">Persistent XML values</entry>
+<entry colname="3">Yes</entry>
+<entry colname="4">None</entry>
+</row>
+<row>
+<entry colname="1">X061</entry>
+<entry colname="2">XMLParse: Character string input and DOCUMENT option</entry>
+<entry colname="3">Partial</entry>
+<entry colname="4">No support for the STRIP WHITESPACE option</entry>
+</row>
+<row>
+<entry colname="1">X096</entry>
+<entry colname="2">XMLExists</entry>
+<entry colname="3">Partial</entry>
+<entry colname="4">Support only for XPath queries, not full XQuery</entry>
+</row>
+<row>
+<entry colname="1">X200</entry>
+<entry colname="2">XMLQuery</entry>
+<entry colname="3">Partial</entry>
+<entry colname="4">Support only for XPath queries, not full XQuery</entry>
+</row>
+<row>
+<entry colname="1">X202</entry>
+<entry colname="2">XMLQuery: RETURNING SEQUENCE</entry>
+<entry colname="3">Yes</entry>
+<entry colname="4">None</entry>
+</row>
+<row>
+<entry colname="1">X203</entry>
+<entry colname="2">XMLQuery: passing a context item</entry>
+<entry colname="3">Yes</entry>
+<entry colname="4">None</entry>
+</row>
+<row>
+<entry colname="1">X205</entry>
+<entry colname="2">XMLQuery: EMPTY ON EMPTY option</entry>
+<entry colname="3">Yes</entry>
+<entry colname="4">None</entry>
+</row>
+<row>
+<entry colname="1">X222</entry>
+<entry colname="2">XML passing mechanism BY REF</entry>
+<entry colname="3">Yes</entry>
+<entry colname="4">None</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+</p>
+</section>
+</refbody>
+</reference>

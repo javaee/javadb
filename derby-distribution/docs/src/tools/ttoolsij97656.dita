@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN"
+ "../dtd/task.dtd">
+<!-- 
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at      
+
+http://www.apache.org/licenses/LICENSE-2.0  
+
+Unless required by applicable law or agreed to in writing, software  
+distributed under the License is distributed on an "AS IS" BASIS,  
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+See the License for the specific language governing permissions and  
+limitations under the License.
+-->
+<task id="ttoolsij97656" xml:lang="en-us">
+<title>Connecting to a
+<ph conref="../conrefs.dita#prod/productshortname"></ph> database</title>
+<shortdesc>To connect to a
+<ph conref="../conrefs.dita#prod/productshortname"></ph> database, you must
+perform the following steps.</shortdesc>
+<taskbody>
+<steps>
+<step><cmd>Start the JVM.</cmd></step>
+<step><cmd>Load the appropriate driver.</cmd></step>
+<step><cmd>Create a connection by providing a valid database connection
+URL.</cmd></step>
+</steps>
+<example><p>When you use <codeph>ij</codeph> interactively to connect to a
+<ph conref="../conrefs.dita#prod/productshortname"></ph> database, you generally
+supply connection information on the full database connection URL.
+<codeph>ij</codeph> automatically loads the appropriate driver based on the
+syntax of the URL. The following example shows how to connect in this way by
+using the <codeph><xref href="rtoolsijcomref22318.dita">Connect</xref></codeph>
+command and the embedded driver:</p>
+<codeblock><b>java org.apache.derby.tools.ij</b>
+ij version <ph conref="../conrefs.dita#vers/shortversionnumber"></ph>
+ij&gt; <b>connect 'jdbc:derby:sample';</b>
+ij&gt;</codeblock>
+<p>If the URL entered contains Network Client information, the
+<codeph>Connect</codeph> command loads the Network Client driver:</p>
+<codeblock><b>java org.apache.derby.tools.ij</b>
+ij version <ph conref="../conrefs.dita#vers/shortversionnumber"></ph>
+ij&gt; <b>connect 'jdbc:derby://localhost:1527/sample';</b>
+ij&gt;</codeblock>
+<p><note>In these and subsequent examples, the databases are created in the
+<i>derby.system.home</i> directory. For more information on the System
+Directory, see the <ph conref="../conrefs.dita#pub/citdevelop"></ph>.</note></p>
+<p><codeph>ij</codeph> provides alternate methods of specifying part or all of a
+connection URL: the
+<codeph><xref href="rtoolsijpropref35032.dita">ij.protocol</xref></codeph>,
+<codeph><xref href="rtoolsijpropref28146.dita">ij.database</xref></codeph>, and
+<codeph><xref href="rtoolsijpropref10135.dita">ij.connection.<i>connectionName</i></xref></codeph>
+properties. These properties are often used when a script is being used and the database
+path name or the driver name is not known until runtime. The properties
+can also to used to shorten the amount of information that must be provided
+with the connection URL. The following are some examples of different ways
+to supply the connection information:</p>
+<ul>
+<li>Supplying full connection information on the command line
+<p>Specifying one of the following properties along with a valid connection URL
+on the <codeph>ij</codeph> command line starts <codeph>ij</codeph> with the
+connection already active. This mechanism is often used when running a SQL
+script, so that the database path name can be specified at runtime.</p>
+<ul>
+<li><codeph><xref href="rtoolsijpropref28146.dita">ij.database</xref></codeph>:
+Opens a connection using the URL provided</li>
+<li><codeph><xref href="rtoolsijpropref10135.dita">ij.connection.<i>connectionName</i></xref></codeph>:
+Used to open one or more connections. The property can appear multiple times
+on the command line with different <i>connectionName</i>s and the same or
+different URLs.</li>
+</ul>
+<p>This example shows how to create the database <codeph>myTours</codeph> and
+run the script <codeph>ToursDB_schema.sql</codeph> by specifying the database
+URL using the
+<codeph><xref href="rtoolsijpropref28146.dita">ij.database</xref></codeph>
+property.</p>
+<codeblock><b>java -Dij.database=jdbc:derby:myTours;create=true \
+    org.apache.derby.tools.ij \
+    %DERBY_HOME%\demo\programs\toursdb\ToursDB_schema.sql</b>
+ij version <ph conref="../conrefs.dita#vers/shortversionnumber"></ph>
+CONNECTION0* -  jdbc:derby:myTours
+* = current connection
+ij> -- Licensed to the Apache Software Foundation (ASF) under one or more
+-- contributor license agreements.  See the NOTICE file distributed with
+     <i>...output removed...</i>
+ij> CREATE TRIGGER TRIG2 AFTER DELETE ON FLIGHTS FOR EACH STATEMENT MODE DB2SQL
+INSERT INTO FLIGHTS_HISTORY (STATUS) VALUES ('INSERTED FROM TRIG2');
+0 rows inserted/updated/deleted
+ij></codeblock></li>
+<li>Defining a Protocol and using a "short form" URL
+<p>You can specify a default URL protocol and subprotocol by setting the
+property
+<codeph><xref href="rtoolsijpropref35032.dita">ij.protocol</xref></codeph> or
+using the <codeph><xref href="rtoolsijcomref27997.dita">Protocol</xref></codeph>
+command. This allows you to make a connection by specifying only the database
+name. This "short form" of the database connection URL defaults the protocol
+(For more information, see
+<xref href="ctoolsijtools16011.dita#ctoolsijtools16011/ctoolsabtproto"></xref>).
+</p>
+<p>This example uses the
+<codeph><xref href="rtoolsijcomref27997.dita">Protocol</xref></codeph> command
+and a "short form" connection URL:</p>
+<codeblock><b>java org.apache.derby.tools.ij</b>
+ij version <ph conref="../conrefs.dita#vers/shortversionnumber"></ph>
+ij&gt;<b> protocol 'jdbc:derby:';</b>
+ij&gt; <b>connect 'sample';</b>
+ij&gt;
+</codeblock></li>
+<li>Specifying an alternate driver
+<p>If you are using the drivers supplied by
+<ph conref="../conrefs.dita#prod/productshortname"></ph>, you can specify the
+driver names listed in <xref href="rtoolsijtools16879.dita">JDBC drivers
+overview</xref>. However, the
+<ph conref="../conrefs.dita#prod/productshortname"></ph> drivers are implicitly
+loaded when a supported protocol is used, so specifying them is usually
+redundant. You may find it useful to specify the driver if you need to reload
+it after you have shut down the
+<ph conref="../conrefs.dita#prod/productshortname"></ph> engine and deregistered
+the driver.</p>
+<p>To load a driver explicitly, use the <codeph>ij</codeph> command
+<codeph><xref href="rtoolsijcomref39042.dita">Driver</xref></codeph> or specify
+the JVM system property <codeph>jdbc.drivers</codeph>.</p>
+</li>
+</ul>
+</example>
+</taskbody>
+</task>

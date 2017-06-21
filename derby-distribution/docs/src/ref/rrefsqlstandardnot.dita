@@ -1,0 +1,468 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at  
+
+http://www.apache.org/licenses/LICENSE-2.0  
+
+Unless required by applicable law or agreed to in writing, software  
+distributed under the License is distributed on an "AS IS" BASIS,  
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+See the License for the specific language governing permissions and  
+limitations under the License.
+-->
+<!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN"
+ "../dtd/reference.dtd">
+<reference id="rrefsqlstandardnot" xml:lang="en-us">
+<title>SQL:2011 features not supported by
+<ph conref="../conrefs.dita#prod/productshortname"></ph></title>
+<shortdesc>Some mandatory and optional features in Part 2 of the SQL:2011
+standard are not supported by
+<ph conref="../conrefs.dita#prod/productshortname"></ph>.</shortdesc>
+<prolog><metadata>
+<keywords>
+<indexterm>SQL:2011<indexterm>features not supported by Derby</indexterm></indexterm>
+</keywords>
+</metadata></prolog>
+<refbody>
+<section><p>If a feature in another part of the standard is not listed in
+<xref href="rrefsqlstandard.dita"/>,
+<ph conref="../conrefs.dita#prod/productshortname"></ph> does not support
+it.</p></section>
+<section><title>Mandatory features</title>
+<p>The following table lists the mandatory features in Part 2 of the SQL:2011
+standard that are not supported by
+<ph conref="../conrefs.dita#prod/productshortname"></ph> and that are not listed
+in the tables in <xref href="rrefsqlstandard.dita"/>.</p>
+<p>
+<table>
+<title>Mandatory SQL:2011 features not supported by
+<ph conref="../conrefs.dita#prod/productshortname"></ph></title>
+<desc>This table describes mandatory SQL:2011 features not supported by <ph conref="../conrefs.dita#prod/productshortname"></ph>.</desc>
+<tgroup cols="2" colsep="1" rowsep="1">
+<colspec colname="1" colnum="1" colwidth="25*"/>
+<colspec colname="2" colnum="2" colwidth="75*"/>
+<thead>
+<row valign="bottom">
+<entry colname="1">Feature ID</entry>
+<entry colname="2">Feature Name</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry colname="1">E153</entry>
+<entry colname="2">Updatable queries with subqueries</entry>
+</row>
+<row>
+<entry colname="1">E182</entry>
+<entry colname="2">Module language</entry>
+</row>
+<row>
+<entry colname="1">F081</entry>
+<entry colname="2">UNION and EXCEPT in views</entry>
+</row>
+<row>
+<entry colname="1">F181</entry>
+<entry colname="2">Multiple module support</entry>
+</row>
+<row>
+<entry colname="1">F812</entry>
+<entry colname="2">Basic flagging</entry>
+</row>
+<row>
+<entry colname="1">S011</entry>
+<entry colname="2">Distinct data types</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+</p>
+</section>
+<section><title>Optional features</title>
+<p>The following table lists the optional features in Part 2 of the SQL:2011
+standard that are not supported by
+<ph conref="../conrefs.dita#prod/productshortname"></ph> and that are not listed
+in the tables in <xref href="rrefsqlstandard.dita"/>.</p>
+<p>
+<table>
+<title>Optional SQL:2011 features not supported by
+<ph conref="../conrefs.dita#prod/productshortname"></ph></title>
+<desc>This table describes optional SQL:2011 features not supported by <ph conref="../conrefs.dita#prod/productshortname"></ph>.</desc>
+<tgroup cols="2" colsep="1" rowsep="1">
+<colspec colname="1" colnum="1" colwidth="25*"/>
+<colspec colname="2" colnum="2" colwidth="75*"/>
+<thead>
+<row valign="bottom">
+<entry colname="1">Feature ID</entry>
+<entry colname="2">Feature Name</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry colname="1">F032</entry>
+<entry colname="2">CASCADE drop behavior</entry>
+</row>
+<row>
+<entry colname="1">F034</entry>
+<entry colname="2">Extended REVOKE statement (F034-01 through F034-03)</entry>
+</row>
+<row>
+<entry colname="1">F052</entry>
+<entry colname="2">Intervals and datetime arithmetic</entry>
+</row>
+<row>
+<entry colname="1">F053</entry>
+<entry colname="2">OVERLAPS predicate</entry>
+</row>
+<row>
+<entry colname="1">F121</entry>
+<entry colname="2">Basic diagnostics management (F121-01, F121-02)</entry>
+</row>
+<row>
+<entry colname="1">F171</entry>
+<entry colname="2">Multiple schemas per user</entry>
+</row>
+<row>
+<entry colname="1">F191</entry>
+<entry colname="2">Referential delete actions</entry>
+</row>
+<row>
+<entry colname="1">F222</entry>
+<entry colname="2">INSERT statement: DEFAULT VALUES clause</entry>
+</row>
+<row>
+<entry colname="1">F251</entry>
+<entry colname="2">Domain support</entry>
+</row>
+<row>
+<entry colname="1">F271</entry>
+<entry colname="2">Compound character literals</entry>
+</row>
+<row>
+<entry colname="1">F291</entry>
+<entry colname="2">UNIQUE predicate</entry>
+</row>
+<row>
+<entry colname="1">F301</entry>
+<entry colname="2">CORRESPONDING in query expressions</entry>
+</row>
+<row>
+<entry colname="1">F321</entry>
+<entry colname="2">User authorization</entry>
+</row>
+<row>
+<entry colname="1">F361</entry>
+<entry colname="2">Subprogram support</entry>
+</row>
+<row>
+<entry colname="1">F392</entry>
+<entry colname="2">Unicode escapes in identifiers</entry>
+</row>
+<row>
+<entry colname="1">F393</entry>
+<entry colname="2">Unicode escapes in literals</entry>
+</row>
+<row>
+<entry colname="1">F411</entry>
+<entry colname="2">Time zone specification</entry>
+</row>
+<row>
+<entry colname="1">F421</entry>
+<entry colname="2">National character</entry>
+</row>
+<row>
+<entry colname="1">F431</entry>
+<entry colname="2">Read-only scrollable cursors (available through JDBC, but
+F431-01 through F431-06 are unsupported)</entry>
+</row>
+<row>
+<entry colname="1">F441</entry>
+<entry colname="2">Extended set function support</entry>
+</row>
+<row>
+<entry colname="1">F442</entry>
+<entry colname="2">Mixed column references in set functions</entry>
+</row>
+<row>
+<entry colname="1">F451</entry>
+<entry colname="2">Character set definition</entry>
+</row>
+<row>
+<entry colname="1">F461</entry>
+<entry colname="2">Named character sets</entry>
+</row>
+<row>
+<entry colname="1">F521</entry>
+<entry colname="2">Assertions</entry>
+</row>
+<row>
+<entry colname="1">F555</entry>
+<entry colname="2">Enhanced seconds precision</entry>
+</row>
+<row>
+<entry colname="1">F561</entry>
+<entry colname="2">Full value expressions</entry>
+</row>
+<row>
+<entry colname="1">F571</entry>
+<entry colname="2">Truth value tests</entry>
+</row>
+<row>
+<entry colname="1">F611</entry>
+<entry colname="2">Indicator data types</entry>
+</row>
+<row>
+<entry colname="1">F651</entry>
+<entry colname="2">Catalog name qualifiers</entry>
+</row>
+<row>
+<entry colname="1">F661</entry>
+<entry colname="2">Simple tables</entry>
+</row>
+<row>
+<entry colname="1">F671</entry>
+<entry colname="2">Subqueries in CHECK</entry>
+</row>
+<row>
+<entry colname="1">F672</entry>
+<entry colname="2">Retrospective check constraints</entry>
+</row>
+<row>
+<entry colname="1">F692</entry>
+<entry colname="2">Enhanced collation support</entry>
+</row>
+<row>
+<entry colname="1">F693</entry>
+<entry colname="2">SQL-session and client module collations</entry>
+</row>
+<row>
+<entry colname="1">F695</entry>
+<entry colname="2">Translation support</entry>
+</row>
+<row>
+<entry colname="1">F711</entry>
+<entry colname="2">ALTER domain</entry>
+</row>
+<row>
+<entry colname="1">F731</entry>
+<entry colname="2">INSERT column privileges</entry>
+</row>
+<row>
+<entry colname="1">F741</entry>
+<entry colname="2">Referential MATCH types</entry>
+</row>
+<row>
+<entry colname="1">F751</entry>
+<entry colname="2">View CHECK enhancements</entry>
+</row>
+<row>
+<entry colname="1">F761</entry>
+<entry colname="2">Session management</entry>
+</row>
+<row>
+<entry colname="1">F771</entry>
+<entry colname="2">Connection management</entry>
+</row>
+<row>
+<entry colname="1">F813</entry>
+<entry colname="2">Extended flagging</entry>
+</row>
+<row>
+<entry colname="1">F821</entry>
+<entry colname="2">Local table references</entry>
+</row>
+<row>
+<entry colname="1">T051</entry>
+<entry colname="2">Row types</entry>
+</row>
+<row>
+<entry colname="1">T053</entry>
+<entry colname="2">Explicit aliases for all-fields reference</entry>
+</row>
+<row>
+<entry colname="1">T061</entry>
+<entry colname="2">UCS support</entry>
+</row>
+<row>
+<entry colname="1">T111</entry>
+<entry colname="2">Updatable joins, unions, and columns</entry>
+</row>
+<row>
+<entry colname="1">T121</entry>
+<entry colname="2">WITH (excluding RECURSIVE) in query expression</entry>
+</row>
+<row>
+<entry colname="1">T122</entry>
+<entry colname="2">WITH (excluding RECURSIVE) in subquery</entry>
+</row>
+<row>
+<entry colname="1">T131</entry>
+<entry colname="2">Recursive query</entry>
+</row>
+<row>
+<entry colname="1">T132</entry>
+<entry colname="2">Recursive query in subquery</entry>
+</row>
+<row>
+<entry colname="1">T141</entry>
+<entry colname="2">SIMILAR predicate</entry>
+</row>
+<row>
+<entry colname="1">T151</entry>
+<entry colname="2">DISTINCT predicate</entry>
+</row>
+<row>
+<entry colname="1">T152</entry>
+<entry colname="2">DISTINCT predicate with negation</entry>
+</row>
+<row>
+<entry colname="1">T171</entry>
+<entry colname="2">LIKE clause in table definition</entry>
+</row>
+<row>
+<entry colname="1">T172</entry>
+<entry colname="2">AS subquery clause in table definition</entry>
+</row>
+<row>
+<entry colname="1">T173</entry>
+<entry colname="2">Extended LIKE clause in table definition</entry>
+</row>
+<row>
+<entry colname="1">T201</entry>
+<entry colname="2">Comparable data types for referential constraints</entry>
+</row>
+<row>
+<entry colname="1">T231</entry>
+<entry colname="2">Sensitive cursors</entry>
+</row>
+<row>
+<entry colname="1">T241</entry>
+<entry colname="2">START TRANSACTION statement</entry>
+</row>
+<row>
+<entry colname="1">T251</entry>
+<entry colname="2">SET TRANSACTION statement: LOCAL option</entry>
+</row>
+<row>
+<entry colname="1">T261</entry>
+<entry colname="2">Chained transactions</entry>
+</row>
+<row>
+<entry colname="1">T272</entry>
+<entry colname="2">Enhanced savepoint management</entry>
+</row>
+<row>
+<entry colname="1">T301</entry>
+<entry colname="2">Functional dependencies</entry>
+</row>
+<row>
+<entry colname="1">T312</entry>
+<entry colname="2">OVERLAY function</entry>
+</row>
+<row>
+<entry colname="1">T324</entry>
+<entry colname="2">Explicit security for SQL routines</entry>
+</row>
+<row>
+<entry colname="1">T325</entry>
+<entry colname="2">Qualified SQL parameter references</entry>
+</row>
+<row>
+<entry colname="1">T432</entry>
+<entry colname="2">Nested and concatenated GROUPING SETS</entry>
+</row>
+<row>
+<entry colname="1">T433</entry>
+<entry colname="2">Multiargument GROUPING function</entry>
+</row>
+<row>
+<entry colname="1">T434</entry>
+<entry colname="2">GROUP BY DISTINCT</entry>
+</row>
+<row>
+<entry colname="1">T461</entry>
+<entry colname="2">Symmetric BETWEEN predicate</entry>
+</row>
+<row>
+<entry colname="1">T471</entry>
+<entry colname="2">Result sets return value</entry>
+</row>
+<row>
+<entry colname="1">T491</entry>
+<entry colname="2">LATERAL derived table</entry>
+</row>
+<row>
+<entry colname="1">T511</entry>
+<entry colname="2">Transaction counts</entry>
+</row>
+<row>
+<entry colname="1">T551</entry>
+<entry colname="2">Optional key words for default syntax</entry>
+</row>
+<row>
+<entry colname="1">T561</entry>
+<entry colname="2">Holdable locators</entry>
+</row>
+<row>
+<entry colname="1">T571</entry>
+<entry colname="2">Array-returning external SQL-invoked functions</entry>
+</row>
+<row>
+<entry colname="1">T572</entry>
+<entry colname="2">Multiset-returning external SQL-invoked functions</entry>
+</row>
+<row>
+<entry colname="1">T581</entry>
+<entry colname="2">Regular expression substring function</entry>
+</row>
+<row>
+<entry colname="1">T601</entry>
+<entry colname="2">Local cursor references</entry>
+</row>
+<row>
+<entry colname="1">T612</entry>
+<entry colname="2">Advanced OLAP operations</entry>
+</row>
+<row>
+<entry colname="1">T613</entry>
+<entry colname="2">Sampling</entry>
+</row>
+<row>
+<entry colname="1">T621</entry>
+<entry colname="2">Enhanced numeric functions</entry>
+</row>
+<row>
+<entry colname="1">T641</entry>
+<entry colname="2">Multiple column assignment</entry>
+</row>
+<row>
+<entry colname="1">T651</entry>
+<entry colname="2">SQL-schema statements in SQL routines</entry>
+</row>
+<row>
+<entry colname="1">T652</entry>
+<entry colname="2">SQL-dynamic statements in SQL routines</entry>
+</row>
+<row>
+<entry colname="1">T653</entry>
+<entry colname="2">SQL-schema statements in external routines</entry>
+</row>
+<row>
+<entry colname="1">T654</entry>
+<entry colname="2">SQL-dynamic statements in external routines</entry>
+</row>
+<row>
+<entry colname="1">T655</entry>
+<entry colname="2">Cyclically dependent routines</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+</p>
+</section>
+</refbody>
+</reference>

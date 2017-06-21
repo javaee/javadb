@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN"
+ "../dtd/reference.dtd">
+<!-- 
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at      
+
+http://www.apache.org/licenses/LICENSE-2.0  
+
+Unless required by applicable law or agreed to in writing, software  
+distributed under the License is distributed on an "AS IS" BASIS,  
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+See the License for the specific language governing permissions and  
+limitations under the License.
+-->
+<reference id="rtoolsijproprefdatasource" xml:lang="en-us">
+<title>ij.dataSource property</title>
+<shortdesc>The <codeph>ij.dataSource</codeph> property specifies the datasource
+to be used to access the database.</shortdesc>
+<prolog><metadata>
+<keywords><indexterm>ij.dataSource property</indexterm></keywords>
+</metadata></prolog>
+<refbody>
+<section>
+<p>When specifying a datasource, <codeph>ij</codeph> does not use the
+DriverManager mechanism to establish connections.</p>
+</section>
+<refsyn><title>Syntax</title>
+<p>
+When you set the <codeph>ij.dataSource</codeph> property, <codeph>ij</codeph>
+will automatically try to connect to a database. To establish a connection to a
+specific database using <codeph>ij.dataSource</codeph>, set the
+<codeph>ij.dataSource.databaseName</codeph> property. If you do not set
+this property, <codeph>ij</codeph> will start with an error. If you want to
+create the database, specify the <codeph>ij.dataSource.createDatabase</codeph>
+property as well as <codeph>ij.dataSource.databaseName</codeph>. Do not
+specify <codeph>ij.protocol</codeph> when setting
+<codeph>ij.dataSource</codeph>, as that would activate the DriverManager
+mechanism.</p>
+<codeblock>ij.dataSource=<varname>datasourceClassName</varname>
+ij.dataSource.databaseName=<varname>databaseName</varname>
+[ij.dataSource.createDatabase=create]</codeblock>
+<p>If you do not specify <codeph>ij.dataSource.databaseName</codeph> and get an
+error indicating no database was found, you can still connect to a database by
+using <codeph>ij</codeph>'s
+<codeph><xref href="rtoolsijcomref22318.dita">Connect</xref></codeph> command. 
+You should not specify the protocol (for example, <codeph>jdbc:derby:</codeph>)
+in the <codeph>connect</codeph> command when using
+<codeph>ij.dataSource</codeph>.</p>
+</refsyn>
+<example><title>Example</title> 
+<p>In the following example, <codeph>ij</codeph> connects to a database named 
+<codeph>sample</codeph> using an <codeph>EmbeddedDataSource</codeph>. The 
+<codeph>sample</codeph> database is created if it does not already exist.
+</p>
+<codeblock><b>java -Dij.dataSource=org.apache.derby.jdbc.EmbeddedDataSource \
+-Dij.dataSource.databaseName=sample \
+-Dij.dataSource.createDatabase=create org.apache.derby.tools.ij</b>
+ij version <ph conref="../conrefs.dita#vers/shortversionnumber"></ph> 
+CONNECTION0*
+* = current connection
+ij> </codeblock> </example>
+<section><title>See also</title>
+<p>For more information about DataSources, refer to the JDBC documentation in
+the <ph conref="../conrefs.dita#prod/productshortname"></ph> API documentation
+and to "JDBC reference" in the <ph conref="../conrefs.dita#pub/citref"></ph>,
+and to "Using <ph conref="../conrefs.dita#prod/productshortname"></ph> as a
+Java EE Resource Manager" in the
+<ph conref="../conrefs.dita#pub/citdevelop"></ph>.</p>
+</section>
+</refbody>
+</reference>

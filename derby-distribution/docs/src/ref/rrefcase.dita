@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN"
+ "../dtd/reference.dtd">
+<!-- 
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at      
+
+http://www.apache.org/licenses/LICENSE-2.0  
+
+Unless required by applicable law or agreed to in writing, software  
+distributed under the License is distributed on an "AS IS" BASIS,  
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+See the License for the specific language governing permissions and  
+limitations under the License.
+-->
+<reference id="rrefcase" xml:lang="en-us">
+<title>CASE expression</title>
+<shortdesc>The CASE expression can be used for conditional expressions in
+<ph conref="../conrefs.dita#prod/productshortname"></ph>.</shortdesc>
+<prolog><metadata>
+<keywords><indexterm>CASE expression</indexterm></keywords>
+</metadata></prolog>
+<refbody>
+<section><p>See <xref href="rrefsqlj19433.dita"/> for more information on
+expressions.</p>
+</section>
+<refsyn><title>Syntax</title><p>You can place a CASE expression
+anywhere an expression is allowed. It chooses an expression to evaluate based
+on a boolean test.</p>
+<p><ph conref="../conrefs.dita#prod/productshortname"></ph> supports three kinds
+of CASE expressions, which we refer to as a
+<term>searched CASE expression</term>, a <term>simple CASE expression</term>,
+and an <term>extended CASE expression</term>.</p>
+<p>The syntax of a <term>searched CASE expression</term> is as follows:</p>
+<codeblock><b>CASE 
+  WHEN <i><xref
+href="rrefsqlj23075.dita#rrefsqlj23075">booleanExpression</xref></i> THEN <i>thenExpression</i> 
+  [ WHEN <i><xref
+href="rrefsqlj23075.dita#rrefsqlj23075">booleanExpression</xref></i> THEN <i>thenExpression</i> ]*
+  [ ELSE <i>elseExpression</i> ]
+END</b></codeblock>
+<p>The syntax of a <term>simple CASE expression</term> is as follows:</p>
+<codeblock><b>CASE <i>valueExpression</i>
+  WHEN <i>valueExpression</i> [ , <i>valueExpression</i> ]* THEN <i>thenExpression</i>
+  [ WHEN <i>valueExpression</i> [ , <i>valueExpression</i> ]* THEN <i>thenExpression</i> ]*
+  [ ELSE <i>elseExpression</i> ]
+END</b></codeblock>
+<p>A <i>valueExpression</i> is an expression that resolves to a single
+value.</p>
+<p>For both searched and simple CASE expressions, both <i>thenExpression</i> and
+<i>elseExpression</i> are defined as follows:</p>
+<codeblock><b>NULL | <i>valueExpression</i></b></codeblock>
+<p>The <i>thenExpression</i> and <i>elseExpression</i> must be type-compatible.
+For built-in types, this means that the types must be the same or that a
+built-in broadening conversion must exist between the types.</p>
+<p>The syntax of an <term>extended CASE expression</term> is as follows:</p>
+<codeblock><b>CASE <i>valueExpression</i>
+  WHEN <i>whenOperand</i> [ , <i>whenOperand</i> ]* THEN <i>thenExpression</i>
+  [ WHEN <i>whenOperand</i> [ , <i>whenOperand</i> ]* THEN <i>thenExpression</i> ]*
+  [ ELSE <i>elseExpression</i> ]
+END</b></codeblock>
+<p>A <i>whenOperand</i> is defined as follows:</p>
+<codeblock><b><i>valueExpression</i> |
+<i>comparisonOperator</i> <i>expression</i> |
+IS [ NOT ] NULL |
+[ NOT ] LIKE <i>characterExpressionWithWildCard</i> [ ESCAPE '<i>escapeCharacter</i>' ] |
+[ NOT ] BETWEEN <i>expression</i> AND <i>expression</i> |
+[ NOT ] IN <i><xref href="rreftablesubquery.dita">tableSubquery</xref></i> |
+[ NOT ] IN ( <i>expression</i> [, <i>expression</i> ]* ) |
+<i>comparisonOperator</i> { ALL | ANY | SOME } <i><xref href="rreftablesubquery.dita">tableSubquery</xref></i></b></codeblock>
+<p>A <i>comparisonOperator</i> is defined as follows:</p>
+<codeblock><b>{ &lt; | = | > | &lt;= | >= | &lt;> }</b></codeblock>
+<p>For details on LIKE expressions, see <xref href="rrefsqlj23075.dita"/>.</p>
+<p>For all types of CASE expressions, if an ELSE clause is not specified,
+ELSE NULL is implicit.</p>
+</refsyn>
+<example><title>Example</title><codeblock><b>-- searched CASE expression
+-- returns 3
+VALUES CASE WHEN 1=1 THEN 3 ELSE 4 END
+
+-- simple CASE expression, equivalent to previous expression
+-- returns 3
+VALUES CASE 1 WHEN 1 THEN 3 ELSE 4 END
+
+-- searched CASE expression
+-- returns 7
+VALUES
+   CASE
+      WHEN 1 = 2 THEN 3
+      WHEN 4 = 5 THEN 6
+      ELSE 7
+   END
+   
+-- simple CASE expression
+-- returns 'two'
+VALUES
+  CASE 1+1
+    WHEN 1 THEN 'one'
+    WHEN 2 THEN 'two'
+    ELSE 'many'
+  END
+
+-- simple CASE expression
+-- returns 'odd', 'even', 'big'
+SELECT
+  CASE X
+    WHEN 1, 3, 5, 7, 9 THEN 'odd'
+    WHEN 2, 4, 6, 8, 10 THEN 'even'
+    ELSE 'big'
+  END
+FROM
+  (VALUES 5, 8, 12) AS V(X)
+
+-- extended CASE expression
+-- returns ('long', 182), ('medium', 340), ('short', 20)
+SELECT DISTANCE, COUNT(*)
+FROM (SELECT
+        CASE MILES
+          WHEN &lt; 250 THEN 'short'
+          WHEN BETWEEN 250 AND 2000 THEN 'medium'
+          WHEN > 2000 THEN 'long'
+        END
+      FROM FLIGHTS) AS F(DISTANCE)
+GROUP BY DISTANCE</b></codeblock>
+</example>
+</refbody>
+</reference>

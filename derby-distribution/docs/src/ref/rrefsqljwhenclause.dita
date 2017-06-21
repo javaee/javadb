@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN"
+ "../dtd/reference.dtd">
+<!-- 
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at      
+
+http://www.apache.org/licenses/LICENSE-2.0  
+
+Unless required by applicable law or agreed to in writing, software  
+distributed under the License is distributed on an "AS IS" BASIS,  
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+See the License for the specific language governing permissions and  
+limitations under the License.
+-->
+<reference id="rrefsqljwhenclause" xml:lang="en-us">
+<title>WHEN clause</title>
+<shortdesc>The WHEN clause is an optional part of a CREATE TRIGGER
+statement.</shortdesc>
+<prolog><metadata>
+<keywords><indexterm>CREATE TRIGGER statement<indexterm>WHEN clause</indexterm></indexterm>
+<indexterm>triggers<indexterm>WHEN clause</indexterm></indexterm>
+<indexterm>WHEN clause<indexterm>CREATE TRIGGER statement</indexterm></indexterm>
+</keywords>
+</metadata></prolog>
+<refbody>
+<refsyn><title>Syntax</title>
+<codeblock><b>WHEN ( <i><xref
+href="rrefsqlj23075.dita#rrefsqlj23075">booleanExpression</xref></i> )</b></codeblock>
+</refsyn>
+<section>
+<p>If a trigger has been created with a WHEN clause, and the trigger event takes
+place, the <i><xref
+href="rrefsqlj43125.dita#rrefsqlj43125/i1149821">triggeredSQLStatement</xref></i>
+will be executed only if the <i>booleanExpression</i> in the WHEN clause
+evaluates to TRUE. If it evaluates to FALSE or NULL, the
+<i>triggeredSQLStatement</i> will not be executed.</p>
+<p>The transition tables or transition variables defined in the REFERENCING
+clause can be referenced from the WHEN clause.</p>
+<p>The restrictions listed for the <i>triggeredSQLStatement</i> in the
+<xref href="rrefsqlj43125.dita">CREATE TRIGGER statement</xref> also apply to
+the WHEN clause.</p>
+<note>The use of a WHEN clause in a CREATE TRIGGER statement is valid only after
+a database has been fully upgraded to
+<ph conref="../conrefs.dita#prod/productshortname"></ph> Release 10.11 or
+higher. (See "Upgrading a database" in the
+<ph conref="../conrefs.dita#pub/citdevelop"></ph> for more information.) This
+clause has no meaning in a database that is at Release 10.10 or lower.</note>
+</section>
+<example><title>Example</title>
+<codeblock><b>CREATE TRIGGER FLIGHTSUPDATE
+    AFTER UPDATE ON FLIGHTS
+    REFERENCING OLD AS OLD NEW AS NEW
+    FOR EACH ROW
+    WHEN (OLD.FLIGHT_ID &lt;&gt; NEW.FLIGHT_ID)
+    UPDATE FLIGHTAVAILABILITY
+        SET FLIGHT_ID = NEW.FLIGHT_ID
+        WHERE FLIGHT_ID = OLD.FLIGHT_ID</b></codeblock>
+</example>
+</refbody>
+</reference>

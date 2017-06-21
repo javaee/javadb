@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at      
+
+http://www.apache.org/licenses/LICENSE-2.0  
+
+Unless required by applicable law or agreed to in writing, software  
+distributed under the License is distributed on an "AS IS" BASIS,  
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+See the License for the specific language governing permissions and  
+limitations under the License.
+-->
+<!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN"
+ "../dtd/reference.dtd">
+<reference id="rtoolsoptluceneupdate" xml:lang="en-us">
+<title>Updating an index</title>
+<shortdesc>After an index has been created, a user can perform a bulk reindexing
+of the text column.</shortdesc>
+<prolog><metadata>
+<keywords>
+<indexterm>luceneSupport optional tool<indexterm>updating an index</indexterm></indexterm>
+</keywords>
+</metadata></prolog>
+<refbody>
+<section>
+<p>If SQL authorization is enabled, the database owner is the only account which
+can reindex a text column in another user's table. The following procedure
+reindexes the column across the whole table:</p>
+<codeblock><b>LUCENESUPPORT.UPDATEINDEX
+(
+    SCHEMANAME VARCHAR( 128 ),
+    TABLENAME VARCHAR( 128 ),
+    TEXTCOLUMN VARCHAR( 128 ),
+    INDEXDESCRIPTORMAKER VARCHAR( 32672 )
+)</b></codeblock>
+<p>The first three arguments identify the column to be reindexed. The last
+argument lets you override how the text is indexed and how queries are
+parsed.</p>
+<p>This release of the <codeph>luceneSupport</codeph> tool does not support the
+incremental reindexing of data. Updating the index is a bulk operation, which
+reindexes an entire data set. For this reason, this release of the
+<codeph>luceneSupport</codeph> tool is not appropriate for update-intensive
+applications where the results of full-text queries must be current. The
+<codeph>luceneSupport</codeph> tool is better suited to applications for which
+yesterday's full-text query results are good enough:</p>
+<ul>
+<li><b>Read-mostly</b>: Applications which analyze static text data</li>
+<li><b>Fuzzy</b>: Applications which can perform a bulk reindexing of the text
+data periodically (for example, once a day), and which can tolerate that amount
+of fuzziness in query results</li>
+</ul>
+</section>
+<section><title>Example</title>
+<codeblock><b>-- reindex a column using a custom analyzer
+CALL LUCENESUPPORT.UPDATEINDEX
+(
+    'ruth', 'poemView', 'poemText',
+    'myapp.MyIndexDescriptor.makeMe',
+);</b></codeblock>
+</section></refbody>
+</reference>

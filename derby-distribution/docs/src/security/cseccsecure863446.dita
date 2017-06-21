@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN"
+ "../dtd/concept.dtd">
+<!-- 
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at      
+
+   http://www.apache.org/licenses/LICENSE-2.0  
+
+Unless required by applicable law or agreed to in writing, software  
+distributed under the License is distributed on an "AS IS" BASIS,  
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+See the License for the specific language governing permissions and  
+limitations under the License.
+-->
+<concept id="cseccsecure863446" xml:lang="en-us">
+<title>Setting up <ph conref="../conrefs.dita#prod/productshortname"></ph> to
+use your LDAP directory service</title>
+<shortdesc>When specifying LDAP as your authentication service, you must specify
+what LDAP server to use.</shortdesc>
+<prolog></prolog>
+<conbody>
+<p>To connect to the OpenDS LDAP server, add the following lines to your
+<ph conref="../conrefs.dita#prod/productshortname"></ph> configuration file,
+<codeph>derby.properties</codeph>. You may also want to store these properties
+in your database and lock them down by setting the
+<codeph>derby.database.propertiesOnly</codeph> property (see
+<xref href="csecauthorcoarse.dita"/> for an example of how to lock down
+database properties):</p>
+<codeblock>derby.connection.requireAuthentication=true
+derby.authentication.server=ldap://127.0.0.1:1389
+derby.authentication.provider=LDAP
+derby.authentication.ldap.searchAuthPW=<i>YOUR_SELECTED_PASSWORD</i>
+derby.authentication.ldap.searchAuthDN=cn=Directory Manager
+derby.authentication.ldap.searchBase=dc=example,dc=com
+derby.authentication.ldap.searchFilter=objectClass=person</codeblock>
+<p>Finally, start <codeph>ij</codeph> in the directory where you created your
+<codeph>derby.properties</codeph> (this ensures that embedded
+<ph conref="../conrefs.dita#prod/productshortname"></ph> will come up with the
+authentication settings listed above). Run the following commands:</p>
+<codeblock><b>java org.apache.derby.tools.ij</b>
+ij version 10.11
+ij> <b>connect 'jdbc:derby:testdb;create=true;user=tquist;password=tquist';</b></codeblock>
+<p>Verify that authentication works by trying to connect again, this time with
+bad credentials:</p>
+<codeblock><b>java org.apache.derby.tools.ij</b>
+ij version 10.11
+ij> <b>connect 'jdbc:derby:testdb;create=true;user=tquist;password=badpassword';</b>
+ERROR 08004: Connection authentication failure occurred. Reason: Invalid authentication...</codeblock>
+<p>When you set the property <codeph>derby.authentication.server</codeph>, you
+can specify the LDAP server using just the server name, the server name and its
+port number separated by a colon, or an <codeph>ldap</codeph> URL as shown in
+the example. If you do not provide a full URL,
+<ph conref="../conrefs.dita#prod/productshortname"></ph> will by default use
+unencrypted LDAP. To use SSL encrypted LDAP, specify a URL that starts with
+<codeph>ldaps://</codeph>. For details on the
+<codeph>derby.authentication.server</codeph> and
+<codeph>derby.authentication.provider</codeph> properties, see the
+<ph conref="../conrefs.dita#pub/citref"></ph>.</p>
+<p><note>If you run Java DB under a Java security manager, your policy file will
+need to grant <ph conref="../conrefs.dita#prod/productshortname"></ph> the
+privilege to connect to the LDAP server. To see how to do this, consult the 
+policy file shown in <xref href="rsecpolicysample.dita"/>.
+Specifically, you will need to grant <codeph>java.net.SocketPermission</codeph>
+to <codeph>derby.jar</codeph>, so that the
+<ph conref="../conrefs.dita#prod/productshortname"></ph> code is allowed to
+contact the LDAP server to perform the authentication. See 
+<xref href="csecembeddedperms.dita#csecembeddedperms"/> for more
+information.</note></p>
+</conbody>
+</concept>

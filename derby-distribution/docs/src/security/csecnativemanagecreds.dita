@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+ 
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN"
+ "../dtd/concept.dtd">
+<!-- 
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at      
+
+   http://www.apache.org/licenses/LICENSE-2.0  
+
+Unless required by applicable law or agreed to in writing, software  
+distributed under the License is distributed on an "AS IS" BASIS,  
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+See the License for the specific language governing permissions and  
+limitations under the License.
+-->
+<concept id="csecnativemanagecreds" xml:lang="en-us">
+<title>Managing users and passwords</title>
+<shortdesc>To manage users and passwords,
+<ph conref="../conrefs.dita#prod/productshortname"></ph> provides a group of
+system procedures.</shortdesc>
+<prolog><metadata>
+<keywords><indexterm>user authentication<indexterm>NATIVE authentication</indexterm></indexterm>
+<indexterm>NATIVE authentication<indexterm>managing credentials</indexterm></indexterm>
+</keywords>
+</metadata></prolog>
+<conbody>
+<ul>
+<li>To create users for a database, the
+<xref href="cseccsecuredbowner.dita">Database Owner</xref> calls
+<codeph>SYSCS_UTIL.SYSCS_CREATE_USER</codeph>, which takes a user name and
+password as arguments. This procedure can also be executed by a user or role
+to which the Database Owner has granted sufficient privileges.</li>
+<li>To remove a user, the Database Owner calls
+<codeph>SYSCS_UTIL.SYSCS_DROP_USER</codeph>, which takes one argument,
+the user name of the user. This procedure can also be executed by a user or role
+to which the Database Owner has granted sufficient privileges.</li>
+<li>To reset a forgotten or expired password, the Database Owner calls 
+<codeph>SYSCS_UTIL.SYSCS_RESET_PASSWORD</codeph>, with a user name and
+password as arguments. This procedure can also be executed by a user or role
+to which the Database Owner has granted sufficient privileges.</li>
+<li>To change a user's own password, any user can call the system procedure
+<codeph>SYSCS_UTIL.SYSCS_MODIFY_PASSWORD</codeph>, which takes only one
+argument, the password. Typically, a user calls this procedure when their
+password is about to expire.</li>
+</ul>
+<p>See the <ph conref="../conrefs.dita#pub/citref"></ph> for details on these
+procedures.</p>
+</conbody>
+</concept>

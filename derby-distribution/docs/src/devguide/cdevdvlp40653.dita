@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+ 
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN"
+ "../dtd/concept.dtd">
+<!-- 
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at      
+
+   http://www.apache.org/licenses/LICENSE-2.0  
+
+Unless required by applicable law or agreed to in writing, software  
+distributed under the License is distributed on an "AS IS" BASIS,  
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+See the License for the specific language governing permissions and  
+limitations under the License.
+-->
+<concept id="cdevdvlp40653" xml:lang="en-us">
+<title>Derby JDBC driver</title>
+<shortdesc><ph conref="../conrefs.dita#prod/productshortname"></ph> consists
+of both the database engine and an embedded JDBC driver. Applications use
+JDBC to interact with a database.</shortdesc>
+<prolog><metadata>
+<keywords><indexterm>JDBC driver<indexterm>description</indexterm></indexterm>
+</keywords>
+</metadata></prolog>
+<conbody>
+<p>In an embedded environment, the embedded driver is initially loaded and
+registered when the <i>java.sql.DriverManager</i> class is initialized. That
+typically happens on the first call to a <i>DriverManager</i> method such as
+<i>DriverManager.getConnection</i>, as described in
+<xref href="cdevdvlp17453.dita#cdevdvlp17453"></xref>. Loading the driver also
+starts <ph conref="../conrefs.dita#prod/productshortname"></ph>.</p>
+<p>The <ph conref="../conrefs.dita#prod/productshortname"></ph> driver
+class name for the embedded environment is
+<i>org.apache.derby.jdbc.EmbeddedDriver</i>.</p>
+<p>For detailed information about loading the
+<ph conref="../conrefs.dita#prod/productshortname"></ph> JDBC driver, see
+"java.sql.Driver interface" in the
+<ph conref="../conrefs.dita#pub/citref"></ph>.</p>
+<p>If your application shuts down
+<ph conref="../conrefs.dita#prod/productshortname"></ph> or calls the
+<i>DriverManager.deregisterDriver</i>
+method, and you then want to reload the driver, call the
+<i>Class.forName().newInstance()</i> method. See
+<xref href="tdevdvlp20349.dita#tdevdvlp20349"></xref> for more information.</p>
+</conbody>
+</concept>

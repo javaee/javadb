@@ -1,0 +1,17 @@
+# this file holds tests that cannot be successfully run with DerbyNetClient framework
+# with a remote server. Tests in this file will be skipped in addition to those in 
+# DerbyNetClient.exclude when the property -DhostName is set to something else than the localhost
+#
+# excluding test   - because...
+#     a database cannot be loaded by 2 different instances.
+# derbynet/dblook_test_net because it tries to search derby.log, which is on
+#     the server machine
+# derbynet/dblook_test_net_territory because it tries to search derby.log, which is on
+#     the server machine
+# started with specific property set - DERBY928 for reference 
+# thus not suitable for remote server testing in its current form. - DERBY-928
+# lang/wisconsin - optimization is quite different when running remote server.
+# 
+derbynet/dblook_test_net.java
+derbynet/dblook_test_net_territory.java
+lang/wisconsin.java

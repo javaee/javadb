@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at      
+
+http://www.apache.org/licenses/LICENSE-2.0  
+
+Unless required by applicable law or agreed to in writing, software  
+distributed under the License is distributed on an "AS IS" BASIS,  
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+See the License for the specific language governing permissions and  
+limitations under the License.
+-->
+<!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN"
+ "../dtd/reference.dtd">
+<reference id="rtoolsoptlucene" xml:lang="en-us">
+<title>Using the luceneSupport optional tool</title>
+<shortdesc>The <codeph>luceneSupport</codeph> plugin is an optional tool that
+lets you use Apache Lucene to perform full-text indexing and searching of the
+contents of <ph conref="../conrefs.dita#prod/productshortname"></ph> text
+columns.</shortdesc>
+<prolog><metadata>
+<keywords>
+<indexterm>optional tools<indexterm>luceneSupport</indexterm></indexterm>
+<indexterm>luceneSupport optional tool</indexterm>
+<indexterm>tools<indexterm>luceneSupport optional tool</indexterm></indexterm>
+</keywords>
+</metadata></prolog>
+<refbody>
+<section>
+<p>The mainline API documentation for Apache Lucene at <xref format="html"
+href="https://builds.apache.org/job/Lucene-Artifacts-trunk/javadoc/"
+scope="external"/> is a useful starting point for understanding Lucene's
+capabilities.</p>
+<note>The <codeph>luceneSupport</codeph> plugin can be used only after a
+database has been fully upgraded to
+<ph conref="../conrefs.dita#prod/productshortname"></ph> Release 10.11 or
+higher. (See "Upgrading a database" in the
+<ph conref="../conrefs.dita#pub/citdevelop"></ph> for more information.) The
+plugin cannot be used on a database that is at Release 10.10 or lower.</note>
+</section>
+<section><title>Terminology</title>
+<p>The following concepts are important to an understanding of the
+<codeph>luceneSupport</codeph> plugin.</p>
+<ul>
+<li><b>Analyzer</b>: An analyzer is an implementation of
+<codeph>org.apache.lucene.analysis.Analyzer</codeph>. It extracts indexable
+terms from a block of text. The same analyzer should be used to index the text
+and to query it. An analyzer may perform language-specific tasks such as
+<i>stemming</i> and <i>filtering</i>. More information on analyzers can be found
+in the Lucene API documentation. Users can extend the existing Lucene analyzers
+or write their own custom analyzers.</li>
+<li><b>Filtering</b>: Filtering is the language-specific task of throwing away
+insignificant words such as articles and conjunctions.</li>
+<li><b>Query-parsing</b>: Query-parsing is the process of interpreting a Lucene
+query string. Lucene has its own <xref format="html"
+href="https://builds.apache.org/job/Lucene-Artifacts-trunk/javadoc/queryparser/org/apache/lucene/queryparser/classic/package-summary.html#package_description"
+scope="external">query language</xref>. By extending the default Lucene
+<codeph>QueryParser</codeph> class, users can enhance the Lucene query language
+or replace it with some other query language.</li>
+<li><b>Score</b>: The score measures how well a query matches a block of text
+(a text column value). The higher the score, the better the match. The score is
+a float value. There is no minimum or maximum value.</li>
+<li><b>Stemming</b>: Stemming is the language-specific task of reducing related
+words to their common root. For instance, an English stemmer might map all of
+the following words onto the common root "house": "house", "houses", "housed",
+and "housing".</li>
+</ul>
+</section>
+<section><title>Classpath for running the luceneSupport optional tool</title>
+<p>Before you run the <codeph>luceneSupport</codeph> optional tool, make sure
+that your classpath contains the following jar files:</p>
+<ul>
+<li><codeph>derby.jar</codeph></li>
+<li><codeph>derbyoptionaltools.jar</codeph></li>
+<li><codeph>core</codeph>: The core Lucene machinery. For Lucene 4.5.0, this is
+<codeph>lucene-core-4.5.0.jar</codeph>.</li>
+<li><codeph>analyzers-common</codeph>: The common Lucene analyzers. For
+Lucene 4.5.0, this is <codeph>lucene-analyzers-common-4.5.0.jar</codeph>.</li>
+<li><codeph>queryparser</codeph>: The basic Lucene logic for query-parsing. For
+Lucene 4.5.0, this is <codeph>lucene-queryparser-4.5.0.jar</codeph>.</li>
+</ul>
+<p>The Lucene jar files are included in the
+<ph conref="../conrefs.dita#prod/productshortname"></ph> source tree;
+alternatively, you can download them from
+<xref format="html" href="http://lucene.apache.org/" scope="external"/>.</p>
+</section>
+<section><title>Loading and unloading the luceneSupport optional tool</title>
+<p>In a database protected by SQL authorization, only the database owner can
+issue the commands which load and unload the Lucene plugin. (See
+"Database Owner" in the <i>Derby Security Guide</i> for more
+information.)</p>
+<p>Loading the plugin looks very much like loading any other optional tool. You
+call the <codeph>SYSCS_UTIL.SYSCS_REGISTER_TOOL</codeph> system procedure in
+a statement like the following:</p>
+<codeblock><b>call syscs_util.syscs_register_tool( 'luceneSupport', true );</b></codeblock>
+<p>This command creates the <codeph>LUCENESUPPORT</codeph> schema, which
+contains the following objects:</p>
+<ul>
+<li><codeph>CREATEINDEX</codeph>: A database procedure for indexing
+<ph conref="../conrefs.dita#prod/productshortname"></ph> text columns. See
+<xref href="rtoolsoptlucenecreate.dita"/> for details.</li>
+<li><codeph>UPDATEINDEX</codeph>: A database procedure for refreshing an index
+built by <codeph>CREATEINDEX</codeph>. See
+<xref href="rtoolsoptluceneupdate.dita"/> for details.</li>
+<li><codeph>DROPINDEX</codeph>: A database procedure for dropping an index built
+by <codeph>CREATEINDEX</codeph>. See <xref href="rtoolsoptlucenedrop.dita"/> for
+details.</li>
+<li><codeph>LISTINDEXES</codeph>:  A table function for listing the indexes
+created by <codeph>CREATEINDEX</codeph>. See
+<xref href="rtoolsoptlucenelist.dita"/> for details.</li>
+</ul>
+<p>Removing the plugin also looks much like unloading other optional tools. Call
+the <codeph>SYSCS_UTIL.SYSCS_REGISTER_TOOL</codeph> system procedure in a
+statement like the following:</p>
+<codeblock><b>call syscs_util.syscs_register_tool( 'luceneSupport', false );</b></codeblock>
+<p>This command does the following:</p>
+<ul>
+<li><b>Drops Lucene directories</b>: Deletes the directories which were created
+to hold the Lucene indexes</li>
+<li><b>Drops schema objects</b>: Drops all schema objects created by
+<codeph>CREATEINDEX</codeph> commands</li>
+<li><b>Drops <codeph>LUCENESUPPORT</codeph></b>: Drops the
+<codeph>LUCENESUPPORT</codeph> schema and all schema objects which it
+contains</li>
+</ul>
+<p>See the <ph conref="../conrefs.dita#pub/citref"></ph> for information about
+the <codeph>SYSCS_UTIL.SYSCS_REGISTER_TOOL</codeph> system procedure.</p>
+</section>
+<section><title>Encryption and the luceneSupport tool</title>
+<p>The <codeph>luceneSupport</codeph> tool may not be used on an encrypted
+database. Users who need full-text indexing of encrypted data should store the
+database in an encrypted directory or on an encrypted device.</p>
+</section>
+<section><title>Lucene versions</title>
+<p>The <ph conref="../conrefs.dita#prod/productshortname"></ph> community has
+tested the <codeph>luceneSupport</codeph> tool against the following versions of
+Lucene. Other versions of Lucene may or may not work.</p>
+<ul>
+<li>4.5.0</li>
+<li>4.7.1</li>
+<li>4.8.1</li>
+<li>4.9.0</li>
+</ul>
+<p><ph conref="../conrefs.dita#prod/productshortname"></ph> cannot make any
+guarantees about the compatibility of two different versions of Lucene. Users
+should bear the following in mind:</p>
+<ul>
+<li><b>No time travel</b>: <ph conref="../conrefs.dita#prod/productshortname"></ph>
+will raise an error if you try to use an earlier version of Lucene to read an
+index created by a later version of Lucene.</li>
+<li><b>Bounce your indexes</b>: When you change versions of Lucene, it is always
+safest to call <codeph>LUCENESUPPORT.UPDATEINDEX</codeph> on all of your
+existing Lucene indexes (see <xref href="rtoolsoptluceneupdate.dita"/>).</li>
+</ul>
+</section>
+</refbody>
+</reference>

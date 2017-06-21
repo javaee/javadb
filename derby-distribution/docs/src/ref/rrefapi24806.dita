@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at      
+
+http://www.apache.org/licenses/LICENSE-2.0  
+
+Unless required by applicable law or agreed to in writing, software  
+distributed under the License is distributed on an "AS IS" BASIS,  
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+See the License for the specific language governing permissions and  
+limitations under the License.
+-->
+
+<!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN"
+ "../dtd/reference.dtd">
+<reference id="rrefapi24806" xml:lang="en-us">
+<title>Stand-alone tools and utilities</title>
+<shortdesc>These classes are in the package
+<i>org.apache.derby.tools</i>.</shortdesc>
+<prolog><metadata>
+<keywords><indexterm>org.apache.derby.tools.ij</indexterm>
+<indexterm>org.apache.derby.tools.sysinfo</indexterm>
+<indexterm>org.apache.derby.tools.dblook</indexterm>
+</keywords>
+</metadata></prolog>
+<refbody>
+<section>
+<p>For information about these classes, see the
+<ph conref="../conrefs.dita#pub/citutilities"></ph>.</p>
+<ul>
+<li><i>org.apache.derby.tools.ij</i>
+<p>An SQL scripting tool that can run as an embedded or a remote client/server
+application.</p></li>
+<li><i>org.apache.derby.tools.sysinfo</i> 
+<p>A command-line, server-side utility that displays information about your Java
+Virtual Machine (JVM) and
+<ph conref="../conrefs.dita#prod/productshortname"></ph> product.</p></li>
+<li><i>org.apache.derby.tools.dblook</i>
+<p>A utility to view all or parts of the Data Definition Language (DDL) for a
+given database.</p></li>
+<li><i>org.apache.derby.tools.SignatureChecker</i>
+<p>A utility that identifies any SQL functions and procedures in a database that
+do not follow the SQL Standard argument matching rules described in
+<xref href="rrefsqljargmatching.dita"/>.</p></li>
+</ul>
+<p><ph conref="../conrefs.dita#prod/productshortname"></ph> also supports some
+optional tools that are described in the "Optional tools" section of the
+<ph conref="../conrefs.dita#pub/citutilities"></ph>.</p>
+</section>
+</refbody>
+</reference>
+

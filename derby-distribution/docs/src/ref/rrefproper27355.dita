@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at      
+
+http://www.apache.org/licenses/LICENSE-2.0  
+
+Unless required by applicable law or agreed to in writing, software  
+distributed under the License is distributed on an "AS IS" BASIS,  
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+See the License for the specific language governing permissions and  
+limitations under the License.
+-->
+
+<!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN"
+ "../dtd/reference.dtd">
+<reference id="rrefproper27355" xml:lang="en-us">
+<title>derby.user.UserName</title>
+<shortdesc>The <i>derby.user.UserName</i> property caches user DNs locally when
+<i>derby.authentication.provider</i> is set to <codeph>LDAP</codeph> and
+<i>derby.authentication.ldap.searchFilter</i> is set to
+<codeph>derby.user</codeph>.</shortdesc>
+<prolog><metadata>
+<keywords><indexterm>derby.user property</indexterm>
+<indexterm>Users<indexterm>creating</indexterm></indexterm>
+</keywords>
+</metadata></prolog>
+<refbody>
+<section>
+<p>See
+<i><xref href="rrefproper13766.dita">derby.authentication.provider</xref></i>
+and
+<i><xref href="rrefproper37341.dita">derby.authentication.ldap.searchFilter</xref></i>
+for more information.</p>
+<p>When you provide a user DN with this property,
+<ph conref="../conrefs.dita#prod/productshortname"></ph> is able to avoid an
+LDAP search for that user's DN before authenticating. For those users without
+DNs defined with this property,
+<ph conref="../conrefs.dita#prod/productshortname"></ph> performs a search using
+the default value of <i>derby.authentication.ldap.searchFilter</i>.</p>
+<p>User names are <i><xref href="crefsqlj34834.dita">SQLIdentifier</xref></i>s
+and can be delimited.</p>
+</section>
+<refsyn><title>Syntax</title>
+<codeblock><b>derby.user.<i>UserName=userDN</i></b></codeblock>
+<codeblock><b><ph>-- database-level property</ph>
+CALL SYSCS_UTIL.SYSCS_SET_DATABASE_PROPERTY(
+    'derby.user.<i>UserName</i>',
+    '<i>userDN</i>')</b></codeblock> </refsyn>
+<section><title>Default</title>
+<p>None.</p> </section>
+<example><title>Example</title>
+<codeblock><b><ph>-- system-level property</ph>
+derby.user.Diana=uid=Diana,ou=People,o=example.com
+
+<ph>-- database-level property</ph>
+CALL SYSCS_UTIL.SYSCS_SET_DATABASE_PROPERTY(
+    'derby.user.richard',
+    'uid=richard, ou=People, o=example.com')
+</b></codeblock> </example>
+<section><title>Dynamic or static</title>
+<p>Dynamic; the change takes effect immediately. For information about dynamic
+changes to properties, see
+<xref href="crefproperdynstat.dita"/>.</p>
+</section>
+</refbody>
+</reference>

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN"
+ "../dtd/concept.dtd">
+<!-- 
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at      
+
+   http://www.apache.org/licenses/LICENSE-2.0  
+
+Unless required by applicable law or agreed to in writing, software  
+distributed under the License is distributed on an "AS IS" BASIS,  
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+See the License for the specific language governing permissions and  
+limitations under the License.
+-->
+<concept id="csecintromapping" xml:lang="en-us">
+<title>Defenses mapped to threats</title>
+<shortdesc>The following table maps defenses to examples of threats that they
+parry.</shortdesc>
+<prolog></prolog>
+<conbody>
+<p>This matrix can help you decide whether you need to configure specific
+defenses. Consult this table if you decide NOT to configure a defense -- make
+sure that you are still shielded from the corresponding threats.</p>
+<table>
+<title><ph conref="../conrefs.dita#prod/productshortname"></ph> defenses</title>
+<desc>For each defense, this table provides the threatened damages, attackers, attack techniques, and vulnerabilities.</desc>
+<tgroup cols="5" colsep="1" rowsep="1">
+<thead>
+<row valign="bottom">
+<entry colname="1">Defense</entry>
+<entry colname="2">Damages</entry>
+<entry colname="3">Attackers</entry>
+<entry colname="4">Techniques</entry>
+<entry colname="5">Vulnerabilities</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry colname="1">Java security</entry>
+<entry colname="2">Theft, corruption, denial of service</entry>
+<entry colname="3">Insiders and outsiders</entry>
+<entry colname="4">Malware, physical access</entry>
+<entry colname="5">Network JDBC, unbounded growth, CPU hogging, launch
+privileges, user code, open source</entry>
+</row>
+<row>
+<entry colname="1">SSL/TLS</entry>
+<entry colname="2">Theft and corruption</entry>
+<entry colname="3">Insiders and outsiders</entry>
+<entry colname="4">Man-in-the middle, eavesdropping, physical access</entry>
+<entry colname="5">Network JDBC, cleartext traffic</entry>
+</row>
+<row>
+<entry colname="1">Encryption</entry>
+<entry colname="2">Theft and corruption</entry>
+<entry colname="3">Chiefly insiders</entry>
+<entry colname="4">Physical access</entry>
+<entry colname="5">Open source</entry>
+</row>
+<row>
+<entry colname="1">Authentication</entry>
+<entry colname="2">Theft, corruption, denial of service</entry>
+<entry colname="3">Insiders and outsiders</entry>
+<entry colname="4">Probing</entry>
+<entry colname="5">Superusers</entry>
+</row>
+<row>
+<entry colname="1">Coarse-grained authorization</entry>
+<entry colname="2">Theft, corruption, denial of service</entry>
+<entry colname="3">Insiders and outsiders</entry>
+<entry colname="4">Probing</entry>
+<entry colname="5">Superusers</entry>
+</row>
+<row>
+<entry colname="1">Fine-grained SQL authorization</entry>
+<entry colname="2">Theft, corruption, denial of service</entry>
+<entry colname="3">Insiders and outsiders</entry>
+<entry colname="4">Probing</entry>
+<entry colname="5">Superusers</entry>
+</row>
+<row>
+<entry colname="1">Firewalls</entry>
+<entry colname="2">Theft, corruption, denial of service</entry>
+<entry colname="3">Insiders and outsiders</entry>
+<entry colname="4">Probing</entry>
+<entry colname="5">Network JDBC</entry>
+</row>
+<row>
+<entry colname="1">Accounts</entry>
+<entry colname="2">Theft, corruption, denial of service</entry>
+<entry colname="3">Insiders</entry>
+<entry colname="4">Man-in-the-middle, malware, physical access</entry>
+<entry colname="5">Launch privileges, user code</entry>
+</row>
+<row>
+<entry colname="1">Physical locks</entry>
+<entry colname="2">Theft, corruption, denial of service</entry>
+<entry colname="3">Insiders</entry>
+<entry colname="4">Man-in-the-middle, malware, physical access</entry>
+<entry colname="5">Launch privileges, user code</entry>
+</row>
+<row>
+<entry colname="1">Secure traffic</entry>
+<entry colname="2">Theft and corruption</entry>
+<entry colname="3">Insiders</entry>
+<entry colname="4">Man-in-the-middle, eavesdropping</entry>
+<entry colname="5">Cleartext traffic</entry>
+</row>
+<row>
+<entry colname="1">File permissions</entry>
+<entry colname="2">Theft, corruption, denial of service</entry>
+<entry colname="3">Insiders and outsiders</entry>
+<entry colname="4">Malware</entry>
+<entry colname="5">Launch privileges, user code, open source</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+</conbody>
+</concept>

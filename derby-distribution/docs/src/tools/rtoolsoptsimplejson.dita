@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at      
+
+http://www.apache.org/licenses/LICENSE-2.0  
+
+Unless required by applicable law or agreed to in writing, software  
+distributed under the License is distributed on an "AS IS" BASIS,  
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+See the License for the specific language governing permissions and  
+limitations under the License.
+-->
+<!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN"
+ "../dtd/reference.dtd">
+<reference id="rtoolsoptsimplejson" xml:lang="en-us">
+<title>Using the simpleJson optional tool</title>
+<shortdesc>The <codeph>simpleJson</codeph> optional tool creates functions
+and a user-defined type, which can be used to integrate relational data with data represented in the popular JSON format.</shortdesc>
+<prolog><metadata>
+<keywords>
+<indexterm>optional tools<indexterm>simpleJson</indexterm></indexterm>
+<indexterm>simpleJson optional tool</indexterm>
+<indexterm>tools<indexterm>simpleJson optional tool</indexterm></indexterm>
+</keywords>
+</metadata></prolog>
+<refbody>
+<section>
+
+<p>The <codeph>simpleJson</codeph> optional tool relies on support classes provided by the third party
+JSON.simple jar file. That jar file can be obtained from
+<xref format="html" href="http://code.google.com/p/json-simple/" scope="external"/>.
+Before loading the <codeph>simpleJson</codeph> tool, make sure
+that your classpath contains this third party jar file as well as
+<codeph>derby.jar</codeph> and <codeph>derbyoptionaltools.jar</codeph>.
+The <codeph>simpleJson</codeph> tool has been tested with version 1.1
+of JSON.simple (json_simple-1.1.jar).</p>
+
+<p>You can load and unload the <codeph>simpleJson</codeph> tool by using
+the <codeph>SYSCS_UTIL.SYSCS_REGISTER_TOOL</codeph> system procedure. See the
+<ph conref="../conrefs.dita#pub/citref"></ph> for information about this
+procedure.</p>
+
+<p>To load the <codeph>simpleJson</codeph> tool, use the following
+statement:</p>
+
+<codeblock><b>call syscs_util.syscs_register_tool( 'simpleJson', true )</b></codeblock>
+
+<p>This command creates a JSONArray user-defined type in the current schema. That
+type is bound to the JSON array abstraction provided by JSON.simple (<codeph>org.json.simple.JSONArray</codeph>).
+The registration command also creates the following functions in the current
+schema. Javadoc for these functions can be found in the public API for <i>org.apache.derby.optional.api.SimpleJsonUtils</i>:</p>
+
+<ul>
+<li><b>readArrayFromString()</b> - This function turns a JSON document string into a JSONArray value.</li>
+<li><b>readArrayFromFile()</b> - This function reads a JSON document stored in a file and turns that document
+into a JSONArray value.</li>
+<li><b>readArrayFromURL()</b> - This function reads a JSON document from an URL and turns that document
+into a JSONArray value.</li>
+<li><b>arrayToClob()</b> - This function turns a JSONArray value into a Clob so that it can be inserted into a text column.</li>
+</ul>
+
+<p>
+These functions have the following signatures:
+</p>
+
+<codeblock><b>
+create function readArrayFromString( document varchar( 32672 ) )
+returns JSONArray
+language java parameter style java contains sql
+external name 'org.apache.derby.optional.api.SimpleJsonUtils.readArrayFromString'
+
+create function readArrayFromFile
+( fileName varchar( 32672 ), characterSetName varchar( 100 ) )
+returns JSONArray
+language java parameter style java contains sql
+external name 'org.apache.derby.optional.api.SimpleJsonUtils.readArrayFromFile'
+
+create function readArrayFromURL
+( urlString varchar( 32672 ), characterSetName varchar( 100 ) )
+returns JSONArray
+language java parameter style java contains sql
+external name 'org.apache.derby.optional.api.SimpleJsonUtils.readArrayFromURL'
+
+create function arrayToClob( jsonDocument JSONArray ) returns clob
+language java parameter style java no sql
+external name 'org.apache.derby.optional.api.SimpleJsonUtils.arrayToClob'
+</b></codeblock>
+
+<p>
+The first three functions can then be used to turn JSON documents into tabular data sets using
+<i>org.apache.derby.optional.api.SimpleJsonVTI</i>. That class is documented in Derby's public api too. Using this technique,
+you can join JSON data with other relational data. You can also exploit this technique
+to import JSON data into Derby tables. Here's an example of how to use these functions
+to import data:
+</p>
+
+<codeblock><b>
+create function thermostatReadings( jsonDocument JSONArray )
+returns table
+(
+  "id" int,
+  "temperature" float,
+  "fanOn" boolean
+)
+language java parameter style derby_jdbc_result_set contains sql
+external name 'org.apache.derby.optional.api.SimpleJsonVTI.readArray';
+
+insert into thermostatReadings
+ select * from table
+ (
+    thermostatReadings
+    (
+       readArrayFromURL( 'https://thermostat.feed.org', 'UTF-8' )
+    )
+ ) t;
+</b></codeblock>
+
+<p>
+After running that query, the contents of the target table might look something like this:
+</p>
+
+<codeblock><b>
+ id         |temperature             |fanOn
+ ------------------------------------------
+ 1          |70.3                    |true 
+ 2          |65.5                    |false
+</b></codeblock>
+
+<p>
+The <codeph>simpleJson</codeph> tool declares one more function:
+</p>
+
+<ul>
+<li><b>toJSON()</b> - This function turns a query result into a JSONArray value.</li>
+</ul>
+
+<p>
+This function has the following signature:
+</p>
+
+<codeblock><b>
+create function toJSON
+(
+    queryString varchar( 32672 ),
+    queryArgs varchar( 32672 ) ...
+)
+returns JSONArray
+language java parameter style derby reads sql data
+external name 'org.apache.derby.optional.json.SimpleJsonTool.toJSON
+</b></codeblock>
+
+<p>
+<b>toJSON()</b> prepares the query, plugs the optional queryArgs into the query's ? parameters, executes
+the query, and returns the results packed into a JSONArray. Here's an example of how
+to use this function:
+</p>
+
+<codeblock><b>
+values( toJSON( 'select * from thermostatReadings where "id" = ?', '1' ) );
+</b></codeblock>
+
+<p>
+That statement returns a JSONArray which looks something like this:
+</p>
+
+<codeblock><b>
+[
+    { "id": 1, "temperature": 70.3, "fanOn": true }
+]
+</b></codeblock>
+
+<p>
+The tool can be unloaded via the following command. This command drops the JSONArray type and
+all of the functions discussed above:
+</p>
+
+<codeblock><b>call syscs_util.syscs_register_tool( 'simpleJson', false )</b></codeblock>
+
+</section>
+</refbody>
+</reference>

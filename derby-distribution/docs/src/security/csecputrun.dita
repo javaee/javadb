@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+ 
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN"
+ "../dtd/concept.dtd">
+<!-- 
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at      
+
+   http://www.apache.org/licenses/LICENSE-2.0  
+
+Unless required by applicable law or agreed to in writing, software  
+distributed under the License is distributed on an "AS IS" BASIS,  
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+See the License for the specific language governing permissions and  
+limitations under the License.
+-->
+<concept id="csecputrun" xml:lang="en-us">
+<title>Creating and using a secure database</title>
+<shortdesc>Now the Database Owner creates an encrypted database, turns on
+coarse-grained authorization, and creates some data that everyone can read but
+only he can write.</shortdesc>
+<conbody>
+<p>Fine-grained authorization is automatically turned on because we are using
+NATIVE authentication.</p>
+<p>Connection URLs are shown on multiple lines, but must be entered on one
+line.</p>
+<codeblock><b>java -Djavax.net.ssl.trustStore=/Users/me/vault/ClientTrustStore \
+-Djavax.net.ssl.trustStorePassword=secretClientTrustStorePassword \
+-Djavax.net.ssl.keyStore=/Users/me/vault/ClientKeyStore \
+-Djavax.net.ssl.keyStorePassword=secretClientPassword \
+org.apache.derby.tools.ij</b>
+ij version 10.9
+ij> <b>connect 'jdbc:derby://localhost:8246/mchrystaEncryptedDB;create=true;
+user=mchrysta;password=mchrysta;dataEncryption=true;
+encryptionAlgorithm=Blowfish/CBC/NoPadding;
+bootPassword=mySuperSecretBootPassword;ssl=peerAuthentication';</b>
+ij> --
+-- Prevent our authentication properties from being overridden on the
+-- command line or in derby.properties.
+--
+<b>call SYSCS_UTIL.SYSCS_SET_DATABASE_PROPERTY
+( 'derby.database.propertiesOnly','true');</b>
+Statement executed.
+ij> --
+-- This time around, there is no need to add credentials for the database
+-- owner. That is because the database owner's credentials were
+-- automatically added when we created the NATIVE database, advertised to
+-- the server by setting 
+-- -Dderby.authentication.provider=NATIVE:mchrystaEncryptedDB.
+--
+--call SYSCS_UTIL.SYSCS_CREATE_USER( 'mchrysta', 'mchrysta' );
+
+-- now add other users
+<b>call SYSCS_UTIL.SYSCS_CREATE_USER( 'thardy', 'thardy' );</b>
+Statement executed.
+ij> <b>call SYSCS_UTIL.SYSCS_CREATE_USER( 'jhallett', 'jhallett' );</b>
+Statement executed.
+ij> <b>call SYSCS_UTIL.SYSCS_CREATE_USER( 'tquist', 'tquist' );</b>
+Statement executed.
+ij> --
+-- Turn on coarse-grained authorization
+--
+<b>call SYSCS_UTIL.SYSCS_SET_DATABASE_PROPERTY
+( 'derby.database.fullAccessUsers', 'tquist,mchrysta' );</b>
+Statement executed.
+ij> <b>call SYSCS_UTIL.SYSCS_SET_DATABASE_PROPERTY
+( 'derby.database.readOnlyAccessUsers', 'thardy,jhallett' );</b>
+Statement executed.
+ij> --
+-- Shut down the database and bring it back up. This will turn on NATIVE
+-- authentication and fine-grained authorization.
+--
+<b>connect 'jdbc:derby://localhost:8246/mchrystaEncryptedDB;shutdown=true;
+user=mchrysta;password=mchrysta;ssl=peerAuthentication';</b>
+ERROR 08006: DERBY SQL error: SQLCODE: -1, SQLSTATE: 08006, SQLERRMC:
+Database 'mchrystaEncryptedDB' shutdown.
+ij> --
+-- Reboot the encrypted, password-protected database.
+--
+<b>connect 'jdbc:derby://localhost:8246/mchrystaEncryptedDB;user=mchrysta;
+password=mchrysta;bootPassword=mySuperSecretBootPassword;
+ssl=peerAuthentication';</b>
+ij(CONNECTION1)> --
+-- Create some data and let everyone see it.
+--
+<b>create table mchrysta.t1( a varchar( 20 ) );</b>
+0 rows inserted/updated/deleted
+ij(CONNECTION1)> <b>insert into mchrysta.t1( a ) values ( 'mchrysta' );</b>
+1 row inserted/updated/deleted
+ij(CONNECTION1)> <b>grant select on table mchrysta.t1 to public;</b>
+0 rows inserted/updated/deleted
+ij(CONNECTION1)> --
+-- Verify that another user can read the newly created data but not write
+-- it:
+--
+<b>connect 'jdbc:derby://localhost:8246/mchrystaEncryptedDB;user=tquist;
+password=tquist;ssl=peerAuthentication';</b>
+ij(CONNECTION2)> --
+-- Verify that this user can see the data ...
+--
+<b>select * from mchrysta.t1;</b>
+A                   
+--------------------
+mchrysta            
+
+1 row selected
+ij(CONNECTION2)> --
+-- ... but not write the data:
+--
+<b>insert into mchrysta.t1( a ) values ( 'tquist' );</b>
+ERROR 42500: User 'TQUIST' does not have INSERT permission on table
+'MCHRYSTA'.'T1'.
+</codeblock>
+</conbody>
+</concept>

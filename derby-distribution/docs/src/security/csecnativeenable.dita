@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+ 
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN"
+ "../dtd/concept.dtd">
+<!-- 
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at      
+
+   http://www.apache.org/licenses/LICENSE-2.0  
+
+Unless required by applicable law or agreed to in writing, software  
+distributed under the License is distributed on an "AS IS" BASIS,  
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+See the License for the specific language governing permissions and  
+limitations under the License.
+-->
+<concept id="csecnativeenable" xml:lang="en-us">
+<title>Enabling NATIVE authentication explicitly</title>
+<shortdesc>You can turn on NATIVE authentication explicitly by using a
+property.</shortdesc>
+<prolog><metadata>
+<keywords><indexterm>user authentication<indexterm>NATIVE authentication</indexterm></indexterm>
+<indexterm>NATIVE authentication<indexterm>enabling</indexterm></indexterm>
+</keywords>
+</metadata></prolog>
+<conbody>
+<p>To do so, specify one of the following values for the
+<codeph>derby.authentication.provider</codeph> property:</p>
+<ul>
+<li>NATIVE:<i>credentialsDB</i>
+<p>This value tells <ph conref="../conrefs.dita#prod/productshortname"></ph> to
+use <i>credentialsDB</i>, a dedicated database, to store user credentials. This
+value must be set by using system-wide Java Virtual Machine (JVM) properties or
+by using the <codeph>derby.properties</codeph> file; it cannot be set in the
+database by using the <codeph>SYSCS_UTIL.SYSCS_SET_DATABASE_PROPERTY</codeph>
+procedure. When this system-wide value is set, <i>credentialsDB</i> is used to
+authenticate all operations. If an individual database holds credentials for the
+<xref href="cseccsecuredbowner.dita">Database Owner</xref>, the global
+credentials database is used only to authenticate system-wide operations such as
+engine shutdown.</p>
+<p>The value of <i>credentialsDB</i> must be a valid name for a database.</p>
+</li>
+<li>NATIVE:<i>credentialsDB</i>:LOCAL
+<p>This value tells <ph conref="../conrefs.dita#prod/productshortname"></ph> to
+use <i>credentialsDB</i> for system-wide operations, but to use an individual
+database's SYSUSERS system table to authenticate connections to that database.
+This value must be set by using system-wide JVM properties or by using the
+<codeph>derby.properties</codeph> file; it cannot be set in the database by
+using the <codeph>SYSCS_UTIL.SYSCS_SET_DATABASE_PROPERTY</codeph> system
+procedure.</p>
+</li>
+</ul>
+<p>See the <ph conref="../conrefs.dita#pub/citref"></ph> for details on the
+<codeph>derby.authentication.provider</codeph> property.</p>
+</conbody>
+</concept>

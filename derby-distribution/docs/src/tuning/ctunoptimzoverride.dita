@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements.  See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to You under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN"
+ "../dtd/concept.dtd">
+<concept id="ctunoptimzoverride" xml:lang="en-us">
+<title>Overriding the default optimizer behavior</title>
+<shortdesc>You can override the default behavior of the
+<ph conref="../conrefs.dita#prod/productshortname"></ph> query optimizer by
+including a <codeph>--DERBY-PROPERTIES</codeph> clause and an associated
+property as a comment within an SQL statement.</shortdesc>
+<conbody>
+<p>Because optimizer overrides are expressed as comments, they must be included
+at the end of a line.  You can specify optimizer override properties for an
+entire FROM clause, for tables in the FROM clause, or for both.</p>
+<p>The syntax for a FROM clause property is as follows:</p>
+<codeblock><b>FROM [ -- DERBY-PROPERTIES <xref
+href="ctunoptimzoverride.dita#ctunoptimzoverride/joinorder">joinOrder</xref> = { FIXED | UNFIXED } ]
+     <i>tableExpression</i> [,<i>tableExpression</i>]*</b></codeblock>
+<p>The syntax for table optimizer override properties, which must be included
+at the end of a <i>tableExpression</i>, is as follows:</p>
+<codeblock><b>{<i>tableName</i> | <i>viewName</i> }
+     [ [ AS ] <i>correlationName</i>
+     [ (<i>simpleColumnName</i> [ , <i>simpleColumnName</i> ]* ) ] ]
+     [ -- DERBY-PROPERTIES { <xref href="ctunoptimzoverride.dita#ctunoptimzoverride/constraint">constraint</xref> = <i>constraintName</i> | <xref
+href="ctunoptimzoverride.dita#ctunoptimzoverride/index">index</xref> = <i>indexName</i> | <xref
+href="ctunoptimzoverride.dita#ctunoptimzoverride/joinstrat">joinStrategy</xref> = { NESTEDLOOP | HASH } } ]</b></codeblock>
+<p>The space between <codeph>--</codeph> and <codeph>DERBY-PROPERTIES</codeph>
+is optional.</p>
+<p><note type="important">Make sure that you adhere to the correct syntax when
+using the <codeph>--DERBY-PROPERTIES</codeph> clause.  Failure to do so can
+cause the parser to interpret it as a comment and ignore it. To verify that the
+parser interpreted your overrides correctly, you can use RunTimeStatistics. See
+<xref href="ctundepthoptover.dita">Optimizer overrides</xref> for more
+information.</note></p>
+<p>The following four properties are available for use in a
+<codeph>--DERBY-PROPERTIES</codeph> clause:</p>
+<dl><dlentry>
+<dt id="constraint">constraint</dt>
+<dd>To force the use of the index that enforces a primary key, a foreign key,
+or unique constraint, use the <codeph>constraint</codeph> property and specify
+the unqualified name of the constraint. The <codeph>constraint</codeph> property
+can be used only within a <i>tableExpression</i>, and it  can be specified only
+on base tables; it cannot be specified on views or derived tables.</dd>
+</dlentry><dlentry>
+<dt id="index">index</dt>
+<dd>The <codeph>index</codeph> property is similar to the
+<codeph>constraint</codeph> property. To force use of a particular index,
+specify the unqualified index name. To force a table scan, specify null for the
+index name. The <codeph>index</codeph> property can be used only within a
+<i>tableExpression</i>, and it can be specified only on base tables; it cannot
+be specified on views or derived tables.</dd>
+</dlentry><dlentry>
+<dt id="joinorder">joinOrder</dt>
+<dd>Use the <codeph>joinOrder</codeph> property to override the optimizer's
+choice of join order for two tables. When the value FIXED is specified, the
+optimizer will choose the order of tables as they appear in the FROM clause as
+the join order. Valid values for the <codeph>joinOrder</codeph> property include
+FIXED and UNFIXED. The <codeph>joinOrder</codeph> property can be used with a
+FROM clause.</dd>
+</dlentry><dlentry>
+<dt id="joinstrat">joinStrategy</dt>
+<dd>Use the <codeph>joinStrategy</codeph> property to override the optimizer's
+choice of join strategy. The two types of join strategy are called <i>nested
+loop</i> and <i>hash</i>. In a nested loop join strategy, for each qualifying
+row in the outer table, <ph conref="../conrefs.dita#prod/productshortname"></ph>
+uses the appropriate access path (index or table scan) to find the matching
+rows in the inner table. In a hash join strategy,
+<ph conref="../conrefs.dita#prod/productshortname"></ph> constructs a hash table
+that represents the inner table. For each qualifying row in the outer table,
+<ph conref="../conrefs.dita#prod/productshortname"></ph> does a quick lookup on
+the hash table to find the matching rows in the inner table.
+<ph conref="../conrefs.dita#prod/productshortname"></ph> needs to scan the inner
+table or index only once to create the hash table. The
+<codeph>--DERBY-PROPERTIES</codeph> parameter must immediately follow the inner
+table.
+<p>Typically, you will use the <codeph>joinStrategy</codeph> property only in
+conjunction with the <codeph>joinOrder</codeph> property. Specifying a join
+strategy without knowing the join order can result in less-than-optimal
+performance.</p>
+<p>Valid values include HASH and NESTEDLOOP. The <codeph>joinStrategy</codeph>
+property can be used only within a <i>tableExpression</i>.</p></dd>
+</dlentry></dl>
+<p>The following examples illustrate the use of the
+<codeph>--DERBY-PROPERTIES</codeph> clause:<dl>
+<dlentry>
+<dt>constraint</dt>
+<dd><codeblock><b>CREATE TABLE t1 (c1 int, c2 int, c3 int, CONSTRAINT cons1 PRIMARY KEY (c1, c2))
+INSERT INTO t1 VALUES (1, 1, 1), (2, 2, 2), (3, 3, 3), (4, 4, 4)
+SELECT * FROM t1 --DERBY-PROPERTIES constraint=cons1
+FOR UPDATE</b></codeblock></dd>
+</dlentry><dlentry>
+<dt>index</dt>
+<dd><codeblock><b>CREATE TABLE t1 (c1 int, c2 int, c3 int, CONSTRAINT cons1 PRIMARY KEY (c1, c2))
+INSERT INTO t1 VALUES (1, 1, 1), (2, 2, 2), (3, 3, 3), (4, 4, 4)
+CREATE INDEX t1_c1 ON t1(c1)
+SELECT * FROM t1 --DERBY-PROPERTIES index=t1_c1
+WHERE c1=1</b></codeblock></dd>
+</dlentry><dlentry>
+<dt>joinOrder</dt>
+<dd><codeblock><b>CREATE TABLE t1 (c1 int, c2 int, c3 int, CONSTRAINT cons1 PRIMARY KEY (c1, c2))
+CREATE TABLE t2 (c1 int not null, c2 int not null, c3 int, CONSTRAINT cons2 UNIQUE (c1, c2))
+INSERT INTO t1 VALUES (1, 1, 1), (2, 2, 2), (3, 3, 3), (4, 4, 4)
+INSERT INTO t2 VALUES (1, 1, 1), (2, 2, 2), (3, 3, 3), (4, 4, 4)
+SELECT * FROM --DERBY-PROPERTIES joinOrder=FIXED
+t1, t2
+WHERE t1.c1=t2.c1</b></codeblock></dd>
+</dlentry><dlentry>
+<dt>joinStrategy</dt>
+<dd><codeblock><b>CREATE TABLE t1 (c1 int, c2 int, c3 int, CONSTRAINT cons1 PRIMARY KEY (c1, c2))
+CREATE TABLE t2 (c1 int not null, c2 int not null, c3 int, CONSTRAINT cons2 UNIQUE (c1, c2))
+INSERT INTO t1 VALUES (1, 1, 1), (2, 2, 2), (3, 3, 3), (4, 4, 4)
+INSERT INTO t2 VALUES (1, 1, 1), (2, 2, 2), (3, 3, 3), (4, 4, 4)
+SELECT * FROM --DERBY-PROPERTIES joinOrder=FIXED 
+t1 a, t1 b --DERBY-PROPERTIES joinStrategy=NESTEDLOOP
+WHERE a.c1=b.c1</b></codeblock></dd>
+</dlentry></dl></p>
+</conbody>
+</concept>

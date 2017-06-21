@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN"
+ "../dtd/reference.dtd">
+<!-- 
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at      
+
+http://www.apache.org/licenses/LICENSE-2.0  
+
+Unless required by applicable law or agreed to in writing, software  
+distributed under the License is distributed on an "AS IS" BASIS,  
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+See the License for the specific language governing permissions and  
+limitations under the License.
+-->
+<reference id="rrefproperrollingfilecount" xml:lang="en-us">
+<title>derby.stream.error.rollingFile.count</title>
+<shortdesc>The <i>derby.stream.error.rollingFile.count</i> property specifies
+the number of rolling log files to permit before deleting the oldest file when
+rolling to the next file, if <i>derby.stream.error.style</i> is set to
+<codeph>rollingFile</codeph>.</shortdesc>
+<prolog><metadata>
+<keywords><indexterm>derby.stream.error.rollingFile.count property</indexterm>
+<indexterm>Error log<indexterm>number of files</indexterm></indexterm>
+<indexterm>Error log<indexterm>rolling over</indexterm></indexterm></keywords>
+</metadata></prolog>
+<refbody>
+<section>
+<p>If <i><xref href="rrefproperrollingfile.dita"/></i> is not set, this
+property setting is ignored.</p>
+<p>You can override other rolling log file defaults by setting
+<i><xref href="rrefproperrollingfilelimit.dita"/></i> or
+<i><xref href="rrefproperrollingfilepattern.dita"/></i>.</p>
+</section>
+<refsyn><title>Syntax</title>
+<codeblock><b>derby.stream.error.rollingFile.count=<i>count</i></b></codeblock>
+<p>The specified <i>count</i> value must be equal to or greater than 1.</p>
+</refsyn>
+<section><title>Default</title>
+<p>10.</p></section>
+<example><title>Example</title>
+<codeblock><b>derby.stream.error.rollingFile.count=1</b></codeblock>
+</example>
+<section><title>Scope</title>
+<p><xref href="crefproper51399.dita#crefproper51399/rrefproper41229">system-wide</xref></p>
+</section>
+<section><title>Dynamic or static</title>
+<p>This property is static; if you change it while
+<ph conref="../conrefs.dita#prod/productshortname"></ph> is running, the change
+does not take effect until you reboot.</p> </section>
+</refbody>
+</reference>

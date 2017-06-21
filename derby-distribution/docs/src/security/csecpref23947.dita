@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN"
+ "../dtd/concept.dtd">
+<!-- 
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at      
+
+   http://www.apache.org/licenses/LICENSE-2.0  
+
+Unless required by applicable law or agreed to in writing, software  
+distributed under the License is distributed on an "AS IS" BASIS,  
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+See the License for the specific language governing permissions and  
+limitations under the License.
+-->
+<concept id="csecpref23947" xml:lang="en-us">
+<title>How this guide is organized</title>
+<shortdesc>This guide includes the following two parts.</shortdesc>
+<prolog></prolog>
+<conbody>
+<p>Part One: Introduction to database security</p>
+<ul>
+<li><i><xref href="csecintrowhy.dita"/></i>
+<p>Describes the vulnerabilities and threats that databases face.</p></li>
+<li><i><xref href="csecintrodefenses.dita"/></i>
+<p>Describes the kinds of defenses that databases can use.</p></li>
+<li><i><xref href="csecintromapping.dita"/></i>
+<p>Shows how the defenses available to databases map to the threats that they
+face.</p></li>
+<li><i><xref href="csecintrosafer.dita"/></i>
+<p>Describes important techniques for securing databases.</p></li>
+<li><i><xref href="csecterms.dita"/></i>
+<p>Provides a glossary of security terms used in this part.</p></li>
+</ul>
+<p>Part Two: Configuring security for
+<ph conref="../conrefs.dita#prod/productshortname"/></p>
+<ul>
+<li><i><xref href="cseccsecure12392.dita"/></i>
+<p>Lists basic tasks for configuring security in an embedded or client/server
+environment.</p></li>
+<li><i><xref href="cseccsecure24366.dita"/></i>
+<p>Explains how to encrypt <ph conref="../conrefs.dita#prod/productshortname"/>
+databases.</p></li>
+<li><i><xref href="cseccsecure90988.dita"/></i>
+<p>Explains how to use signed jar files in
+<ph conref="../conrefs.dita#prod/productshortname"/> databases.</p></li>
+<li><i><xref href="csecssl.dita"/></i>
+<p>Explains how to use SSL/TLS to encrypt network traffic in a client/server
+environment.</p></li>
+<li><i><xref href="cseccsecureidentity.dita"/></i>
+<p>Describes the concepts of identity, users, and authorization identifiers in
+<ph conref="../conrefs.dita#prod/productshortname"/>.</p></li>
+<li><i><xref href="cseccsecure42374.dita"/></i>
+<p>Explains how to configure authentication, which determines whether someone is
+a legal user.</p></li>
+<li><i><xref href="csecauthorization.dita"/></i>
+<p>Explains how to configure authorization, which determines what operations can
+be performed by a user's identity.</p></li>
+<li><i><xref href="csecjavasecurity.dita"/></i>
+<p>Explains how to use a Java security manager with
+<ph conref="../conrefs.dita#prod/productshortname"/>.</p></li>
+<li><i><xref href="csecnetservfileperms.dita"/></i>
+<p>Explains how to take advantage of file system protections.</p></li>
+<li><i><xref href="csecputtogether.dita"/></i>
+<p>Shows how to enable all the available
+<ph conref="../conrefs.dita#prod/productshortname"/> defenses.</p></li>
+</ul>
+</conbody>
+</concept>

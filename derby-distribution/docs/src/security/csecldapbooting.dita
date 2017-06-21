@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN"
+ "../dtd/concept.dtd">
+<!-- 
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at      
+
+   http://www.apache.org/licenses/LICENSE-2.0  
+
+Unless required by applicable law or agreed to in writing, software  
+distributed under the License is distributed on an "AS IS" BASIS,  
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+See the License for the specific language governing permissions and  
+limitations under the License.
+-->
+<concept id="csecldapbooting" xml:lang="en-us">
+<title>Booting an LDAP server</title>
+<shortdesc>To begin, launch the OpenDS QuickSetup JNLP (Java Web Start)
+installer, then follow the installation steps to set up your directory
+server.</shortdesc>
+<prolog><metadata>
+<keywords>
+<indexterm>LDAP directory service<indexterm>booting</indexterm></indexterm>
+</keywords>
+</metadata></prolog>
+<conbody>
+<p>You can obtain the installer from <xref format="html" 
+href="https://opends.java.net/" scope="external"/> by clicking the
+"Install with QuickSetup" link.</p>
+<p>As part of this installation, you will specify a password, which we will
+call <i>YOUR_SELECTED_PASSWORD</i>.</p>
+<p>Next, load some credentials into the directory server. Download this sample
+file of credentials:
+<xref format="txt" href="http://today.java.net/today/2007/03/22/secArticle.LDIF"
+scope="external"/>. Now load it into your directory server using the
+<codeph>import-ldif</codeph> tool in the <codeph>bin</codeph> directory of your
+OpenDS installation. (Make sure that OpenDS is not running when you import
+credentials; otherwise you will receive an error message indicating that the
+import utility cannot acquire a lock over storage.)</p>
+<codeblock><b>import-ldif --backendID userRoot --ldifFile secArticle.LDIF</b></codeblock>
+<p>Now bring up the OpenDS server by running the <codeph>start-ds</codeph>
+script in the <codeph>bin</codeph> directory of your OpenDS installation.</p>
+</conbody>
+</concept>

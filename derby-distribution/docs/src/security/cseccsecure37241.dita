@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN"
+ "../dtd/concept.dtd">
+<!-- 
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at      
+
+   http://www.apache.org/licenses/LICENSE-2.0  
+
+Unless required by applicable law or agreed to in writing, software  
+distributed under the License is distributed on an "AS IS" BASIS,  
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+See the License for the specific language governing permissions and  
+limitations under the License.
+-->
+<concept id="cseccsecure37241" xml:lang="en-us">
+<title>Users and authorization identifiers</title>
+<shortdesc>User names within the
+<ph conref="../conrefs.dita#prod/productshortname"></ph> system are known as
+<i>authorization identifiers</i>. The authorization identifier is a string
+that represents the name of the user, if one was provided in the connection
+request.</shortdesc>
+<prolog><metadata>
+<keywords><indexterm>authorization identifiers</indexterm></keywords>
+</metadata></prolog>
+<conbody>
+<p>For example, the built-in function CURRENT_USER returns the authorization
+identifier for the current user.</p>
+<p>Once the authorization identifier is passed to the
+<ph conref="../conrefs.dita#prod/productshortname"></ph> system, it becomes an
+<codeph><i>SQL92Identifier</i></codeph>. An
+<codeph><i>SQL92Identifier</i></codeph> -- the kind of identifier that
+represents database objects such as tables and columns -- is case-insensitive
+(it is converted to all caps) unless it is delimited with double quotes,
+is limited to 128 characters, and has other limitations.</p>
+<p>User names must be valid authorization identifiers even if user
+authentication is turned off, and even if all users are allowed access to all
+databases.</p>
+<p>For more information about <codeph><i>SQL92Identifiers</i></codeph>, see the
+<ph conref="../conrefs.dita#pub/citref"></ph>.</p>
+</conbody>
+</concept>

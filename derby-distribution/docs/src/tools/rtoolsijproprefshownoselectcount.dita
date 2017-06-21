@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN"
+ "../dtd/reference.dtd">
+<!-- 
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at      
+
+http://www.apache.org/licenses/LICENSE-2.0  
+
+Unless required by applicable law or agreed to in writing, software  
+distributed under the License is distributed on an "AS IS" BASIS,  
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+See the License for the specific language governing permissions and  
+limitations under the License.
+-->
+<reference id="rtoolsijproprefshownoselectcount" xml:lang="en-us">
+<title>ij.showNoCountForSelect property</title>
+<shortdesc>The <codeph>ij.showNoCountForSelect</codeph> property specifies
+whether to display messages indicating the number of rows selected.</shortdesc>
+<prolog><metadata>
+<keywords><indexterm>ij.showNoCountForSelect property</indexterm></keywords>
+</metadata></prolog>
+<refbody>
+<section>
+<p>The default is <codeph>false</codeph>; that is, if the property is not set,
+select count messages are displayed.</p>
+</section>
+<refsyn><title>Syntax</title>
+<codeblock><b>ij.showNoCountForSelect={ false | true }</b></codeblock>
+</refsyn>
+<example><title>Example</title>
+<p>In the following example, <codeph>ij</codeph> is first started with the
+<codeph>ij.showNoCountForSelect</codeph> property set to <codeph>true</codeph>,
+then with the property set to <codeph>false</codeph>.</p>
+<codeblock><b>java -Dij.showNoCountForSelect=true org.apache.derby.tools.ij</b>
+ij version <ph conref="../conrefs.dita#vers/shortversionnumber"></ph> 
+ij> <b>connect 'jdbc:derby:sample';</b>
+ij> <b>create table t1 (c1 int);</b>
+0 rows inserted/updated/deleted
+ij> <b>insert into t1 values 1, 2, 3;</b>
+3 rows inserted/updated/deleted
+ij> <b>select * from t1;</b>
+C1
+-----------
+1
+2
+3
+ij> <b>disconnect;</b>
+ij> <b>exit;</b>
+
+<b>java -Dij.showNoCountForSelect=false org.apache.derby.tools.ij</b>
+ij version <ph conref="../conrefs.dita#vers/shortversionnumber"></ph> 
+<b>connect 'jdbc:derby:sample';</b>
+ij> <b>select * from t1;</b>
+C1
+-----------
+1
+2
+3
+
+3 rows selected
+ij></codeblock> 
+</example>
+</refbody>
+</reference>

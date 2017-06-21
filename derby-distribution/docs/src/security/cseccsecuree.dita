@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN"
+ "../dtd/concept.dtd">
+<!-- 
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at      
+
+   http://www.apache.org/licenses/LICENSE-2.0  
+
+Unless required by applicable law or agreed to in writing, software  
+distributed under the License is distributed on an "AS IS" BASIS,  
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+See the License for the specific language governing permissions and  
+limitations under the License.
+-->
+<concept id="cseccsecuree" xml:lang="en-us">
+<title>Part Two: Configuring security for
+<ph conref="../conrefs.dita#prod/productshortname"></ph></title>
+<shortdesc>This part of the manual describes the specific tasks involved in
+securing <ph conref="../conrefs.dita#prod/productshortname"></ph>
+databases.</shortdesc>
+<prolog><metadata>
+<keywords><indexterm>user authentication<indexterm>definition</indexterm></indexterm>
+<indexterm>authentication<indexterm>definition</indexterm></indexterm>
+<indexterm>disk encryption<indexterm>definition</indexterm></indexterm>
+<indexterm>encrypting databases<indexterm>definition</indexterm></indexterm></keywords>
+</metadata></prolog>
+<conbody>
+<p><ph conref="../conrefs.dita#prod/productshortname"></ph> can be
+deployed in a number of ways and in a number of different environments, ranging
+from a single-user deployment for small-scale development and testing to a
+multi-user deployment of a large database. For all but the smallest deployments,
+however, it is essential to make the
+<ph conref="../conrefs.dita#prod/productshortname"></ph> system secure.</p>
+<p>To secure a <ph conref="../conrefs.dita#prod/productshortname"></ph>
+database or databases, take the following steps.</p>
+<ol>
+<li>Understand the basic tasks involved in configuring security in a
+client-server environment or an embedded environment.
+<p>See <xref href="cseccsecure12392.dita"/> for details.</p></li>
+<li>Encrypt your databases.
+<p><ph conref="../conrefs.dita#prod/productshortname"></ph> provides ways to
+encrypt data stored on disk.</p>
+<p>For more information about encryption, see
+<xref href="cseccsecure24366.dita"/>.</p></li>
+<li>Sign any jar files that you use in your databases.
+<p><ph conref="../conrefs.dita#prod/productshortname"></ph> validates
+certificates for classes loaded from signed jar files.</p>
+<p>For more information about using signed jar files, see
+<xref href="cseccsecure90988.dita"/>.</p></li>
+<li>Encrypt network traffic with SSL/TLS.
+<p>SSL/TLS certificate authentication is also supported. See
+<xref href="csecssl.dita"/> for details.</p></li>
+<li>Understand the concept of identity in
+<ph conref="../conrefs.dita#prod/productshortname"></ph>.
+<p>See <xref href="cseccsecureidentity.dita"/> for details.</p></li>
+<li>Configure <i>authentication</i> by setting up users and passwords.
+<p>Authentication determines whether someone is a legal user. It establishes
+a user's identity. <ph conref="../conrefs.dita#prod/productshortname"></ph>
+verifies user names and passwords before permitting access to the
+<ph conref="../conrefs.dita#prod/productshortname"></ph> system.</p>
+<p>For more information about authentication, see
+<xref href="cseccsecure42374.dita"/>.</p></li>
+<li>Configure <i>user authorization</i> for the system.
+<p>Authorization determines what operations can be performed by a user's
+<ph conref="../conrefs.dita#prod/productshortname"></ph> identity. 
+Authorization grants users or roles permission to read a database or to write
+to a database.</p>
+<p>For more information about authorization, see
+<xref href="csecauthorization.dita#csecauthorization"></xref>.</p></li>
+<li>Customize the default security policy.
+<p>For details, see
+<xref href="csecjavasecurity.dita#csecjavasecurity"></xref>.</p></li>
+<li>If necessary, restrict database file access to the operating system account
+that started the JVM.
+<p>For details, see <xref href="csecnetservfileperms.dita"/>.</p></li>
+</ol>
+<p>See the <ph conref="../conrefs.dita#pub/citref"></ph> for information about
+many security-related properties and system procedures, as well as such
+statements as GRANT, REVOKE, CREATE ROLE, DROP ROLE, CREATE PROCEDURE, and
+CREATE FUNCTION.</p>
+</conbody>
+</concept>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at      
+
+http://www.apache.org/licenses/LICENSE-2.0  
+
+Unless required by applicable law or agreed to in writing, software  
+distributed under the License is distributed on an "AS IS" BASIS,  
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+See the License for the specific language governing permissions and  
+limitations under the License.
+-->
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "../dtd/concept.dtd">
+<concept xml:lang="en-us" id="ctundepth1003369">
+<title>Think about join order</title>
+<shortdesc>For some queries, join order can make the difference between a table
+scan (expensive) and an index scan (cheap).</shortdesc>
+<prolog><metadata>
+<keywords>
+<indexterm>Join order<indexterm>performance implications of</indexterm></indexterm>
+</keywords>
+</metadata>
+</prolog>
+<conbody>
+<p>Here's an example:</p>
+<codeblock><b>select ht.hotel_id, ha.stay_date, ht.depart_time
+from hotels ht, Hotelavailability ha
+where ht.hotel_id = ha.hotel_id and 
+ht.room_number = ha.room_number
+and ht.bed_type = 'KING'
+and ht.smoking_room = 'NO'
+order by ha.stay_date</b></codeblock>
+<p>If <ph conref="../conrefs.dita#prod/productshortname"></ph> chooses
+<codeph>Hotels</codeph> as the outer table, it can use the index on
+<codeph>Hotels</codeph> to retrieve qualifying rows. Then it need only look up
+data in <codeph>HotelAvailability</codeph> three times, once for each qualifying
+row. And to retrieve the appropriate rows from
+<codeph>HotelAvailability</codeph>, it can use an index for
+<codeph>HotelAvailability</codeph>'s <codeph>hotel_id</codeph> column instead of
+scanning the entire table.</p>
+<p>If <ph conref="../conrefs.dita#prod/productshortname"></ph> chooses the other
+order, with <codeph>HotelAvailability</codeph> as the outer table, it will have
+to probe the <codeph>Hotels</codeph> table for <i>every row</i>, not just three
+rows, because there are no qualifications on the
+<codeph>HotelAvailability</codeph> table.</p>
+<p>For more information about join order, see
+<xref href="ctunoptimz12168.dita"/>.</p>
+<p><ph conref="../conrefs.dita#prod/productshortname"></ph> usually chooses a
+good join order. However, as with index use, you should make sure. Analyze the
+way <ph conref="../conrefs.dita#prod/productshortname"></ph> is executing your
+application's queries. See <xref href="ttundepth33391.dita"/> for information on
+how to do this.</p>
+</conbody></concept>

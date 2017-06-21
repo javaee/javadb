@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN"
+ "reference.dtd">
+<!--
+Licensed to the Apache Software Foundation (ASF) under one
+or more contributor license agreements.  See the NOTICE file
+distributed with this work for additional information
+regarding copyright ownership.  The ASF licenses this file
+to you under the Apache License, Version 2.0 (the
+"License"); you may not use this file except in compliance
+with the License.  You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing,
+software distributed under the License is distributed on an
+"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, either express or implied.  See the License for the
+specific language governing permissions and limitations
+under the License.    
+-->
+<reference id="rrefsqljmerge" xml:lang="en-us">
+<title>MERGE statement </title>
+<shortdesc>The MERGE statement scans a table and either INSERTs, UPDATEs, or
+DELETEs rows depending on whether the rows satisfy a specified
+condition.</shortdesc>
+<prolog><metadata>
+<keywords><indexterm>MERGE statement</indexterm>
+<indexterm>SQL statements<indexterm>MERGE</indexterm></indexterm>
+</keywords>
+</metadata></prolog>
+<refbody>
+<refsyn><title>Syntax</title>
+<codeblock><b>MERGE INTO <i>targetTable</i> [ [ AS ] <i>targetCorrelationName</i> ]
+USING <i>sourceTable</i> [ [ AS ] <i>sourceCorrelationName</i> ]
+ON <i>searchCondition <xref href="rrefsqljmerge.dita#rrefsqljmerge/mergewhen">mergeWhenClause</xref></i> [ <i>mergeWhenClause</i> ]*
+</b></codeblock>
+<p>Both <i>targetTable</i> and <i>sourceTable</i> are
+<i><xref href="rreftablename.dita"></xref></i>s.</p>
+<p><i>targetTable</i> must identify a base table. <i>targetTable</i> may not be
+a transition table in a triggered statement, and it may not be a synonym.</p>
+<p> <i>sourceTable</i> must identify a base table or a table function, and it
+may not be a synonym.</p>
+<p>Both <i>targetCorrelationName</i> and <i>sourceCorrelationName</i> are
+<i><xref href="rrefcorrelationname.dita"></xref></i>s.</p>
+<p>The unqualified source table name (or its correlation name) may not be the
+same as the unqualified target table name (or its correlation name).</p>
+<p>The <i>searchCondition</i> is a
+<i><xref href="rrefsqlj23075.dita">Boolean expression</xref></i>. Columns
+referenced by the <i>searchCondition</i> must be in either <i>targetTable</i>
+or <i>sourceTable</i>. Functions mentioned in the <i>searchCondition</i> may not
+modify SQL data.</p>
+<p>The row count for a successful MERGE statement is the total number of rows
+inserted, updated, and deleted by the statement.</p>
+<note>The MERGE statement is valid only after a database has been fully upgraded
+to <ph conref="../conrefs.dita#prod/productshortname"></ph> Release 10.11 or
+higher. (See "Upgrading a database" in the
+<ph conref="../conrefs.dita#pub/citdevelop"></ph> for more information.) This
+statement has no meaning in a database that is at Release 10.10 or lower.</note>
+</refsyn>
+<refsyn id="mergewhen"><title>mergeWhenClause</title>
+<codeblock><b><i><xref href="rrefsqljmerge.dita#rrefsqljmerge/whenmatched">mergeWhenMatched</xref></i> | <i><xref href="rrefsqljmerge.dita#rrefsqljmerge/whennotmatched">mergeWhenNotMatched</xref></i>
+</b></codeblock>
+</refsyn>
+<refsyn id="whenmatched"><title>mergeWhenMatched</title>
+<codeblock><b>WHEN MATCHED [ AND <i>matchRefinement</i> ] THEN { <i><xref href="rrefsqljmerge.dita#rrefsqljmerge/mergeupdate">mergeUpdate</xref></i> | DELETE }
+</b></codeblock>
+<p>The <i>matchRefinement</i> is a
+<i><xref href="rrefsqlj23075.dita">Boolean expression</xref></i>. Columns
+referenced by the <i>matchRefinement</i> must be in either <i>targetTable</i>
+or <i>sourceTable</i>. Functions mentioned in the <i>matchRefinement</i> may not
+modify SQL data.</p>
+</refsyn>
+<refsyn id="whennotmatched"><title>mergeWhenNotMatched</title>
+<codeblock><b>WHEN NOT MATCHED [ AND <i>matchRefinement</i> ] THEN <i><xref href="rrefsqljmerge.dita#rrefsqljmerge/mergeinsert">mergeInsert</xref></i>
+</b></codeblock>
+<p>The <i>matchRefinement</i> is a
+<i><xref href="rrefsqlj23075.dita">Boolean expression</xref></i>. Columns
+referenced by the <i>matchRefinement</i> must be in either <i>targetTable</i>
+or <i>sourceTable</i>. Functions mentioned in the <i>matchRefinement</i> may not
+modify SQL data.</p>
+<p>Although permitted to do so by the SQL Standard,
+<ph conref="../conrefs.dita#prod/productshortname"></ph> does not currently
+support subqueries in WHEN [ NOT ] MATCHED clauses.</p>
+</refsyn>
+<refsyn id="mergeupdate"><title>mergeUpdate</title>
+<codeblock><b>UPDATE SET <i><xref href="rrefcolumnname.dita">column-Name</xref></i> = <i>value</i> [, <i>column-Name</i> = <i>value</i> ]*
+</b></codeblock>
+<p>Columns updated must be columns in <i>targetTable</i>.</p>
+<p>Functions mentioned in the UPDATE values may not modify SQL data.</p>
+<p>On the right side of SET operators for UPDATE actions, DEFAULT is the only
+value allowed for generated and identity columns.</p>
+<p>No list of updated columns may mention the same column more than once.</p>
+<p>The data types of updated values must be assignable to the corresponding
+columns according to the rules documented in
+<xref href="rrefsqlj58560.dita"/>.</p>
+</refsyn>
+<refsyn id="mergeinsert"><title>mergeInsert</title>
+<codeblock><b>INSERT [ ( <i><xref href="rrefsimplecolumnname.dita">Simple-column-Name</xref></i> [ , <i>Simple-column-Name</i> ]*  ) ] VALUES ( <i>value</i> [, <i>value</i> ]* )
+</b></codeblock>
+<p>Columns inserted must be columns in <i>targetTable</i>.</p>
+<p>Functions mentioned in the INSERT values may not modify SQL data.</p>
+<p>No list of inserted columns may mention identity columns, or may mention the
+same column more than once.</p>
+<p>In a VALUES clause, DEFAULT is the only allowed value for generated
+columns.</p>
+<p>The data types of inserted values must be assignable to the corresponding
+columns according to the rules documented in
+<xref href="rrefsqlj58560.dita"/>.</p>
+</refsyn>
+<section><title>Required privileges</title>
+<p>The user who executes a MERGE statement must have the following
+privileges. See <xref href="rrefsqljgrant.dita"/> for information on
+privileges.</p>
+<ul>
+<li>UPDATE privilege on every updated column of <i>targetTable</i>. A blanket
+UPDATE privilege on the entire <i>targetTable</i> would cover this.</li>
+<li>INSERT privilege on <i>targetTable</i> if there are WHEN NOT MATCHED
+clauses.</li>
+<li>DELETE privilege on <i>targetTable</i> if there are WHEN MATCHED ... THEN
+DELETE clauses.</li>
+<li>EXECUTE privilege on all functions mentioned in the Boolean expressions and
+in the INSERT/UPDATE values.</li>
+<li>USAGE privilege on all sequences and user-defined types mentioned in the
+Boolean expressions and in the INSERT/UPDATE values. See
+<xref href="rrefsqljcreatesequence.dita"/> and
+<xref href="rrefsqljcreatetype.dita"/> for more information.</li>
+<li>SELECT privilege on all columns mentioned in the Boolean expressions and the
+<i>value</i> expressions of SET clauses.</li>
+</ul>
+</section>
+<section><title>MERGE statement behavior</title>
+<p>The MERGE statement behaves as described in the following table.</p>
+<table><title>Merge statement behavior</title>
+<desc>This table lists and describes some specific behaviors of the MERGE statement.</desc>
+<tgroup cols="2">
+<colspec colname="col1" colnum="1" colwidth="1*"/>
+<colspec colname="col2" colnum="2" colwidth="1.5*"/>
+<thead>
+<row valign="bottom">
+<entry colname="col1">Situation or Behavior</entry>
+<entry colname="col2">Description</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry colname="col1">Source table is empty</entry>
+<entry colname="col2">If the <i>sourceTable</i> is empty, a "no data" warning is
+raised with SQLState 02000.</entry>
+</row>
+<row>
+<entry colname="col1">An initial join is performed</entry>
+<entry colname="col2">Before any changes are made to <i>targetTable</i>, the
+<i>sourceTable</i> is joined to the <i>targetTable</i> by means of the ON
+clause. Call this join result J. Let N denote the rows in <i>sourceTable</i>
+missing from this join.</entry>
+</row>
+<row>
+<entry colname="col1">Clause order is important</entry>
+<entry colname="col2">The <i>mergeWhenMatched</i> and <i>mergeWhenNotMatched</i>
+clauses are applied in declaration order.</entry>
+</row>
+<row>
+<entry colname="col1">The first matched clause wins</entry>
+<entry colname="col2">For each row in J,
+<ph conref="../conrefs.dita#prod/productshortname"></ph> applies only the first
+<i>mergeWhenMatched</i> clause whose <i>matchRefinement</i> is
+satisfied.</entry>
+</row>
+<row>
+<entry colname="col1">The first not matched clause wins</entry>
+<entry colname="col2">For each row in N,
+<ph conref="../conrefs.dita#prod/productshortname"></ph> applies only the first
+<i>mergeWhenNotMatched</i> clause whose <i>matchRefinement</i> is
+satisfied.</entry>
+</row>
+<row>
+<entry colname="col1">Double dipping is not permitted</entry>
+<entry colname="col2">A cardinality violation is raised if a MERGE statement
+attempts to change (update or delete) the same row twice. This condition can
+occur if more than one source row joins to the same target row.</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+</section>
+<example><title>Examples</title>
+<codeblock><b>MERGE INTO hotIssues h
+USING issues i
+ON h.issueID = i.issueID
+WHEN MATCHED AND i.lastUpdated = CURRENT_DATE 
+    THEN UPDATE SET h.lastUpdated = i.lastUpdated
+WHEN MATCHED AND i.lastUpdated &lt; CURRENT_DATE THEN DELETE
+WHEN NOT MATCHED AND i.lastUpdated = CURRENT_DATE 
+    THEN INSERT VALUES ( i.issueID, i.lastUpdated );
+
+MERGE INTO companies c
+USING adhocInvoices a
+ON a.companyName = c.companyName
+WHEN NOT MATCHED THEN INSERT ( companyName ) VALUES ( a.companyName );
+
+MERGE INTO warehouse.productList w
+USING production.productList p
+ON w.productID = p.productID
+WHEN MATCHED and w.lastUpdated != p.lastUpdated
+    THEN UPDATE SET lastUpdated = p.lastUpdated, 
+                    description = p.description, 
+                    price = p.price
+WHEN NOT MATCHED
+    THEN INSERT values ( p.productID, p.lastUpdated, p.description,
+                         p.price );
+</b></codeblock>
+</example>
+</refbody>
+</reference>

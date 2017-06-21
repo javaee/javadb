@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN"
+ "../dtd/reference.dtd">
+<!-- 
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at      
+
+http://www.apache.org/licenses/LICENSE-2.0  
+
+Unless required by applicable law or agreed to in writing, software  
+distributed under the License is distributed on an "AS IS" BASIS,  
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+See the License for the specific language governing permissions and  
+limitations under the License.
+-->
+<reference id="rrefapi1003363" xml:lang="en-us">
+<title>DataSource classes</title>
+<shortdesc>These classes are all related to
+<ph conref="../conrefs.dita#prod/productshortname"></ph>'s implementation of
+<i>javax.sql.DataSource</i> and related APIs.</shortdesc>
+<prolog><metadata>
+<keywords>
+<indexterm>org.apache.derby.jdbc.EmbeddedConnectionPoolDataSource</indexterm>
+<indexterm>org.apache.derby.jdbc.EmbeddedXADataSource</indexterm>
+<indexterm>org.apache.derby.jdbc.EmbeddedDataSource</indexterm>
+<indexterm>org.apache.derby.jdbc.ClientConnectionPoolDataSource</indexterm>
+<indexterm>org.apache.derby.jdbc.ClientXADataSource</indexterm>
+<indexterm>org.apache.derby.jdbc.ClientDataSource</indexterm>
+<indexterm>org.apache.derby.jdbc.BasicEmbeddedConnectionPoolDataSource40</indexterm>
+<indexterm>org.apache.derby.jdbc.BasicEmbeddedXADataSource40</indexterm>
+<indexterm>org.apache.derby.jdbc.BasicEmbeddedDataSource40</indexterm>
+<indexterm>org.apache.derby.jdbc.BasicClientConnectionPoolDataSource40</indexterm>
+<indexterm>org.apache.derby.jdbc.BasicClientXADataSource40</indexterm>
+<indexterm>org.apache.derby.jdbc.BasicClientDataSource40</indexterm>
+</keywords>
+</metadata></prolog>
+<refbody>
+<section><p>For more information, see
+<xref href="crefjdbc12657.dita">JDBC reference</xref>,
+<xref href="rrefjdbc4_2compactprofiles.dita"/>, "Classes that pertain to
+resource managers" in the <ph conref="../conrefs.dita#pub/citdevelop"></ph>, and
+"Accessing the Network Server by using a DataSource object" in the
+<ph conref="../conrefs.dita#pub/citadmin"></ph>.</p>
+<p>Embedded environment, for applications using Java SE 8 Compact Profile 2:</p>
+<ul>
+<li><i>org.apache.derby.jdbc.BasicEmbeddedDataSource40</i></li>
+<li><i>org.apache.derby.jdbc.BasicEmbeddedConnectionPoolDataSource40</i></li>
+<li><i>org.apache.derby.jdbc.BasicEmbeddedXADataSource40</i></li>
+</ul>
+<p>Embedded environment, for applications using all other Java SE versions:</p>
+<ul>
+<li><i>org.apache.derby.jdbc.EmbeddedDataSource</i></li>
+<li><i>org.apache.derby.jdbc.EmbeddedConnectionPoolDataSource</i></li>
+<li><i>org.apache.derby.jdbc.EmbeddedXADataSource</i></li>
+</ul>
+<p>Client-server environment, for applications using Java SE 8 Compact Profile
+2:</p>
+<ul>
+<li><i>org.apache.derby.jdbc.BasicClientDataSource40</i></li>
+<li><i>org.apache.derby.jdbc.BasicClientConnectionPoolDataSource40</i></li>
+<li><i>org.apache.derby.jdbc.BasicClientXADataSource40</i></li>
+</ul>
+<p>Client-server environment, for applications using all other Java SE
+versions:</p>
+<ul>
+<li><i>org.apache.derby.jdbc.ClientDataSource</i></li>
+<li><i>org.apache.derby.jdbc.ClientConnectionPoolDataSource</i></li>
+<li><i>org.apache.derby.jdbc.ClientXADataSource</i></li>
+</ul>
+<p>Applications using Java SE 8 Compact Profile 2 must use the DataSource
+classes whose names begin with "Basic". Applications using Java SE 8 Compact
+Profile 3 can use the classes whose names begin with "Basic" if the application
+does not use the JNDI API, but should normally use the ordinary DataSource
+classes.</p>
+</section>
+</refbody>
+</reference>

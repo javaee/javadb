@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN"
+ "../dtd/concept.dtd">
+<!-- 
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at      
+
+   http://www.apache.org/licenses/LICENSE-2.0  
+
+Unless required by applicable law or agreed to in writing, software  
+distributed under the License is distributed on an "AS IS" BASIS,  
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+See the License for the specific language governing permissions and  
+limitations under the License.
+-->
+<concept id="csecssl" xml:lang="en-us">
+<title>Configuring SSL/TLS</title>
+<shortdesc>By default, network traffic travels in cleartext between
+<ph conref="../conrefs.dita#prod/productshortname"></ph> clients and
+servers.</shortdesc>
+<prolog><metadata>
+<keywords><indexterm>Network Server<indexterm>SSL</indexterm></indexterm>
+<indexterm>Network Server<indexterm>TLS</indexterm></indexterm>
+<indexterm>SSL</indexterm>
+<indexterm>TLS</indexterm></keywords>
+</metadata></prolog>
+<conbody>
+<p>By using a man-in-the-middle ploy, a clever attacker can read all of the
+string data shipped to and from the server. By knowing the
+<ph conref="../conrefs.dita#prod/productshortname"></ph> wire protocol, a clever
+attacker can read numeric data too. Even worse, the man-in-the-middle can change
+the data while it is traveling between the client and the server.</p>
+<p>Fortunately, <ph conref="../conrefs.dita#prod/productshortname"></ph> can
+encrypt network traffic using the SSL/TLS (Secure Socket Layer/Transport Layer
+Security) logic supplied with the virtual machine. As a side effect, SSL/TLS
+raises an extra authentication hurdle too, involving
+<i>peer authentication</i>.</p>
+<p>The term <i>peer</i> is used for the other part of the server-client
+communication: the server's peer is the client, and the client's peer is the
+server.</p>
+<p>SSL/TLS for <ph conref="../conrefs.dita#prod/productshortname"></ph> (both
+for client and for server) operates in three possible modes:</p>
+<dl>
+<dlentry>
+<dt>off</dt>
+<dd>The default, no SSL/TLS encryption</dd>
+</dlentry>
+<dlentry>
+<dt>basic</dt>
+<dd>SSL/TLS encryption, no peer authentication</dd>
+</dlentry>
+<dlentry>
+<dt>peerAuthentication</dt>
+<dd>SSL/TLS encryption and peer authentication</dd>
+</dlentry>
+</dl>
+<p>Peer authentication may be set on the server, on the client, or on both. Peer
+authentication means that the other side of the SSL/TLS connection is
+authenticated based on a trusted certificate installed locally.</p>
+<p>Before using this encryption technology, you will want to familiarize
+yourself with SSL/TLS concepts such as key pairs and certificates, and with the
+JDK's <codeph>keytool</codeph> application. You can find useful overviews of
+SSL/TLS at Apache and Wikipedia
+(<xref format="html" href="http://httpd.apache.org/docs/2.0/ssl/ssl_intro.html"
+scope="external"/> and
+<xref format="html" href="http://en.wikipedia.org/wiki/Secure_Sockets_Layer"
+scope="external"/>, respectively). You can find <codeph>keytool</codeph>
+documentation for Unix and for Windows at <xref format="html"
+href="http://docs.oracle.com/javase/8/docs/technotes/tools/unix/keytool.html"
+scope="external"/> and <xref format="html"
+href="http://docs.oracle.com/javase/8/docs/technotes/tools/windows/keytool.html"
+scope="external"/>, respectively.</p>
+<p>Network encryption requires the following setup steps:</p>
+<ol>
+<li><b>Client certificates:</b> Each client must generate a client key pair and
+certificate. The client certificates must be loaded into the server's trust
+store.</li>
+<li><b>Server certificate:</b> The server must generate a server key pair and
+certificate. All of the clients must load the server's certificate into their
+respective trust stores.</li>
+<li><b>Server startup:</b> The server must be booted with system properties and a
+startup option that turn on SSL/TLS encryption.</li>
+<li><b>Client startup:</b> The client must be started with system properties that turn
+on SSL/TLS encryption. In addition, an extra attribute is added to the JDBC
+connection URL.</li>
+</ol>
+<p>To use SSL/TLS to encrypt
+<ph conref="../conrefs.dita#prod/productshortname"></ph>'s network traffic, the
+client must have a key store for holding its own public/private key pair. The
+client must also have a trust store for holding the server's certificate. If the
+key store and trust store do not already exist, the <codeph>keytool</codeph>
+program will create them. Suppose that the client stores its public/private key
+pair in <codeph>~/vault/ClientKeyStore</codeph>, and suppose that the client
+stores certificates from other systems in
+<codeph>~/vault/ClientTrustStore</codeph>.</p>
+</conbody>
+</concept>

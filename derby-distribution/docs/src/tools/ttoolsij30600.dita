@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN"
+ "../dtd/task.dtd">
+<!-- 
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at      
+
+http://www.apache.org/licenses/LICENSE-2.0  
+
+Unless required by applicable law or agreed to in writing, software  
+distributed under the License is distributed on an "AS IS" BASIS,  
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+See the License for the specific language governing permissions and  
+limitations under the License.
+-->
+<task id="ttoolsij30600" xml:lang="en-us">
+<title>Starting ij using properties</title>
+<shortdesc>You can set <codeph>ij</codeph> properties in any of the following
+ways.</shortdesc>
+<taskbody>
+<context>
+<ul>
+<li>By using the <codeph>-D</codeph> option on the command line</li>
+<li>By specifying a properties file using the <codeph>-p propertyfile</codeph>
+option on the command line</li>
+</ul>
+<p><note type="remember"><codeph>ij</codeph> property names are case-sensitive,
+while commands are case-insensitive.</note></p></context>
+<example><title>Examples</title>
+<p>The following examples illustrate how to use <codeph>ij</codeph>
+properties.</p>
+<p>To start <codeph>ij</codeph> by using a properties file called
+<codeph>ij.properties</codeph>, use a command like the following (with the
+addition of the file paths):</p>
+<codeblock><b><userinput>java -jar derbyrun.jar -p ij.properties</userinput></b></codeblock>
+<p>To start <codeph>ij</codeph> with an
+<codeph><xref href="rtoolsijpropref28788.dita">ij.maximumDisplayWidth</xref></codeph>
+of 1000:</p>
+<codeblock><b><userinput>java -Dij.maximumDisplayWidth=1000 -jar derbyrun.jar</userinput></b></codeblock>
+<p>To start <codeph>ij</codeph> with an
+<codeph><xref href="rtoolsijpropref35032.dita">ij.protocol</xref></codeph> of
+<codeph>jdbc:derby:</codeph> and an
+<codeph><xref href="rtoolsijpropref28146.dita">ij.database</xref></codeph> of
+<codeph>sample</codeph>, use the following command:</p>  
+<codeblock><b><userinput>java -Dij.protocol=jdbc:derby: -Dij.database=sample derbyrun.jar</userinput></b></codeblock>
+<p>To start <codeph>ij</codeph> with two named connections, using the
+<codeph><xref href="rtoolsijpropref10135.dita">ij.connection.<i>connectionName</i></xref></codeph>
+property, use a command like the following:</p>
+<codeblock><b>java -Dij.connection.sample=jdbc:derby:sample \
+-Dij.connection.History=jdbc:derby:History \
+-Dderby.system.home=c:\derby\demo\databases \
+-jar c:\derby\lib\derbyrun.jar</b></codeblock>
+<p>To see a list of connection names and the URLs used to connect to them, use
+the following command. (If there is a currently active connection, it will
+appear with an asterisk (<codeph>*</codeph>) after its name.)</p>
+<codeblock>ij version <ph conref="../conrefs.dita#vers/shortversionnumber"></ph>
+ij(HISTORY)&gt; <b><userinput>show connections;</userinput></b>
+HISTORY* -    jdbc:derby:History
+SAMPLE -     jdbc:derby:sample
+* = current connection
+ij(HISTORY)&gt;</codeblock>
+</example>
+</taskbody>
+</task>

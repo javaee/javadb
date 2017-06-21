@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+ 
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN"
+ "../dtd/concept.dtd">
+<!-- 
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at      
+
+   http://www.apache.org/licenses/LICENSE-2.0  
+
+Unless required by applicable law or agreed to in writing, software  
+distributed under the License is distributed on an "AS IS" BASIS,  
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+See the License for the specific language governing permissions and  
+limitations under the License.
+-->
+<concept id="cseccsecurenativeauth" xml:lang="en-us">
+<title>Configuring NATIVE authentication</title>
+<shortdesc><ph conref="../conrefs.dita#prod/productshortname"></ph>'s simplest
+authentication mechanism is NATIVE authentication.</shortdesc>
+<prolog><metadata>
+<keywords><indexterm>user authentication<indexterm>NATIVE authentication</indexterm></indexterm>
+<indexterm>NATIVE authentication<indexterm>overview</indexterm></indexterm>
+</keywords>
+</metadata></prolog>
+<conbody>
+<p>When you use NATIVE authentication, user names and encrypted passwords are
+stored in a database. You can specify a dedicated credentials database
+for this purpose, or you can store the credentials in the same database you use
+for your application data. The credentials are stored in the SYSUSERS system
+table of the database.</p>
+<p>To configure NATIVE authentication, follow these steps.</p>
+<ol>
+<li>Use the <codeph>SYSCS_UTIL.SYSCS_CREATE_USER</codeph> system procedure to
+add credentials for the
+<xref href="cseccsecuredbowner.dita">Database Owner</xref>. Remember that the
+Database Owner is the user who created the database.</li>
+<li>Add credentials for other users.</li>
+<li>Shut down the database, then reboot it. When the database reboots, NATIVE
+authentication is enabled.</li>
+</ol>
+<p>For example, you can issue the following commands:</p>
+<codeblock><b>java org.apache.derby.tools.ij</b>
+ij version 10.11
+ij> <b>connect 'jdbc:derby:testdb;create=true;user=tquist';</b>
+ij> -- the Database Owner must be the first user you create
+<b>call SYSCS_UTIL.SYSCS_CREATE_USER( 'tquist', 'tquist' );</b>
+0 rows inserted/updated/deleted
+ij> -- now add other users
+<b>call SYSCS_UTIL.SYSCS_CREATE_USER( 'thardy', 'thardy' );</b>
+0 rows inserted/updated/deleted
+ij> <b>call SYSCS_UTIL.SYSCS_CREATE_USER( 'jhallett', 'jhallett' );</b>
+0 rows inserted/updated/deleted
+ij> <b>call SYSCS_UTIL.SYSCS_CREATE_USER( 'mchrysta', 'mchrysta' );</b>
+0 rows inserted/updated/deleted
+ij> -- shut down the database in order to turn on NATIVE authentication
+<b>connect 'jdbc:derby:testdb;shutdown=true';</b>
+ERROR 08006: Database 'testdb' shutdown.
+ij> -- these connection attempts fail because of bad credentials
+<b>connect 'jdbc:derby:testdb;user=tquist';</b>
+ERROR 08004: Connection authentication failure occurred.  Reason: Invalid authentication..
+ij> <b>connect 'jdbc:derby:testdb;user=thardy;password=tquist';</b>
+ERROR 08004: Connection authentication failure occurred.  Reason: Invalid authentication..
+ij> -- these connection attempts present good credentials, so they succeed
+<b>connect 'jdbc:derby:testdb;user=tquist;password=tquist';</b>
+ij(CONNECTION1)> <b>connect 'jdbc:derby:testdb;user=thardy;password=thardy';</b>
+ij(CONNECTION2)> <b>connect 'jdbc:derby:testdb;user=jhallett;password=jhallett';</b>
+ij(CONNECTION3)> <b>connect 'jdbc:derby:testdb;user=mchrysta;password=mchrysta';</b>
+</codeblock>
+</conbody>
+</concept>

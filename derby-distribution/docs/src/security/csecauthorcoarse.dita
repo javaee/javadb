@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN"
+ "../dtd/concept.dtd">
+<!-- 
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at      
+
+   http://www.apache.org/licenses/LICENSE-2.0  
+
+Unless required by applicable law or agreed to in writing, software  
+distributed under the License is distributed on an "AS IS" BASIS,  
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+See the License for the specific language governing permissions and  
+limitations under the License.
+-->
+<concept id="csecauthorcoarse" xml:lang="en-us">
+<title>Configuring coarse-grained user authorization</title>
+<shortdesc>You can manipulate coarse-grained access by using the builtin
+procedure <codeph>SYSCS_SET_DATABASE_PROPERTY</codeph> to set the database
+properties <codeph>derby.database.fullAccessUsers</codeph> and
+<codeph>derby.database.readOnlyAccessUsers</codeph>.</shortdesc>
+<prolog><metadata>
+<keywords><indexterm>databases<indexterm>coarse-grained authorization, configuring</indexterm></indexterm>
+<indexterm>authorization<indexterm>coarse-grained</indexterm></indexterm>
+<indexterm>derby.database.fullAccessUsers property</indexterm>
+<indexterm>properties<indexterm>derby.database.fullAccessUsers</indexterm></indexterm>
+<indexterm>derby.database.readOnlyAccessUsers property</indexterm>
+<indexterm>properties<indexterm>derby.database.readOnlyAccessUsers</indexterm></indexterm>
+</keywords></metadata></prolog>
+<conbody>
+<p>The following example shows how to do this. The example assumes that you are
+reusing the credentials-protected database you created in
+<xref href="cseccsecurenativeauth.dita"/>. The example commands first set the
+read/write and read-only users and then verify that the settings work
+correctly.</p>
+<codeblock><b>java org.apache.derby.tools.ij</b>
+ij> ij version 10.11
+ij> <b>connect 'jdbc:derby:testdb;user=tquist;password=tquist';</b>
+ij> --
+-- Prevent our settings from being overridden on the
+-- command line or in derby.properties.
+--
+<b>call SYSCS_UTIL.SYSCS_SET_DATABASE_PROPERTY
+( 'derby.database.propertiesOnly', 'true' );</b>
+0 rows inserted/updated/deleted
+ij> --
+-- Now we can configure read/write and read-only users.
+--
+<b>call SYSCS_UTIL.SYSCS_SET_DATABASE_PROPERTY
+( 'derby.database.fullAccessUsers', 'tquist,mchrysta' );</b>
+0 rows inserted/updated/deleted
+ij> <b>call SYSCS_UTIL.SYSCS_SET_DATABASE_PROPERTY
+( 'derby.database.readOnlyAccessUsers', 'thardy,jhallett' );</b>
+0 rows inserted/updated/deleted
+ij> --
+-- Next verify that a read/write user has those powers:
+--
+<b>connect 'jdbc:derby:testdb;user=mchrysta;password=mchrysta';</b>
+ij(CONNECTION1)> <b>create table mchrysta.t1( a varchar( 20 ) );</b>
+0 rows inserted/updated/deleted
+ij(CONNECTION1)> <b>insert into mchrysta.t1( a ) values ( 'mchrysta' );</b>
+1 row inserted/updated/deleted
+ij(CONNECTION1)> <b>select * from mchrysta.t1;</b>
+A                   
+--------------------
+mchrysta            
+
+1 row selected
+ij(CONNECTION1)> --
+-- Finally, verify that a read-only user can read data but not write it:
+--
+<b>connect 'jdbc:derby:testdb;user=thardy;password=thardy';</b>
+ij(CONNECTION2)> -- the user can select from public data
+<b>select count(*) from sys.systables;</b>
+1          
+-----------
+24         
+
+1 row selected
+ij(CONNECTION2)> -- but this user can't even create a table
+<b>create table thardy.t1( a varchar( 20 ) );</b>
+ERROR 25503: DDL is not permitted for a read-only connection, user or database.
+</codeblock>
+<section><title>Coarse-grained authorization details</title>
+<p>Use a CALL statement to call the
+<codeph>SYSCS_UTIL.SYSCS_SET_DATABASE_PROPERTY</codeph> system procedure.</p>
+<p>To specify multiple user IDs, use a comma-separated list, with no spaces
+between the comma and the next user ID.</p>
+<p>To specify read-write access for a user ID that contains special characters,
+use delimited identifiers for the user ID. For example:</p>
+<codeblock><b>CALL SYSCS_UTIL.SYSCS_SET_DATABASE_PROPERTY(
+    'derby.database.fullAccessUsers', '"Elena!"')</b></codeblock>
+<p>For extra security, you should configure the
+<codeph>derby.database.propertiesOnly</codeph> property so that users cannot
+override database behavior using system-wide properties specified on the command
+line or in the <codeph>derby.properties</codeph> file.</p>
+</section>
+</conbody>
+</concept>

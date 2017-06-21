@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at      
+
+http://www.apache.org/licenses/LICENSE-2.0  
+
+Unless required by applicable law or agreed to in writing, software  
+distributed under the License is distributed on an "AS IS" BASIS,  
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+See the License for the specific language governing permissions and  
+limitations under the License.
+-->
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "../dtd/concept.dtd">
+<concept xml:lang="en-us" id="ctunperf1004182">
+<title>When large page size is not desirable</title>
+<shortdesc>On a system with limited memory or limited disk space, large
+database pages may not improve performance.</shortdesc>
+<prolog><metadata>
+<keywords>
+</keywords>
+</metadata>
+</prolog>
+<conbody>
+<p>Large database pages reduce I/O time because
+<ph conref="../conrefs.dita#prod/productshortname"></ph> can access more data
+with fewer I/Os. However, large pages require more memory.
+<ph conref="../conrefs.dita#prod/productshortname"></ph> allocates a bulk number
+of database pages in its page cache by default. If the page size is large, the
+system might run out of memory.</p>
+<p>Use the <i>-Xmx</i> flag as an optional parameter to the JVM to give the JVM
+more memory upon startup.</p>
+<p>For example:</p>
+<codeblock><b>java -Xmx64M myApp</b></codeblock>
+<p>If you have limited disk space and cannot afford the overhead of the minimum
+two pages per table, keep your page sizes small.</p>
+</conbody></concept>

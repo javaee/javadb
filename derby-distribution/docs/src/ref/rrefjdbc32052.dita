@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN"
+ "../dtd/reference.dtd">
+<!-- 
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at      
+
+http://www.apache.org/licenses/LICENSE-2.0  
+
+Unless required by applicable law or agreed to in writing, software  
+distributed under the License is distributed on an "AS IS" BASIS,  
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+See the License for the specific language governing permissions and  
+limitations under the License.
+-->
+<reference id="rrefjdbc32052" xml:lang="en-us">
+<title>java.sql.Driver interface</title>
+<shortdesc>The class that loads
+<ph conref="../conrefs.dita#prod/productshortname"></ph>'s local JDBC driver is
+the class <i>org.apache.derby.jdbc.EmbeddedDriver</i>. The class that loads
+<ph conref="../conrefs.dita#prod/productshortname"></ph>'s network client driver
+is the class <i>org.apache.derby.jdbc.ClientDriver</i>.</shortdesc>
+<prolog><metadata>
+<keywords><indexterm>java.sql.Driver interface</indexterm>
+<indexterm>JDBC driver<indexterm>loading</indexterm></indexterm>
+</keywords>
+</metadata></prolog>
+<refbody>
+<section><p>Usually, you will not need to create an instance of one of these
+classes, because the driver class is loaded and registered automatically when
+the <i>java.sql.DriverManager</i> class is initialized. That typically happens
+on the first call to a <i>DriverManager</i> method such as
+<i>DriverManager.getConnection</i>. This section describes a few exceptions to
+this rule.</p>
+<p>With the embedded driver, if your application shuts down
+<ph conref="../conrefs.dita#prod/productshortname"></ph> or calls the
+<i>DriverManager.deregisterDriver</i> method, and you then want to reload the
+driver, call the <i>Class.forName().newInstance()</i> method to do so:</p>
+<codeblock>Class.forName("org.apache.derby.jdbc.EmbeddedDriver").newInstance();</codeblock>
+<p>You also need to call the <i>Class.forName</i> method in this way if you need
+to boot the <ph conref="../conrefs.dita#prod/productshortname"></ph> engine
+without actually connecting to it -- for example, if you want to start an
+embedded Network Server instance. See, for example, "Overview of the
+SimpleNetworkServer Sample program" in the
+<ph conref="../conrefs.dita#pub/citadmin"></ph>.</p>
+</section>
+<section><p>The actual driver that gets registered in the <i>DriverManager</i> to
+handle the <i>jdbc:derby:</i> protocol is not the class <i>org.apache.derby.jdbc.EmbeddedDriver</i>
+or <i>org.apache.derby.jdbc.ClientDriver</i>;
+that class simply detects the type of <ph conref="../conrefs.dita#prod/productshortname"></ph> driver
+needed and then causes the appropriate <ph conref="../conrefs.dita#prod/productshortname"></ph> driver
+to be loaded.</p></section>
+<section><p>The only supported way to connect to a <ph conref="../conrefs.dita#prod/productshortname"></ph> system
+through the <i>jdbc:derby:</i> protocol is using the <i>DriverManager</i> to
+obtain a driver (<i>java.sql.Driver</i>) or connection (<i>java.sql.Connection</i>)
+through a <i>getDriver</i> or <i>getConnection</i> method call.</p></section>
+</refbody>
+</reference>

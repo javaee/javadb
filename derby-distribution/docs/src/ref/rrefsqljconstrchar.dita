@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at      
+
+http://www.apache.org/licenses/LICENSE-2.0  
+
+Unless required by applicable law or agreed to in writing, software  
+distributed under the License is distributed on an "AS IS" BASIS,  
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+See the License for the specific language governing permissions and  
+limitations under the License.
+-->
+
+<!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN"
+ "../dtd/reference.dtd">
+<reference id="rrefsqljconstrchar" xml:lang="en-us">
+<title>constraintCharacteristics</title>
+<prolog><metadata>
+<keywords>
+<indexterm>deferrable constraints</indexterm>
+<indexterm>constraints<indexterm>deferrable</indexterm></indexterm>
+</keywords>
+</metadata></prolog>
+<refbody>
+<example>
+<codeblock><b><i>constraintCheckTime</i> [ [ NOT ] DEFERRABLE ] |
+[ NOT ] DEFERRABLE [ <i>constraintCheckTime</i> ]</b></codeblock>
+</example>
+<section><p>The <i>constraintCheckTime</i> is defined as follows:</p>
+<codeblock><b>INITIALLY DEFERRED | INITIALLY IMMEDIATE</b></codeblock>
+<p>If DEFERRABLE is specified, the constraint is deferrable; otherwise it is not
+deferrable unless INITIALLY DEFERRED is specified. To make a constraint from an
+existing database deferrable, you must drop and recreate the constraint.</p>
+<p>If <i>constraintCheckTime</i> is not specified, INITIALLY IMMEDIATE is
+implicit.</p>
+<p>If INITIALLY DEFERRED is specified and DEFERRABLE is not specified,
+DEFERRABLE is implicit. If INITIALLY DEFERRED is specified, NOT DEFERRABLE is
+not permitted.</p>
+<p>The deferrability or the <i>constraintCheckTime</i> (that is, the default
+checking time) of a constraint cannot be altered. To change these
+characteristics, you must drop the constraint and recreate it.</p>
+<p>NOT NULL constraints are not deferrable; all others are deferrable.
+The NOT NULL constraint can, however, be dropped and recreated if desired. This
+will require a full table scan.</p>
+<p>A constraint can be specified as DEFERRABLE or NOT DEFERRABLE, or with a
+<i>constraintCheckTime</i> of INITIALLY DEFERRED or INITIALLY IMMEDIATE, only
+after a database has been fully upgraded to
+<ph conref="../conrefs.dita#prod/productshortname"></ph> Release 10.11 or
+higher. (See "Upgrading a database" in the
+<ph conref="../conrefs.dita#pub/citdevelop"></ph> for more information.) These
+keywords have no meaning in a database that is at Release 10.10 or lower.</p>
+<p>After a full upgrade to Release 10.11 or higher, old constraints on the
+database will be converted to NOT DEFERRABLE, the default value.</p>
+<note>Deferred constraints sometimes impose extra performance overhead to allow
+for the deferred checking. If your application does not require deferred
+checking, we recommend that you make constraints NOT DEFERRABLE (the
+default).</note>
+<note>In contrast to constraint checking, the referential actions specified by a
+referential constraint are never deferred. In
+<ph conref="../conrefs.dita#prod/productshortname"></ph>, these actions are
+RESTRICT, SET NULL and CASCADE for delete and RESTRICT for update. If NO ACTION
+is specified, the referential check can be deferred.</note>
+</section>
+</refbody>
+</reference>

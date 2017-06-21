@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN"
+ "../dtd/concept.dtd">
+<!-- 
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at      
+
+   http://www.apache.org/licenses/LICENSE-2.0  
+
+Unless required by applicable law or agreed to in writing, software  
+distributed under the License is distributed on an "AS IS" BASIS,  
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+See the License for the specific language governing permissions and  
+limitations under the License.
+-->
+<concept id="csecterms" xml:lang="en-us">
+<title>Security terminology</title>
+<shortdesc>In discussing
+<ph conref="../conrefs.dita#prod/productshortname"></ph> defenses, the following
+terms are useful.</shortdesc>
+<prolog></prolog>
+<conbody>
+<dl>
+<dlentry>
+<dt>attacker</dt>
+<dd>A person or organization that seeks to compromise the security of a
+system.</dd>
+</dlentry>
+<dlentry>
+<dt>damages</dt>
+<dd>The harm done to a system by an attacker. Includes denial-of-service, theft
+of secrets, and corruption of data.</dd>
+</dlentry>
+<dlentry>
+<dt><xref href="cseccsecuredbowner.dita">Database Owner</xref></dt>
+<dd>The person who creates a database and configures its security.</dd>
+</dlentry>
+<dlentry>
+<dt>insider</dt>
+<dd>An attacker, such as a disgruntled co-worker, who operates inside the
+firewall and enjoys the presumption of friendliness.</dd>
+</dlentry>
+<dlentry>
+<dt>malware</dt>
+<dd>A program that compromises security, such as a virus, worm, or spider.</dd>
+</dlentry>
+<dlentry>
+<dt>outsider</dt>
+<dd>An attacker who operates outside the firewall.</dd>
+</dlentry>
+<dlentry>
+<dt>System Administrator</dt>
+<dd>The account that launches
+<ph conref="../conrefs.dita#prod/productshortname"></ph> and is responsible for
+configuring the security of the
+<ph conref="../conrefs.dita#prod/productshortname"></ph> system.</dd>
+</dlentry>
+<dlentry>
+<dt>technique</dt>
+<dd>A mechanism for compromising the security of a system, such as
+man-in-the-middle or SQL injection.</dd>
+</dlentry>
+<dlentry>
+<dt>user</dt>
+<dd>A person authorized to use a
+<ph conref="../conrefs.dita#prod/productshortname"></ph> application.</dd>
+</dlentry>
+<dlentry>
+<dt>vulnerability</dt>
+<dd>A feature of <ph conref="../conrefs.dita#prod/productshortname"></ph> that
+attackers can exploit in order to cause damage.</dd>
+</dlentry>
+</dl>
+</conbody>
+</concept>

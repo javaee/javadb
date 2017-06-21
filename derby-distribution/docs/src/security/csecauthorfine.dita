@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN"
+ "../dtd/concept.dtd">
+<!-- 
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at      
+
+   http://www.apache.org/licenses/LICENSE-2.0  
+
+Unless required by applicable law or agreed to in writing, software  
+distributed under the License is distributed on an "AS IS" BASIS,  
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+See the License for the specific language governing permissions and  
+limitations under the License.
+-->
+<concept id="csecauthorfine" xml:lang="en-us">
+<title>Configuring fine-grained user authorization</title>
+<shortdesc>You can use fine-grained user authorization, also called SQL standard
+authorization, to restrict access to specific pieces of data.</shortdesc>
+<prolog><metadata>
+<keywords><indexterm>databases<indexterm>fine-grained authorization, configuring</indexterm></indexterm>
+<indexterm>authorization<indexterm>fine-grained</indexterm></indexterm>
+<indexterm>derby.database.sqlAuthorization property</indexterm>
+<indexterm>properties<indexterm>derby.database.sqlAuthorization</indexterm></indexterm>
+</keywords></metadata></prolog>
+<conbody>
+<p>You can use fine-grained authorization by itself or in conjunction with
+coarse-grained authorization.</p>
+<p>Fine-grained authorization, like coarse-grained authorization, requires that
+we run <ph conref="../conrefs.dita#prod/productshortname"></ph> with
+authentication turned on. If you are using LDAP authentication, then you will
+need to enable fine-grained authorization by setting the
+<codeph>derby.database.sqlAuthorization</codeph> property to
+<codeph>true</codeph>.</p>
+<p>The following example uses the same database you created in
+<xref href="cseccsecurenativeauth.dita"/>, the database that relies on NATIVE
+authentication. If you use NATIVE authentication, there is no need to set the
+<codeph>derby.database.sqlAuthorization</codeph> property. NATIVE authentication
+automatically enables fine-grained authorization.</p>
+<p>The example creates two tables. One table can be viewed by anyone. The other
+table can be viewed only by specific users.</p>
+<codeblock><b>java org.apache.derby.tools.ij</b>
+ij version 10.11
+ij> <b>connect 'jdbc:derby:testdb;user=mchrysta;password=mchrysta';</b>
+ij> -- create and populate some tables
+<b>create table publicTable( a int );</b>
+0 rows inserted/updated/deleted
+ij> <b>create table restrictedTable( a int );</b>
+0 rows inserted/updated/deleted
+ij> <b>insert into publicTable( a ) values ( 1 );</b>
+1 row inserted/updated/deleted
+ij> <b>insert into restrictedTable( a ) values( 100 );</b>
+1 row inserted/updated/deleted
+ij> -- set up fine-grained checks
+<b>grant select on publicTable to public;</b>
+0 rows inserted/updated/deleted
+ij> <b>grant select on restrictedTable to thardy;</b>
+0 rows inserted/updated/deleted
+ij> --
+--Now verify that thardy can view both tables...
+--
+<b>connect 'jdbc:derby:testdb;user=thardy;password=thardy';</b>
+ij(CONNECTION1)> <b>select * from mchrysta.publicTable;</b>
+A          
+-----------
+1          
+
+1 row selected
+ij(CONNECTION1)> <b>select * from mchrysta.restrictedTable;</b>
+A          
+-----------
+100        
+
+1 row selected
+ij(CONNECTION1)> --
+-- ...but other users can only view the public table:
+--
+<b>connect 'jdbc:derby:testdb;user=jhallett;password=jhallett';</b>
+ij(CONNECTION2)> <b>select * from mchrysta.publicTable;</b>
+A          
+-----------
+1          
+
+1 row selected
+ij(CONNECTION2)> <b>select * from mchrysta.restrictedTable;</b>
+ERROR 42502: User 'JHALLETT' does not have SELECT permission on column 'A' of
+table 'MCHRYSTA'.'RESTRICTEDTABLE'.</codeblock>
+<p>You can also use the GRANT command to restrict write access to your tables,
+to control who executes your functions and procedures, to limit who can add
+triggers to your tables, and to limit who can create foreign keys referencing
+your tables. You can also control users' ability to create, set, and drop
+roles.</p>
+<p>Coarse-grained and fine-grained authorization are not mutually exclusive. You
+may want to configure both. Using coarse-grained authorization, you can prevent
+truly read-only users from creating and populating any table; this defends your
+database against an unbounded growth vulnerability (see 
+<xref href="csecintrovuln.dita"></xref>. Using additional
+fine-grained authorization checks prevents your read-write users from accessing
+restricted data.</p>
+<p>After the <codeph>derby.database.sqlAuthorization</codeph> property has been
+set to <codeph>true</codeph>, you cannot set the property back to
+<codeph>false</codeph>.</p>
+<p>You can set the <codeph>derby.database.sqlAuthorization</codeph> property
+as a system property or as a database property. If you set this property as
+a system property before you create the databases, all new databases will
+automatically have SQL authorization enabled:</p>
+<codeblock>derby.database.sqlAuthorization=true</codeblock>
+<p>If the databases already exist, you can set this property only as a database
+property:</p>
+<codeblock>CALL SYSCS_UTIL.SYSCS_SET_DATABASE_PROPERTY(
+    'derby.database.sqlAuthorization',
+    'true')</codeblock>
+</conbody>
+</concept>

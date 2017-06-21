@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at      
+
+http://www.apache.org/licenses/LICENSE-2.0  
+
+Unless required by applicable law or agreed to in writing, software  
+distributed under the License is distributed on an "AS IS" BASIS,  
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+See the License for the specific language governing permissions and  
+limitations under the License.
+-->
+
+<!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN"
+ "../dtd/reference.dtd">
+<reference id="rrefsqljsetconstr" xml:lang="en-us">
+<title>SET CONSTRAINTS statement</title>
+<shortdesc>The SET CONSTRAINTS statement sets the deferrability of one or
+more constraints.</shortdesc>
+<prolog><metadata>
+<keywords>
+<indexterm>SET CONSTRAINTS statement</indexterm>
+<indexterm>SQL statements<indexterm>SET CONSTRAINTS</indexterm></indexterm>
+<indexterm>constraints<indexterm>setting deferrability</indexterm></indexterm>
+</keywords>
+</metadata></prolog>
+<refbody>
+<section>
+<p>The SET CONSTRAINTS statement allows you to set the constraint mode for one
+or more constraints either to DEFERRED or to IMMEDIATE.</p>
+<p>When you use the statement to change a constraint from DEFERRED to
+IMMEDIATE, the constraint is checked as soon as the statement is executed.</p>
+<p>If the check fails, the transaction is not rolled back; an error here
+constitutes a statement level error only. Therefore, you can use this statement
+to check if all constraints are fulfilled before you attempt to commit the
+transaction.</p>
+<p>A SET CONSTRAINTS statement changes the state of a constraint only until the
+transaction ends (or until another, overriding SET CONSTRAINTS statement is
+issued). Once the transaction ends, the constraint reverts to the default
+behavior declared for it at the time it was created (using a CREATE TABLE or
+ALTER TABLE statement).</p>
+<p>For more information on deferrable constraints, see
+<xref href="rrefsqlj13590.dita"/> and
+<xref href="rrefsqljconstrchar.dita"/>.</p>
+<p>It is recommended that you use SET CONSTRAINTS on
+<xref href="rrefsqlj42154.dita">table-level constraints</xref>. If you use
+SET CONSTRAINTS on a <xref href="rrefsqlj16095.dita">column-level
+constraint</xref>, you will need to find the name of the corresponding index by
+performing queries against the system tables, which is cumbersome and requires
+additional non-portable SQL.</p>
+<note>The SET CONSTRAINTS statement is valid only after a database has been fully
+upgraded to <ph conref="../conrefs.dita#prod/productshortname"></ph>
+Release 10.11 or higher. (See "Upgrading a database" in the
+<ph conref="../conrefs.dita#pub/citdevelop"></ph> for more information.) This
+statement has no meaning in a database that is at Release 10.10 or lower.</note>
+</section>
+<refsyn><title>Syntax</title> 
+<codeblock><b>SET CONSTRAINTS <i>constraintNameList</i> { DEFERRED | IMMEDIATE }</b></codeblock>
+<p>The <i>constraintNameList</i> is defined as follows:</p>
+<codeblock><b>ALL | <i><xref href="rrefconstraintname.dita">constraintName</xref></i> [ { , <i>constraintName</i> }... ]</b></codeblock>
+</refsyn>
+<section><title>Runtime behavior</title>
+<p>If the constraint mode is DEFERRED and a violation is seen at commit time,
+an exception is thrown, and the transaction is rolled back.</p>
+<p>When you change the constraint mode explicitly to IMMEDIATE using
+SET CONSTRAINTS, the constraint is checked, but slightly differently from the
+way it is checked at commit time: if a violation is found, a statement-level
+exception is thrown. You can use this behavior to verify that constraints are
+fulfilled before you attempt to commit.</p>
+<p>If the constraint mode is IMMEDIATE upon entering a stored routine, and that
+routine in a nested connection changes the constraint mode to DEFERRED, any
+constraints that are affected are checked upon return from the routine. If the
+check fails, an exception is thrown, and the transaction is rolled back.</p>
+<p>Constraints with a constraint mode of DEFERRED are also checked if the
+application calls <i>XAResource.prepare(Xid)</i>. If there is a violation,
+<ph conref="../conrefs.dita#prod/productshortname"></ph> throws
+<i>XAException.XA_RBINTEGRITY</i>, and the XA transaction is rolled back.</p>
+</section>
+<example><title>Examples</title>
+<codeblock><b>SET CONSTRAINTS FOO DEFERRED;
+
+SET CONSTRAINTS ALL DEFERRED;
+
+SET CONSTRAINTS FOO, BAR IMMEDIATE;</b></codeblock>
+</example>
+</refbody>
+</reference>

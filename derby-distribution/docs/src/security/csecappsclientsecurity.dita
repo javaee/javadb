@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN"
+ "../dtd/concept.dtd">
+<!-- 
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at      
+
+http://www.apache.org/licenses/LICENSE-2.0  
+
+Unless required by applicable law or agreed to in writing, software  
+distributed under the License is distributed on an "AS IS" BASIS,  
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+See the License for the specific language governing permissions and  
+limitations under the License.
+-->
+<!--##### DO NOT CHANGE ANYTHING ABOVE THIS LINE #####-->
+<concept id="csecappsclientsecurity" xml:lang="en-us">
+<title>Configuring Network Client authentication without SSL/TLS</title>
+<shortdesc>If you do not encrypt network traffic with SSL/TLS, you can use
+properties to specify the encryption of user names and passwords on the client
+side.</shortdesc>
+<prolog><metadata>
+<keywords><indexterm>Network Client security</indexterm></keywords>
+</metadata></prolog>
+<conbody>
+<note type="important">Using SSL/TLS is strongly recommended for production
+applications. Use the properties only under unusual circumstances.</note>
+<p>The <codeph>securityMechanism=value</codeph> property specifies a security
+mechanism for the <ph conref="../conrefs.dita#prod/productshortname"></ph>
+Network Client. See the <ph conref="../conrefs.dita#pub/citref"></ph> for details
+on this property.</p>
+<p>You can set the <codeph>securityMechanism</codeph> property in one of the
+following ways:</p><ul>
+<li>When you are using the <codeph>java.sql.DriverManager</codeph> class, set
+<codeph>securityMechanism=<i>value</i></codeph> in a <codeph>java.util.Properties</codeph>
+object before you invoke the form of the
+<codeph>DriverManager.getConnection</codeph> method that includes the
+<codeph>java.util.Properties</codeph> parameter.</li>
+<li>When you are using the <codeph>ClientDataSource</codeph> interface to create
+and deploy your own DataSource objects, invoke the
+<codeph>ClientDataSource.setSecurityMechanism</codeph> method after you create a
+ClientDataSource object.</li>
+</ul>
+<p>The following table lists the security mechanisms that the
+<ph conref="../conrefs.dita#prod/productshortname"></ph> Network
+Client supports, and the corresponding property value to specify to obtain this
+security mechanism. The default security mechanism is the user id only if no
+password is set. If the password is set, the default security mechanism is both
+the user id and password. The default user is APP if no other user is
+specified.</p>
+<table>
+<title>Security mechanisms supported by the
+<ph conref="../conrefs.dita#prod/productshortname"></ph> Network Client</title>
+<desc>This table lists, describes, and provides additional information about <ph conref="../conrefs.dita#prod/productshortname"></ph> network client security mechanisms.</desc>
+<tgroup cols="3" colsep="1" rowsep="1">
+<colspec colname="col1" colnum="1" colwidth="15*"/>
+<colspec colname="col2" colnum="2" colwidth="57*"/>
+<colspec colname="col3" colnum="3" colwidth="28*"/>
+<thead>
+<row valign="bottom">
+<entry colname="col1">Security Mechanism</entry>
+<entry colname="col2">securityMechanism Property Value</entry>
+<entry colname="col3">Comments</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry colname="col1">User id and password</entry>
+<entry colname="col2"><codeph>ClientDataSource.CLEAR_TEXT_PASSWORD_SECURITY</codeph>
+(0x03)</entry>
+<entry colname="col3">Default if password is set</entry>
+</row>
+<row>
+<entry colname="col1">User id only</entry>
+<entry colname="col2"><codeph>ClientDataSource.USER_ONLY_SECURITY</codeph>
+(0x04)</entry>
+<entry colname="col3">Default if password is not set</entry>
+</row>
+<row>
+<entry colname="col1">Encrypted user id and encrypted password</entry>
+<entry colname="col2"><codeph>ClientDataSource.ENCRYPTED_USER_AND_PASSWORD_SECURITY</codeph>
+(0x09)</entry>
+<entry colname="col3">Encryption requires a JCE implementation that supports
+the Diffie-Hellman algorithm with a public prime of 256 bits.</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+<p><ph conref="../conrefs.dita#prod/productshortname"></ph> provides two
+ClientDataSource implementations. Use the
+<codeph>org.apache.derby.jdbc.ClientDataSource</codeph> class on all supported
+Java SE versions except Java SE 8 Compact Profile 2. On Java SE 8 Compact
+Profile 2, use the
+<codeph>org.apache.derby.jdbc.BasicClientDataSource40</codeph> class.</p>
+</conbody>
+</concept>

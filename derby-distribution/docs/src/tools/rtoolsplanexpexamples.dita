@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+ 
+<!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN"
+ "../dtd/reference.dtd">
+<!-- 
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at      
+
+http://www.apache.org/licenses/LICENSE-2.0  
+
+Unless required by applicable law or agreed to in writing, software  
+distributed under the License is distributed on an "AS IS" BASIS,  
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+See the License for the specific language governing permissions and  
+limitations under the License.
+-->
+<reference id="rtoolsplanexpexamples" xml:lang="en-us">
+<title>PlanExporter example</title>
+<shortdesc>This example shows the steps that you must follow in order to use the
+<codeph>PlanExporter</codeph> tool.</shortdesc>
+<prolog><metadata>
+<keywords><indexterm>PlanExporter<indexterm>example</indexterm></indexterm>
+<indexterm>examples<indexterm>PlanExporter</indexterm></indexterm>
+</keywords>
+</metadata></prolog>
+<refbody>
+<example>
+<ol>
+<li>Move to the directory where your database was created.</li>
+<li>Run the <codeph>ij</codeph> tool:
+<codeblock><b>java org.apache.derby.tools.ij</b></codeblock>
+</li>
+<li>Create a connection to the database:
+<codeblock><b>CONNECT 'jdbc:derby:myDb;create=false';</b></codeblock>
+<note>You can use a <ph conref="../conrefs.dita#prod/productshortname"></ph>
+client/server database as well. </note>
+</li>
+<li>Use XPLAIN styles:
+<codeblock><b>CALL SYSCS_UTIL.SYSCS_SET_RUNTIMESTATISTICS(1);
+CALL SYSCS_UTIL.SYSCS_SET_XPLAIN_SCHEMA('MY_SCHEMA');
+select * from my_table;
+CALL SYSCS_UTIL.SYSCS_SET_RUNTIMESTATISTICS(0);
+CALL SYSCS_UTIL.SYSCS_SET_XPLAIN_SCHEMA('');</b></codeblock>
+</li>
+<li>Obtain the <codeph>stmt_id</codeph> of the query:
+<codeblock><b>select stmt_text, stmt_id from MY_SCHEMA.SYSXPLAIN_STATEMENTS;
+exit;</b></codeblock>
+<p>Now find the <codeph>stmt_id</codeph> of the executed query in the displayed
+results and note it down. It looks something like this:</p>
+<codeblock>9ac8804c-0129-cc31-ca9a-00000047f1e8</codeblock>
+</li>
+<li>Run the <codeph>PlanExporter</codeph> tool in the same location:
+<codeblock><b>java org.apache.derby.tools.PlanExporter jdbc:derby:myDb MY_SCHEMA 
+    9ac8804c-0129-cc31-ca9a-00000047f1e8 -html plain_html;</b></codeblock>
+<p>This command uses the default style sheet provided with 
+<ph conref="../conrefs.dita#prod/productshortname"></ph>, and the HTML file will
+be generated at the same location, since the command does not specify a
+different path. The name of the HTML file generated is
+<codeph>plain_html.html</codeph>.</p>
+</li>
+</ol>
+</example>
+</refbody>
+</reference>

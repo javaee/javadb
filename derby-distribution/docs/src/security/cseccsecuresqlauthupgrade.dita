@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN"
+ "concept.dtd">
+<!-- 
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at      
+
+   http://www.apache.org/licenses/LICENSE-2.0  
+
+Unless required by applicable law or agreed to in writing, software  
+distributed under the License is distributed on an "AS IS" BASIS,  
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+See the License for the specific language governing permissions and  
+limitations under the License.
+-->
+<concept id="cseccsecuresqlauthupgrade" xml:lang="en-us">
+<title>Upgrading an old database to use SQL standard authorization</title>
+<shortdesc>An old, unprotected database can be shielded with authentication and
+SQL authorization later on.</shortdesc>
+<prolog><metadata>
+<keywords>
+<indexterm>upgrade</indexterm>
+<indexterm>SQL standard authorization mode</indexterm>
+</keywords>
+</metadata></prolog>
+<conbody>
+<section><title>Upgrading authentication and authorization</title>
+<p>To protect a single-user database and convert it to a shared, multi-user
+database, simply enable authentication and SQL authorization. To do this, first
+turn on user authentication as described in
+<xref href="cseccsecure42374.dita"/>. Make sure that you supply login
+credentials for the <xref href="cseccsecuredbowner.dita">Database Owner</xref>.
+In most single-user databases, the Database Owner is APP. However, the Database
+Owner could be some other user if the original database creation URL specified
+a user name; for details, see
+<xref href="cseccsecuredbowner.dita">Database Owner</xref>. If you are unsure
+about who owns the database, run the following query:</p>
+<codeblock>select authorizationid from sys.sysschemas where schemaname = 'SYS'</codeblock>
+<p>After enabling user authentication, turn on SQL authorization. To do this,
+connect to the database as the Database Owner and issue the following
+command:</p>
+<codeblock>call syscs_util.syscs_set_database_property( 'derby.database.sqlAuthorization', 'true' )</codeblock>
+<p>Now shut down the database to activate the new value of
+<codeph>derby.database.sqlAuthorization</codeph>. The next time you boot the
+database, it will be protected by authentication and SQL authorization.</p>
+</section>
+<section><title>Behavior of upgraded databases</title>
+<p>You will notice the following behavior changes in your upgraded database:</p>
+<ul>
+<li><b>Data</b>: Users can access data in their own schemas. However, users
+cannot access data in schemas owned by other users. In particular, other users
+cannot access data in schemas belonging to the Database Owner. The Database
+Owner may need to GRANT access to that data.</li>
+<li><b>Database Maintenance</b>: In a single-user database, anyone can run
+maintenance procedures to backup/restore and import/export data. In the upgraded
+multi-user database, only the Database Owner can perform these sensitive
+operations.</li>
+</ul>
+</section>
+</conbody>
+</concept>

@@ -1,0 +1,11 @@
+# identifies tests that fail when run in a suite with useprocess=false with DerbyNetClient 
+#
+#     File permission
+# derbynet/dblook_test_net.java - expects different dir structure
+# derbynet/dblook_test_net_territory.java - expects different dir structure
+# following fail for various reasons, many related to not being able to connect:
+#  lang/wisconsin.java
+#
+derbynet/dblook_test_net.java
+derbynet/dblook_test_net_territory.java
+lang/wisconsin.java

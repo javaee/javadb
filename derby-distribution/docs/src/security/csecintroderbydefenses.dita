@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN"
+ "../dtd/concept.dtd">
+<!-- 
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at      
+
+   http://www.apache.org/licenses/LICENSE-2.0  
+
+Unless required by applicable law or agreed to in writing, software  
+distributed under the License is distributed on an "AS IS" BASIS,  
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+See the License for the specific language governing permissions and  
+limitations under the License.
+-->
+<concept id="csecintroderbydefenses" xml:lang="en-us">
+<title><ph conref="../conrefs.dita#prod/productshortname"></ph> defenses against
+threats</title>
+<shortdesc><ph conref="../conrefs.dita#prod/productshortname"></ph> provides
+numerous defenses against security threats.</shortdesc>
+<prolog></prolog>
+<conbody>
+<p>These defenses are described in the following table.</p>
+<table>
+<title><ph conref="../conrefs.dita#prod/productshortname"></ph> defenses</title>
+<desc>This table lists and describes defenses against threats, including who is responsible for implementing each defense.</desc>
+<tgroup cols="5" colsep="1" rowsep="1">
+<thead>
+<row valign="bottom">
+<entry colname="1">Defense</entry>
+<entry colname="2">Task Owner</entry>
+<entry colname="3">Description</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry colname="1">Java security</entry>
+<entry colname="2">System Administrator</entry>
+<entry colname="3">Using a Java <codeph>SecurityManager</codeph> and policy
+file, the System Administrator can restrict the permissions granted to
+user-written code. The System Administrator can also restrict the permissions
+granted to <ph conref="../conrefs.dita#prod/productshortname"></ph>
+itself.</entry>
+</row>
+<row>
+<entry colname="1">SSL/TLS</entry>
+<entry colname="2">System Administrator</entry>
+<entry colname="3">The System Administrator can require that SSL/TLS be used to
+encrypt network traffic between
+<ph conref="../conrefs.dita#prod/productshortname"></ph> clients and servers,
+along the way raising an extra authentication hurdle.</entry>
+</row>
+<row>
+<entry colname="1">Encryption</entry>
+<entry colname="2">Database Owner</entry>
+<entry colname="3">A Database Owner can require that the data for an application
+be encrypted before being stored on disk. This makes it expensive to steal and
+corrupt the data.</entry>
+</row>
+<row>
+<entry colname="1">Authentication</entry>
+<entry colname="2">Database Owner</entry>
+<entry colname="3">Using usernames and passwords, a Database Owner can restrict
+access to an application's data.</entry>
+</row>
+<row>
+<entry colname="1">Coarse-grained authorization</entry>
+<entry colname="2">Database Owner</entry>
+<entry colname="3">A Database Owner can divide an application's users into three
+groups: those with no privileges, those with read-only privileges, and those
+with read-write privileges.</entry>
+</row>
+<row>
+<entry colname="1">Fine-grained SQL authorization</entry>
+<entry colname="2">Database Owner</entry>
+<entry colname="3">By using SQL GRANT and REVOKE statements, a Database Owner
+can further restrict access to fine-grained pieces of data and code.</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+</conbody>
+</concept>

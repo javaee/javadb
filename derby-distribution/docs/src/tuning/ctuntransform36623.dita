@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+ 
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN"
+ "../dtd/concept.dtd">
+<!-- 
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at      
+
+http://www.apache.org/licenses/LICENSE-2.0  
+
+Unless required by applicable law or agreed to in writing, software  
+distributed under the License is distributed on an "AS IS" BASIS,  
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+See the License for the specific language governing permissions and  
+limitations under the License.
+-->
+<concept id="ctuntransform36623" xml:lang="en-us">
+<title>Predicates pushed into views or derived tables</title>
+<shortdesc>An SQL statement that references a view can also include a
+predicate.</shortdesc>
+<prolog><metadata>
+<keywords><indexterm>predicates<indexterm>pushed down into views</indexterm></indexterm>
+</keywords>
+</metadata></prolog>
+<conbody>
+<p>Consider the view <codeph>v2(a,b)</codeph>:</p>
+<codeblock><b>CREATE VIEW v2(a,b) AS
+SELECT sales_person, MAX(sales)
+FROM Sales
+GROUP BY sales_person</b></codeblock>
+<p>The following statement references the view and includes a predicate:</p>
+<codeblock><b>SELECT *
+FROM v2
+WHERE a = 'LUCCHESI'</b></codeblock>
+<p>When <ph conref="../conrefs.dita#prod/productshortname"></ph> transforms that
+statement by first transforming the view into a derived table, it places the
+predicate at the top level of the new query, outside the scope of the derived
+table:</p>
+<codeblock><b>SELECT a, b 
+FROM (SELECT sales_person, MAX(sales) 
+   FROM Sales 
+   WHERE sales_person = 'LUCCHESI' 
+   GROUP BY sales_person) 
+   v1(a, b)</b></codeblock>
+<p>In the example in <xref href="ctuntransform22576.dita"/>,
+<ph conref="../conrefs.dita#prod/productshortname"></ph> was able to flatten the
+derived table into the main SELECT, so the predicate in the outer SELECT could
+be evaluated at a useful point in the query. This is not possible in this
+example, because the underlying view does not satisfy all the requirements of
+view flattening.</p>
+<p>However, if the source of all of the column references in a predicate is a
+<xref href="ctuntransform13966.dita#ctuntransform13966/rtuntransform13785">simple
+column reference</xref> in the underlying view or table,
+<ph conref="../conrefs.dita#prod/productshortname"></ph> is able to <i>push</i>
+the predicate <i>down</i> to the underlying view. Pushing down means that the
+qualification described by the predicate can be evaluated when the view is being
+evaluated. In our example, the column reference in the outer predicate,
+<codeph>a</codeph>, in the underlying view is a simple column reference to the
+underlying
+<xref href="ctuntransform13966.dita#ctuntransform13966/rtuntransform41494">base
+table</xref>. So the final transformation of this statement after predicate
+pushdown is:</p>
+<codeblock><b>SELECT a, b 
+FROM (SELECT sales_person, MAX(sales) from Sales 
+WHERE sales_person = 'LUCCHESI' 
+GROUP BY sales_person) v1(a, b)</b></codeblock>
+<p>Without the transformation,
+<ph conref="../conrefs.dita#prod/productshortname"></ph> would have to scan the
+entire table <codeph>t1</codeph> to form all the groups, only to throw out all
+but one of the groups. With the transformation,
+<ph conref="../conrefs.dita#prod/productshortname"></ph> is able to make that
+qualification part of the derived table.</p>
+<p>If there were a predicate that referenced column <codeph>b</codeph>, it could
+not be pushed down, because in the underlying view, column <codeph>b</codeph> is
+not a simple column reference.</p>
+<p>Predicate pushdown transformation includes predicates that reference multiple
+tables from an underlying join.</p>
+</conbody>
+</concept>

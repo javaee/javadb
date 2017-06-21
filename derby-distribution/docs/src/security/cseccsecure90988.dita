@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN"
+ "../dtd/concept.dtd">
+<!-- 
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at      
+
+   http://www.apache.org/licenses/LICENSE-2.0  
+
+Unless required by applicable law or agreed to in writing, software  
+distributed under the License is distributed on an "AS IS" BASIS,  
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+See the License for the specific language governing permissions and  
+limitations under the License.
+-->
+<concept id="cseccsecure90988" xml:lang="en-us">
+<title>Using signed jar files</title>
+<shortdesc>In a Java SE environment,
+<ph conref="../conrefs.dita#prod/productshortname"></ph> can detect digital
+signatures on jar files. When attempting to load a class from a signed jar file
+stored in the database, <ph conref="../conrefs.dita#prod/productshortname"></ph>
+will verify the validity of the signature.</shortdesc>
+<prolog><metadata>
+<keywords>
+<indexterm>jar files<indexterm>loading signed</indexterm></indexterm>
+<indexterm>signed jar files</indexterm></keywords>
+</metadata></prolog>
+<conbody>
+<note>The <ph conref="../conrefs.dita#prod/productshortname"></ph> class loader
+only validates the integrity of the signed jar file and verifies that the
+certificate has not expired. 
+<ph conref="../conrefs.dita#prod/productshortname"></ph> cannot ascertain
+whether the validity or identity of declared signer is correct. To validate
+identity, use a Security Manager (that is, an implementation of
+<codeph>java.lang.SecurityManager</codeph>). For details, see
+<xref href="csecjavasecurity.dita"/>.</note>
+<p>When loading classes from an application jar file in a Java SE environment,
+<ph conref="../conrefs.dita#prod/productshortname"></ph> behaves as follows if
+the class is signed:</p>
+<ul>
+<li>Verifies that the jar file was signed using a X.509 certificate (that is,
+it can be represented by the class
+<codeph>java.security.cert.X509Certificate</codeph>). If not, throws an
+exception.</li>
+<li>Verifies that the digital signature matches the contents of the file. If
+not, throws an exception.</li>
+<li>Checks that the set of signing certificates are all valid for the current
+date and time. If any certificate has expired or is not yet valid, throws an
+exception.</li>
+<li>Passes the array of certificates to the <codeph>setSigners()</codeph> method
+of <codeph>java.lang.ClassLoader</codeph>. This allows security managers to
+obtain the list of signers for a class (using
+<codeph>java.lang.Class.getSigners</codeph>) and then validate the identity of
+the signers using the services of a Public Key Infrastructure (PKI).</li>
+</ul>
+<p>For more information about signed jar files, see <xref format="html"
+href="http://docs.oracle.com/javase/8/docs/technotes/guides/jar/jar.html"
+scope="external"/>.</p>
+</conbody>
+</concept>

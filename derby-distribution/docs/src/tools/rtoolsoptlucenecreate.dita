@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at      
+
+http://www.apache.org/licenses/LICENSE-2.0  
+
+Unless required by applicable law or agreed to in writing, software  
+distributed under the License is distributed on an "AS IS" BASIS,  
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+See the License for the specific language governing permissions and  
+limitations under the License.
+-->
+<!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN"
+ "../dtd/reference.dtd">
+<reference id="rtoolsoptlucenecreate" xml:lang="en-us">
+<title>Creating an index</title>
+<shortdesc>The <codeph>luceneSupport</codeph> optional tool lets you use Apache
+Lucene to perform full-text indexing and searching of the contents of
+<ph conref="../conrefs.dita#prod/productshortname"></ph> text
+columns.</shortdesc>
+<prolog><metadata>
+<keywords>
+<indexterm>luceneSupport optional tool<indexterm>creating an index</indexterm></indexterm>
+</keywords>
+</metadata></prolog>
+<refbody>
+<section>
+<p>After the <codeph>luceneSupport</codeph> tool has been loaded, a user can
+index a text column in a table or view which that user owns. If SQL
+authorization is enabled, then the database owner is the only account which can
+index a text column in another user's table. The following procedure makes this
+possible:</p>
+<codeblock>LUCENESUPPORT.CREATEINDEX
+(
+    SCHEMANAME VARCHAR( 128 ),
+    TABLENAME VARCHAR( 128 ),
+    TEXTCOLUMN VARCHAR( 128 ),
+    INDEXDESCRIPTORMAKER VARCHAR( 32672 ),
+    KEYCOLUMNS VARCHAR( 32672 ) ...
+)</codeblock>
+<p>The procedure parameters are as follows:</p>
+<ul>
+<li><codeph>SCHEMANAME</codeph>: The SQL identifier of the schema which holds
+the table or view. This argument is case-insensitive unless you double-quote
+it.</li>
+<li><codeph>TABLENAME</codeph>: The SQL identifier of the table or view (also
+case-insensitive).</li>
+<li><codeph>TEXTCOLUMN</codeph>: The SQL identifier of the text column being
+indexed (also case-insensitive). The column must have a character datatype.</li>
+<li><codeph>INDEXDESCRIPTORMAKER</codeph>: If the argument is not null, this is
+the full name of a zero-argument static, public method which creates an
+<codeph>org.apache.derby.optional.api.IndexDescriptor</codeph>. If the argument
+is null, the index is created using the default maker method,
+<codeph>org.apache.derby.optional.api.LuceneUtils.defaultIndexDescriptor</codeph>.
+An <codeph>org.apache.derby.optional.api.IndexDescriptor</codeph> specifies the
+following:
+<ul>
+<li>The analyzer to use when parsing text into indexable terms</li>
+<li>The names of the indexed fields which can be queried later on</li>
+<li>The subclass of
+<codeph>org.apache.lucene.queryparser.classic.QueryParser</codeph> which should
+be used when querying the index later on</li>
+</ul>
+<p>The default <codeph>org.apache.derby.optional.api.IndexDescriptor</codeph>
+supplies one field name (<codeph>luceneTextField</codeph>) along with an
+instance of
+<codeph>org.apache.lucene.queryparser.classic.MultiFieldQueryParser</codeph> as
+its <codeph>QueryParser</codeph>. In addition, the default
+<codeph>org.apache.derby.optional.api.IndexDescriptor</codeph>  attempts to find
+a Lucene-supplied analyzer matching the default language of the database.
+Matches are found for the languages listed in the following table. Note that the
+Chinese analyzer was deprecated, so for Chinese, the plugin uses the
+<codeph>StandardAnalyzer</codeph> instead.</p>
+<p><table frame="all">
+<title>Language codes supported by the Lucene plugin</title>
+<desc>This table lists the languages and corresponding language codes supported by the Lucene plugin.</desc>
+<tgroup cols="2" colsep="1" rowsep="1">
+<colspec colname="1" colnum="1" colwidth="75*"/>
+<colspec colname="2" colnum="2" colwidth="25*"/>
+<thead>
+<row valign="bottom">
+<entry colname="1">Language</entry>
+<entry colname="2">Language Code</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry colname="1">Arabic</entry>
+<entry colname="2"><codeph>ar</codeph></entry>
+</row>
+<row>
+<entry colname="1">Armenian</entry>
+<entry colname="2"><codeph>hy</codeph></entry>
+</row>
+<row>
+<entry colname="1">Basque</entry>
+<entry colname="2"><codeph>eu</codeph></entry>
+</row>
+<row>
+<entry colname="1">Brazilian</entry>
+<entry colname="2"><codeph>br</codeph></entry>
+</row>
+<row>
+<entry colname="1">Bulgarian</entry>
+<entry colname="2"><codeph>bg</codeph></entry>
+</row>
+<row>
+<entry colname="1">Catalan</entry>
+<entry colname="2"><codeph>ca</codeph></entry>
+</row>
+<row>
+<entry colname="1">Czech</entry>
+<entry colname="2"><codeph>cz</codeph></entry>
+</row>
+<row>
+<entry colname="1">Danish</entry>
+<entry colname="2"><codeph>da</codeph></entry>
+</row>
+<row>
+<entry colname="1">Dutch</entry>
+<entry colname="2"><codeph>nl</codeph></entry>
+</row>
+<row>
+<entry colname="1">English</entry>
+<entry colname="2"><codeph>en</codeph></entry>
+</row>
+<row>
+<entry colname="1">Finnish</entry>
+<entry colname="2"><codeph>fi</codeph></entry>
+</row>
+<row>
+<entry colname="1">French</entry>
+<entry colname="2"><codeph>fr</codeph></entry>
+</row>
+<row>
+<entry colname="1">Galician</entry>
+<entry colname="2"><codeph>gl</codeph></entry>
+</row>
+<row>
+<entry colname="1">German</entry>
+<entry colname="2"><codeph>de</codeph></entry>
+</row>
+<row>
+<entry colname="1">Greek</entry>
+<entry colname="2"><codeph>el</codeph></entry>
+</row>
+<row>
+<entry colname="1">Hindi</entry>
+<entry colname="2"><codeph>hi</codeph></entry>
+</row>
+<row>
+<entry colname="1">Hungarian</entry>
+<entry colname="2"><codeph>hu</codeph></entry>
+</row>
+<row>
+<entry colname="1">Indonesian</entry>
+<entry colname="2"><codeph>id</codeph></entry>
+</row>
+<row>
+<entry colname="1">Irish</entry>
+<entry colname="2"><codeph>ga</codeph></entry>
+</row>
+<row>
+<entry colname="1">Italian</entry>
+<entry colname="2"><codeph>it</codeph></entry>
+</row>
+<row>
+<entry colname="1">Latvian</entry>
+<entry colname="2"><codeph>lv</codeph></entry>
+</row>
+<row>
+<entry colname="1">Norwegian</entry>
+<entry colname="2"><codeph>no</codeph></entry>
+</row>
+<row>
+<entry colname="1">Persian</entry>
+<entry colname="2"><codeph>fa</codeph></entry>
+</row>
+<row>
+<entry colname="1">Portuguese</entry>
+<entry colname="2"><codeph>pt</codeph></entry>
+</row>
+<row>
+<entry colname="1">Romanian</entry>
+<entry colname="2"><codeph>ro</codeph></entry>
+</row>
+<row>
+<entry colname="1">Russian</entry>
+<entry colname="2"><codeph>ru</codeph></entry>
+</row>
+<row>
+<entry colname="1">Spanish</entry>
+<entry colname="2"><codeph>es</codeph></entry>
+</row>
+<row>
+<entry colname="1">Swedish</entry>
+<entry colname="2"><codeph>sv</codeph></entry>
+</row>
+<row>
+<entry colname="1">Thai</entry>
+<entry colname="2"><codeph>th</codeph></entry>
+</row>
+<row>
+<entry colname="1">Turkish</entry>
+<entry colname="2"><codeph>tr</codeph></entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+</p>
+<p><ph conref="../conrefs.dita#prod/productshortname"></ph> supplies another
+utility method which instantiates the default Lucene analyzer; this utility
+method is called
+<codeph>org.apache.derby.optional.api.LuceneUtils.standardAnalyzer</codeph>, and
+it materializes an
+<codeph>org.apache.lucene.analysis.standard.StandardAnalyzer</codeph>.</p></li>
+<li><codeph>KEYCOLUMNS</codeph>: This is an optional list of SQL identifiers for
+other columns in the table or view. The values of these columns are stored in
+the text index for use in joining Lucene results back to the original data. If
+the <codeph>KEYCOLUMNS</codeph> are omitted, <codeph>TABLENAME</codeph> must
+identify a base table with a primary key; in this case, the whole primary key is
+stored in the text index for joining later.</li>
+</ul>
+<p>The keys and the text column cannot have the following names:</p>
+<ul>
+<li><codeph>DOCUMENTID</codeph></li>
+<li><codeph>SCORE</codeph></li>
+</ul>
+<p><codeph>CREATEINDEX</codeph> creates a table function named
+<codeph>$TABLENAME__$TEXTCOLUMN</codeph> in the <codeph>$SCHEMANAME</codeph>
+schema. <xref href="rtoolsoptlucenequery.dita"/> describes this table function in
+greater detail.</p>
+</section>
+<section><title>Example</title>
+<codeblock><b>-- index the POEMTEXT column of the POEMS table,
+-- using its primary key and the default IndexDescriptor maker
+CALL LUCENESUPPORT.CREATEINDEX( 'ruth', 'poems', 'poemText', null );
+
+-- index the POEMVIEW view, using POEMID and VERSIONSTAMP as keys
+-- and a custom IndexDescriptor
+CALL LUCENESUPPORT.CREATEINDEX
+(
+    'ruth', 'poemView', 'poemText',
+    'myapp.MyIndexDescriptor.makeMe',
+    'poemID', 'versionStamp'
+);</b></codeblock>
+</section>
+</refbody>
+</reference>

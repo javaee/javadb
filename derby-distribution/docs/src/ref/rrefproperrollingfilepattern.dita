@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN"
+ "../dtd/reference.dtd">
+<!-- 
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at      
+
+http://www.apache.org/licenses/LICENSE-2.0  
+
+Unless required by applicable law or agreed to in writing, software  
+distributed under the License is distributed on an "AS IS" BASIS,  
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+See the License for the specific language governing permissions and  
+limitations under the License.
+-->
+<reference id="rrefproperrollingfilepattern" xml:lang="en-us">
+<title>derby.stream.error.rollingFile.pattern</title>
+<shortdesc>The <i>derby.stream.error.rollingFile.pattern</i> property specifies
+the naming pattern to use for the rolling log files, if
+<i>derby.stream.error.style</i> is set to
+<codeph>rollingFile</codeph>.</shortdesc>
+<prolog><metadata>
+<keywords><indexterm>derby.stream.error.rollingFile.pattern property</indexterm>
+<indexterm>Error log<indexterm>file name pattern</indexterm></indexterm>
+<indexterm>Error log<indexterm>rolling over</indexterm></indexterm></keywords>
+</metadata></prolog>
+<refbody>
+<section>
+<p>If <i><xref href="rrefproperrollingfile.dita"/></i> is not set, this property
+setting is ignored.</p>
+<p>You can override other rolling log file defaults by setting
+<i><xref href="rrefproperrollingfilecount.dita"/></i> or
+<i><xref href="rrefproperrollingfilelimit.dita"/></i>.</p>
+<p>A pattern consists of a string that includes the following special components 
+that will be replaced at runtime.</p>
+<table frame="all"><title>Rolling log file pattern components</title>
+<desc>This table lists and describes the components of the rolling log file naming pattern.</desc>
+<tgroup cols="2" colsep="1" rowsep="1">
+<colspec colname="1" colnum="1" colwidth="30*"/>
+<colspec colname="2" colnum="2" colwidth="70*"/>
+<thead>
+<row valign="bottom">
+<entry colname="1">Pattern component</entry>
+<entry colname="2">Description</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry colname="1"><codeph>/</codeph></entry>
+<entry colname="2">Local path name separator</entry>
+</row>
+<row>
+<entry colname="1"><codeph>%t</codeph></entry>
+<entry colname="2">The system temporary directory</entry>
+</row>
+<row>
+<entry colname="1"><codeph>%h</codeph></entry>
+<entry colname="2">The value of the <i>user.home</i> system property</entry>
+</row>
+<row>
+<entry colname="1"><codeph>%d</codeph></entry>
+<entry colname="2">The value of the <i>derby.system.home</i> system property</entry>
+</row>
+<row>
+<entry colname="1"><codeph>%g</codeph></entry>
+<entry colname="2">The generation number to distinguish rotated log files.
+Generation numbers follow the sequence 0, 1, 2, and so on. If you do not specify
+a <codeph>%g</codeph> field and the file count is greater than one, the
+generation number will be added to the end of the generated filename, after a
+dot.</entry>
+</row>
+<row>
+<entry colname="1"><codeph>%u</codeph></entry>
+<entry colname="2">A unique number to resolve conflicts.</entry>
+</row>
+<row>
+<entry colname="1"><codeph>%%</codeph></entry>
+<entry colname="2">Translates to a single percent sign (<codeph>%</codeph>)</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+<p>Thus, for example, a <i>derby.stream.error.rollingFile.pattern</i> setting of
+<codeph>%t/java%g.log</codeph> with a
+<i>derby.stream.error.rollingFile.count</i> setting of 2 might cause log files
+on a UNIX system to be written to <i>/var/tmp/java0.log</i> and 
+<i>/var/tmp/java1.log</i>, whereas on a Windows 7 system they might be written
+to <i>%USERPROFILE%\AppData\Local\Temp\java0.log</i> and
+<i>%USERPROFILE%\AppData\Local\Temp\java1.log</i>.</p>
+<p>Normally, the <codeph>%u</codeph> unique field is set to 0 (zero). However,
+if <ph conref="../conrefs.dita#prod/productshortname"></ph> tries to open the
+file by the specified name and finds that the file is currently in use by
+another process, it will increment the unique number field and try again. This
+action will be repeated until
+<ph conref="../conrefs.dita#prod/productshortname"></ph> finds a file name that
+is not currently in use. If there is a conflict and no <codeph>%u</codeph> field
+has been specified, the unique number will be added at the end of the filename
+after a dot. (This will be after any automatically added generation number.)</p>
+<p>For example, if three processes are all trying to log to
+<codeph>fred%u.%g.txt</codeph>, they might have log files named
+<i>fred0.0.txt</i>, <i>fred1.0.txt</i>, <i>fred2.0.txt</i> as the first file in
+their rotating sequences.</p>
+<note>The use of unique fields to avoid conflicts is guaranteed to work reliably
+only when you are using a local disk file system.</note>
+</section>
+<refsyn><title>Syntax</title>
+<codeblock><b>derby.stream.error.rollingFile.pattern=<i>pattern</i></b></codeblock>
+<p>The number of characters in the specified <i>pattern</i> value must be equal
+to or greater than 1.</p></refsyn>
+<section><title>Default</title>
+<p><codeph>%d/derby-%g.log</codeph>.</p></section>
+<example><title>Example</title>
+<p>The following setting creates files named <i>myDBlog-0.txt</i>,
+<i>myDBlog-1.txt</i>, and so on, in the user's home directory:</p>
+<codeblock><b>derby.stream.error.rollingFile.pattern=%h/myDBlog-%g.txt</b></codeblock>
+</example>
+<section><title>Scope</title>
+<p><xref href="crefproper51399.dita#crefproper51399/rrefproper41229">system-wide</xref></p>
+</section>
+<section><title>Dynamic or static</title>
+<p>This property is static; if you change it while
+<ph conref="../conrefs.dita#prod/productshortname"></ph> is running, the change
+does not take effect until you reboot.</p> </section>
+</refbody>
+</reference>

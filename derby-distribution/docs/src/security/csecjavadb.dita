@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN"
+ "../dtd/concept.dtd">
+<!-- 
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at      
+
+   http://www.apache.org/licenses/LICENSE-2.0  
+
+Unless required by applicable law or agreed to in writing, software  
+distributed under the License is distributed on an "AS IS" BASIS,  
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+See the License for the specific language governing permissions and  
+limitations under the License.
+-->
+<concept id="csecjavadb" xml:lang="en-us">
+<title>Relationship between Java DB and Apache
+<ph conref="../conrefs.dita#prod/productshortname"></ph></title>
+<shortdesc>Java DB is a relational database management system that is based on
+the Java programming language and SQL. Java DB is the Oracle release of the
+Apache Derby project, the Apache Software Foundation's (ASF) open source
+relational database project.</shortdesc>
+<prolog><metadata>
+<keywords><indexterm>Java DB and Derby</indexterm>
+<indexterm>Derby and Java DB</indexterm>
+</keywords>
+</metadata></prolog>
+<conbody>
+<p>The Java DB product includes 
+<ph conref="../conrefs.dita#prod/productshortname"></ph> without any 
+modification whatsoever to the underlying source code.</p>
+<p>Because Java DB and <ph conref="../conrefs.dita#prod/productshortname"></ph> 
+have the same functionality, the Java DB documentation refers to the core 
+functionality as <ph conref="../conrefs.dita#prod/productshortname"></ph>.</p>
+<p>The Java DB <ph conref="../conrefs.dita#vers/shortversionnumber"></ph>
+documentation is based 
+on the <ph conref="../conrefs.dita#prod/productshortname"></ph>&nbsp;<ph
+conref="../conrefs.dita#vers/shortversionnumber"></ph> documentation.
+References to "<ph conref="../conrefs.dita#prod/productshortname"></ph>" in the
+Java DB documentation should be understood as synonyms for "Java DB."</p>
+<p>Oracle has made changes to the
+<ph conref="../conrefs.dita#prod/productlongname"></ph> documentation. This
+manual is identical to the
+<cite><ph conref="../conrefs.dita#prod/productshortname"></ph> Security
+Guide</cite>, with the following exceptions:</p>
+<ul>
+<li>Oracle has added this topic, "Relationship between Java DB and
+<ph conref="../conrefs.dita#prod/productlongname"></ph>".</li>
+<li>In the titles of manuals,
+"<ph conref="../conrefs.dita#prod/productshortname"></ph>" has been changed to
+"Java DB".</li>
+</ul>
+</conbody>
+</concept>

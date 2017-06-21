@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN"
+ "../dtd/concept.dtd">
+<!-- 
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at      
+
+   http://www.apache.org/licenses/LICENSE-2.0  
+
+Unless required by applicable law or agreed to in writing, software  
+distributed under the License is distributed on an "AS IS" BASIS,  
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+See the License for the specific language governing permissions and  
+limitations under the License.
+-->
+<concept id="csecsslbootconn" xml:lang="en-us">
+<title>Booting the server and connecting to it</title>
+<shortdesc>Finally, boot the server and start the client.</shortdesc>
+<prolog></prolog>
+<conbody>
+<p>The previous three topics covered the first two setup steps described in
+<xref href="csecssl.dita"/>, creating client certificates and creating a server
+certificate, then importing the certificates. This topic describes the remaining
+two steps, server startup and client startup.</p>
+<p>Every time that we bring up the server, we must remember to turn on network
+encryption. We must set four VM properties that declare the locations
+and passwords for the server's key store and trust store:</p>
+<ul>
+<li><codeph>javax.net.ssl.keyStore</codeph></li>
+<li><codeph>javax.net.ssl.keyStorePassword</codeph></li>
+<li><codeph>javax.net.ssl.trustStore</codeph></li>
+<li><codeph>javax.net.ssl.trustStorePassword</codeph></li>
+</ul>
+<p>In addition, we specify the <codeph>-ssl peerAuthentication</codeph> startup
+option. The command to start the server, therefore, looks something like
+this:</p>
+<codeblock><b>java -Djavax.net.ssl.keyStore=/Users/me/vault/ServerKeyStore \
+-Djavax.net.ssl.keyStorePassword=secretServerPassword \
+-Djavax.net.ssl.trustStore=/Users/me/vault/ServerTrustStore \
+-Djavax.net.ssl.trustStorePassword=secretServerTrustStorePassword \
+org.apache.derby.drda.NetworkServerControl start -p 8246 \
+-ssl peerAuthentication</b></codeblock>
+<p>The <codeph>-p 8246</codeph> option starts the server on a nondefault port
+(rather than the default port of 1527).</p>
+<p>The final step is to bring up a client. As with server startup, we must tell
+the VM the locations and passwords of the local key store and trust store. This
+example is a simple <codeph>ij</codeph> script. Notice the extra
+<codeph>ssl</codeph> attribute on the connection URL. That attribute tells the
+client to authenticate the server's identity using a certificate, and it tells
+the client that the network traffic must be encrypted:</p>
+<codeblock><b>java -Djavax.net.ssl.trustStore=/Users/me/vault/ClientTrustStore \
+-Djavax.net.ssl.trustStorePassword=secretClientTrustStorePassword \
+-Djavax.net.ssl.keyStore=/Users/me/vault/ClientKeyStore \
+-Djavax.net.ssl.keyStorePassword=secretClientPassword \
+org.apache.derby.tools.ij</b>
+ij version 10.11
+ij> <b>connect 'jdbc:derby://localhost:8246/testdb;create=true;ssl=peerAuthentication';</b>
+ij> <b>select schemaName, authorizationID from sys.sysschemas;</b></codeblock>
+<p>You will get errors from <codeph>ij</codeph> if you do not specify the extra
+VM properties and/or if you do not specify the <codeph>ssl</codeph> attribute on
+the connection URL. Here, for instance, is the output from running
+<codeph>ij</codeph> without the VM properties and <codeph>ssl</codeph>
+attribute:</p>
+<codeblock><b>java org.apache.derby.tools.ij</b>
+ij version 10.11
+ij> <b>connect 'jdbc:derby://localhost:8246/testdb;create=true';</b>
+ERROR 08006: A network protocol error was encountered and the connection has been
+terminated: A PROTOCOL Data Stream Syntax Error was detected. Reason: 0x3. 
+Plaintext connection attempt to an SSL enabled server?</codeblock>
+<p>When you want to administer the server (for instance, to bring it down), you
+will need to specify the locations and passwords of a valid key store and trust
+store as well as the extra <codeph>ssl</codeph> option on the server command
+line:</p>
+<codeblock><b>java -Djavax.net.ssl.trustStore=/Users/me/vault/ClientTrustStore \
+-Djavax.net.ssl.trustStorePassword=secretClientTrustStorePassword \
+-Djavax.net.ssl.keyStore=/Users/me/vault/ClientKeyStore \
+-Djavax.net.ssl.keyStorePassword=secretClientPassword \
+org.apache.derby.drda.NetworkServerControl shutdown -p 8246 \
+-ssl peerAuthentication</b></codeblock>
+</conbody>
+</concept>

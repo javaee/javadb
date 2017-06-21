@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+ 
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN"
+ "../dtd/concept.dtd">
+<!-- 
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at      
+
+   http://www.apache.org/licenses/LICENSE-2.0  
+
+Unless required by applicable law or agreed to in writing, software  
+distributed under the License is distributed on an "AS IS" BASIS,  
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+See the License for the specific language governing permissions and  
+limitations under the License.
+-->
+<concept id="csecnativeotherprops" xml:lang="en-us">
+<title>NATIVE authentication and other database properties</title>
+<shortdesc>When NATIVE authentication is enabled,
+<ph conref="../conrefs.dita#prod/productshortname"></ph> behaves as if the
+<codeph>derby.connection.requireAuthentication</codeph> and
+<codeph>derby.database.sqlAuthorization</codeph> properties are also
+set.</shortdesc>
+<prolog><metadata>
+<keywords><indexterm>user authentication<indexterm>NATIVE authentication</indexterm></indexterm>
+<indexterm>NATIVE authentication<indexterm>and other database properties</indexterm></indexterm>
+</keywords>
+</metadata></prolog>
+<conbody>
+<p>That is, a user name and password must be specified whenever a user connects
+to a database, and object owners control access to database objects. See
+<xref href="csecauthorfine.dita#csecauthorfine"></xref> for more information,
+and see
+<xref href="rseccsecurenativeauthex.dita"/> for an example of the use of NATIVE
+authentication.</p>
+<p>For maximum security, the passwords that users specify when they connect to
+databases have an expiration date that you can modify by using the property
+<codeph>derby.authentication.native.passwordLifetimeMillis</codeph>. The
+password of the
+<xref href="cseccsecuredbowner.dita">Database Owner</xref> never expires. By
+default, ordinary user passwords expire after 31 days.</p>
+<p>If a password is about to expire, or if the Database Owner's password is
+near what would be the expiration date, 
+<ph conref="../conrefs.dita#prod/productshortname"></ph> issues a warning that
+the password will soon expire (or, in the Database Owner's case, that the
+password is stale). By default, the warning is issued if the password is due to
+expire in one-eighth of the password's lifetime. For example, if the password
+has a 31-day lifetime, the warning will be issued 3.875 days before the
+expiration date. You can change this proportion by using the property
+<codeph>derby.authentication.native.passwordLifetimeThreshold</codeph>.</p>
+<p>Use the <codeph>derby.authentication.builtin.algorithm</codeph> property to
+change the way passwords are encrypted when they are stored in the SYSUSERS
+system table. The default algorithm is SHA-256. Two related properties are
+<codeph>derby.authentication.builtin.saltLength</codeph> and 
+<codeph>derby.authentication.builtin.iterations</codeph>, which can be used to
+make the hashed passwords harder for attackers to crack.</p>
+<p>See the <ph conref="../conrefs.dita#pub/citref"></ph> for details on these
+properties.</p>
+</conbody>
+</concept>

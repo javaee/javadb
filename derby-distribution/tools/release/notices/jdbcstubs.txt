@@ -1,0 +1,9 @@
+
+Derby uses the  SerialBlob and SerialClob implementations from the Apache
+Harmony project. The following notice covers the Harmony sources:
+
+Portions of Harmony were originally developed by
+Intel Corporation and are licensed to the Apache Software
+Foundation under the "Software Grant and Corporate Contribution
+License Agreement", informally known as the "Intel Harmony CLA".
+

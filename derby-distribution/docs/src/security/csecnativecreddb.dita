@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+ 
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN"
+ "../dtd/concept.dtd">
+<!-- 
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at      
+
+   http://www.apache.org/licenses/LICENSE-2.0  
+
+Unless required by applicable law or agreed to in writing, software  
+distributed under the License is distributed on an "AS IS" BASIS,  
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+See the License for the specific language governing permissions and  
+limitations under the License.
+-->
+<concept id="csecnativecreddb" xml:lang="en-us">
+<title>Working with a credentials database</title>
+<shortdesc>With NATIVE authentication, a database can become a credentials
+database in any of several ways.</shortdesc>
+<prolog><metadata>
+<keywords><indexterm>user authentication<indexterm>NATIVE authentication</indexterm></indexterm>
+<indexterm>NATIVE authentication<indexterm>credentials database</indexterm></indexterm>
+</keywords>
+</metadata></prolog>
+<conbody>
+<ul>
+<li>When the database is being created, it is identified as the credentials
+database by the system-level property setting
+<codeph>derby.authentication.provider=NATIVE:<i>credentialsDB</i></codeph>.</li>
+<li>When the database is being created, LOCAL authentication of connections is
+specified by the system-level property setting
+<codeph>derby.authentication.provider=NATIVE:<i>credentialsDB</i>:LOCAL</codeph>.</li>
+<li>When the database already exists, the
+<xref href="cseccsecuredbowner.dita">Database Owner</xref> calls the
+<codeph>SYSCS_UTIL.SYSCS_CREATE_USER</codeph> system procedure to store the
+Database Owner's credentials in the database. If the Database Owner calls this
+procedure to store another user's credentials first, an error is raised.</li>
+</ul>
+<p>When a database becomes a credentials database, the following things
+happen:</p>
+<ul>
+<li>The value of <codeph>derby.authentication.provider=NATIVE::LOCAL</codeph>
+is stored in the database, marking it as a credentials database.</li>
+<li>From this point forward, the value of
+<codeph>derby.authentication.provider</codeph> cannot be overridden or changed
+for connections to this database.</li>
+<li>If the database is being newly created, the Database Owner's credentials
+(provided in the connection arguments) are stored in the database's SYSUSERS
+system table.</li>
+<li>All future connections to the database are authenticated against the
+credentials in its SYSUSERS system table.</li>
+</ul>
+</conbody>
+</concept>

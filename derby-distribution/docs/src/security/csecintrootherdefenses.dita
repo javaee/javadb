@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN"
+ "../dtd/concept.dtd">
+<!-- 
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at      
+
+   http://www.apache.org/licenses/LICENSE-2.0  
+
+Unless required by applicable law or agreed to in writing, software  
+distributed under the License is distributed on an "AS IS" BASIS,  
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+See the License for the specific language governing permissions and  
+limitations under the License.
+-->
+<concept id="csecintrootherdefenses" xml:lang="en-us">
+<title>Defenses outside of
+<ph conref="../conrefs.dita#prod/productshortname"></ph></title>
+<shortdesc>In addition to the defenses provided by
+<ph conref="../conrefs.dita#prod/productshortname"></ph>, you should take
+advantage of defenses provided by your machine and intranet.</shortdesc>
+<prolog></prolog>
+<conbody>
+<p> It is important to configure these defenses to protect
+<ph conref="../conrefs.dita#prod/productshortname"></ph> from attacks by both
+outsiders and insiders.</p>
+<ul>
+<li><b>Firewalls</b>: Limit network access to the machine that runs
+<ph conref="../conrefs.dita#prod/productshortname"></ph>.</li>
+<li><b>Accounts</b>: Limit login access to the machine that runs
+<ph conref="../conrefs.dita#prod/productshortname"></ph>. Centrally administer
+accounts using, for instance, an LDAP server.</li>
+<li><b>Physical locks</b>: Limit physical access to the machine that runs
+<ph conref="../conrefs.dita#prod/productshortname"></ph>.</li>
+<li><b>Secure traffic</b>: Encrypt the traffic that flows on your internal
+network.</li>
+<li><b>File permissions</b>: Restrict the file permissions granted to the
+account that launches
+<ph conref="../conrefs.dita#prod/productshortname"></ph>.</li>
+<li><b>Quotas</b>: Limit the file space and CPU that an account can
+consume.</li>
+</ul>
+</conbody>
+</concept>

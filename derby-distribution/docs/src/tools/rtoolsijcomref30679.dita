@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN"
+ "../dtd/reference.dtd">
+<!-- 
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at      
+
+http://www.apache.org/licenses/LICENSE-2.0  
+
+Unless required by applicable law or agreed to in writing, software  
+distributed under the License is distributed on an "AS IS" BASIS,  
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+See the License for the specific language governing permissions and  
+limitations under the License.
+-->
+<reference id="rtoolsijcomref30679" xml:lang="en-us">
+<title>Execute command</title>
+<shortdesc>The <codeph>Execute</codeph> command executes an SQL
+statement or a named prepared statement.</shortdesc>
+<prolog><metadata>
+<keywords><indexterm>Execute command</indexterm>
+<indexterm>Prepared statements<indexterm>executing</indexterm></indexterm>
+</keywords>
+</metadata></prolog>
+<refbody>
+<refsyn><title>Syntax</title>
+<codeblock><b>EXECUTE { <i>SQLString</i> | <i><xref href="rtoolsijcomref40155.dita">PreparedStatementIdentifier</xref></i> }
+[ USING { <i><xref href="rtoolsijcomref34110.dita">String</xref></i> | <i><xref href="rtoolsijcomref40155.dita">Identifier</xref></i> } ]</b></codeblock>
+<p>The  <codeph>Execute</codeph> command can be used in either of the following
+ways:</p>
+<ul>
+<li>To execute an SQL statement entered as an <i>SQLString</i>. The
+<i>SQLString</i> is passed to the connection without further examination or
+processing by <codeph>ij</codeph>.
+<p><note>Normally, you execute SQL statements directly, not with the
+<codeph>Execute</codeph> command.</note></p></li>
+<li>To execute a named statement identified by
+<i>PreparedStatementIdentifier</i>. This command must be previously prepared
+with <codeph>ij</codeph>'s
+<codeph><xref href="rtoolsijcomref12333.dita">Prepare</xref></codeph>
+command.</li>
+</ul>
+<p>To execute either flavor of statement when that statement contains dynamic
+parameters, specify the values in the <codeph>Using</codeph> portion of the
+command. In this style, the <i>SQLString</i> or previously prepared
+<i>PreparedStatementIdentifier</i> is executed using the values supplied as
+<i>String</i> or <i>Identifier</i>. The <i>Identifier</i> in the
+<codeph>Using</codeph> clause must have a result set as its result. Each row of
+the result set is applied to the input parameters of the statement to be
+executed, so the number of columns in the <codeph>Using</codeph> clause's result
+set must match the number of input parameters in the <codeph>Execute</codeph>
+command's SQL statement. The results of each execution of the
+<codeph>Execute</codeph> command's SQL statement are displayed as they are made.
+If the <codeph>Using</codeph> clause's result set contains no rows, the
+<codeph>Execute</codeph> command's SQL statement is not executed.</p>
+<p>When auto-commit mode is on, the <codeph>Using</codeph> clause's result set
+is closed upon the first execution of the <codeph>Execute</codeph> command's SQL
+statement. To ensure multiple-row execution of the <codeph>Execute</codeph>
+command, use the
+<codeph><xref href="rtoolsijcomref25753.dita">Autocommit</xref></codeph> command
+to turn auto-commit off.</p>
+</refsyn>
+<example><title>Examples</title>
+<codeblock>ij&gt;<b> autocommit off;</b>
+ij&gt; <b>prepare menuInsert as 'INSERT INTO menu VALUES (?, ?, ?)';</b>
+ij&gt;<b> execute menuInsert using 'VALUES
+    (''entree'', ''lamb chop'', 14),
+    (''dessert'', ''creme brulee'', 6)';</b>
+1 row inserted/updated/deleted
+1 row inserted/updated/deleted
+ij&gt; <b>commit;</b> </codeblock> 
+<codeblock>ij&gt; <b>connect 'jdbc:derby:firstdb;create=true';</b>
+ij&gt; <b>create table firsttable (id int primary key,
+    name varchar(12));</b>
+0 rows inserted/updated/deleted
+ij&gt; <b>insert into firsttable values 
+    (10,'TEN'),(20,'TWENTY'),(30,'THIRTY');</b>
+3 rows inserted/updated/deleted
+ij&gt; <b>select * from firsttable;</b>
+ID         |NAME        
+------------------------
+10         |TEN         
+20         |TWENTY      
+30         |THIRTY      
+
+3 rows selected
+ij&gt; <b>connect 'jdbc:derby:seconddb;create=true';</b>
+ij(CONNECTION1)&gt; <b>create table newtable (newid int primary key, 
+    newname varchar(12));</b>
+0 rows inserted/updated/deleted
+ij(CONNECTION1)&gt; <b>prepare src@connection0 as 'select * from firsttable';</b>
+ij(CONNECTION1)&gt; <b>autocommit off;</b>
+ij(CONNECTION1)&gt; <b>execute 'insert into newtable(newid, newname) 
+    values(?,?)' using src@connection0;</b>
+1 row inserted/updated/deleted
+1 row inserted/updated/deleted
+1 row inserted/updated/deleted
+ij(CONNECTION1)&gt; <b>commit;</b>
+ij(CONNECTION1)&gt; <b>select * from newtable;</b>
+NEWID      |NEWNAME     
+------------------------
+10         |TEN         
+20         |TWENTY      
+30         |THIRTY      
+
+3 rows selected
+ij(CONNECTION1)&gt; <b>show connections;</b>
+CONNECTION0 -   jdbc:derby:firstdb
+CONNECTION1* -  jdbc:derby:seconddb
+ij(CONNECTION1)&gt; <b>disconnect connection0;</b>
+ij&gt; </codeblock>
+</example>
+</refbody>
+</reference>

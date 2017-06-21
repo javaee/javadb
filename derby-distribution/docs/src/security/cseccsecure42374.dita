@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+ 
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN"
+ "../dtd/concept.dtd">
+<!-- 
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at      
+
+   http://www.apache.org/licenses/LICENSE-2.0  
+
+Unless required by applicable law or agreed to in writing, software  
+distributed under the License is distributed on an "AS IS" BASIS,  
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+See the License for the specific language governing permissions and  
+limitations under the License.
+-->
+<concept id="cseccsecure42374" xml:lang="en-us">
+<title>Configuring user authentication</title>
+<shortdesc>By default, <ph conref="../conrefs.dita#prod/productshortname"></ph> runs
+without any credentials checking. This situation may be fine for many
+shrink-wrapped, embedded applications. However, it means that anyone can connect
+to an unsecured database and steal or corrupt the data there. Fortunately, it's
+easy to frustrate these attacks by requiring authentication.</shortdesc>
+<prolog><metadata>
+<keywords>
+<indexterm>user authentication<indexterm>overview</indexterm></indexterm>
+<indexterm>authentication<indexterm>users, overview</indexterm></indexterm>
+</keywords>
+</metadata></prolog>
+<conbody>
+<p><ph conref="../conrefs.dita#prod/productshortname"></ph> provides support for
+user authentication and user authorization. <i>User authentication</i>
+determines whether a user is a valid user. It establishes the user's identity.
+<i>User authorization</i> determines what operations a user's established
+identity can perform. You are strongly urged to implement both authentication
+and authorization on any multi-user database used in production.</p>
+<p>When user authentication is enabled, 
+the user that requests a connection must provide a valid name and password,
+which <ph conref="../conrefs.dita#prod/productshortname"></ph> verifies against
+the repository of users defined for the system. After
+<ph conref="../conrefs.dita#prod/productshortname"></ph> authenticates the user
+as valid, <xref href="csecauthorization.dita#csecauthorization">user
+authorization</xref> determines what operations the user can perform on the
+database to which the user is requesting a connection.</p>
+<p><ph conref="../conrefs.dita#prod/productshortname"></ph> supports three
+kinds of authentication schemes:</p>
+<dl>
+<dlentry>
+<dt>LDAP</dt>
+<dd>In this scheme, the customer points
+<ph conref="../conrefs.dita#prod/productshortname"></ph> at an external LDAP
+directory service. The customer manages users with the external LDAP service,
+and <ph conref="../conrefs.dita#prod/productshortname"></ph> retrieves
+credentials from LDAP. See
+<xref href="cseccsecure41285.dita"/> for more
+information.</dd>
+</dlentry>
+<dlentry>
+<dt>NATIVE</dt>
+<dd>In this scheme, user names and passwords are stored in a
+<ph conref="../conrefs.dita#prod/productshortname"></ph> database. See
+<xref href="cseccsecurenativeauth.dita"/> for details.</dd>
+</dlentry>
+<dlentry>
+<dt>User-defined</dt>
+<dd>In this scheme, the customer provides all of the logic needed to
+authenticate users. See <xref href="cseccsecure21561.dita"/> for more
+information.</dd>
+</dlentry>
+</dl>
+<p>You can define a repository of users for a particular database or for an
+entire system, depending on whether you use system-wide or database-wide
+properties.</p>
+<p>A directory service stores names and attributes of those names. A typical use
+for a directory service is to store user names and passwords for a computer
+system. <ph conref="../conrefs.dita#prod/productshortname"></ph> uses the Java
+Naming and Directory Interface (JNDI) to interact with external directory
+services that can provide authentication of users' names and passwords.</p>
+<p>When <ph conref="../conrefs.dita#prod/productshortname"></ph> user
+authentication is enabled and
+<ph conref="../conrefs.dita#prod/productshortname"></ph> uses
+an external directory service, the architecture looks something like that
+shown in the following figure. The application can be a single-user application
+with an embedded <ph conref="../conrefs.dita#prod/productshortname"></ph> engine
+or a multi-user application server.</p>
+<fig expanse="column"><title><ph conref="../conrefs.dita#prod/productshortname"></ph>
+user authentication using an external service</title>
+<image href="authentic_os.gif" placement="break"><alt>This figure shows how an application passes Derby user authentication through an external directory service before access to a Derby database is allowed.</alt>
+</image>
+</fig>
+<p><ph conref="../conrefs.dita#prod/productshortname"></ph> always runs embedded
+in another Java application, whether that application is a single-user application
+or a multiple-user application server or connectivity framework. </p>
+<p>A database can be accessed by only one JVM at a time, so it is possible
+to deploy a system in which the application in which <ph conref="../conrefs.dita#prod/productshortname"></ph> is
+embedded, not <ph conref="../conrefs.dita#prod/productshortname"></ph>, handles
+the user authentication by connecting to an external directory service. The
+application can be a single-user application with an embedded
+<ph conref="../conrefs.dita#prod/productshortname"></ph> engine or a multi-user
+application server. The following figure shows this kind of deployment.</p>
+<fig expanse="column"><title>Application user authentication using an external
+service</title>
+<image href="appauth_os.gif" placement="break"><alt>This figure shows how an external directory service provides application user authentication before access to a Derby database is allowed.</alt>
+</image>
+</fig>
+</conbody>
+</concept>

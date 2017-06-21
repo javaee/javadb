@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN"
+ "../dtd/task.dtd">
+<!-- 
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at      
+
+   http://www.apache.org/licenses/LICENSE-2.0  
+
+Unless required by applicable law or agreed to in writing, software  
+distributed under the License is distributed on an "AS IS" BASIS,  
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+See the License for the specific language governing permissions and  
+limitations under the License.
+-->
+<task id="tsecsslclientkeycert" xml:lang="en-us">
+<title>Creating a client key pair and certificate</title>
+<shortdesc>Follow these steps to create a client key pair and a client
+certificate.</shortdesc>
+<taskbody>
+<steps>
+<step>
+<cmd>Choose a password for the key store.</cmd>
+<info><p>Suppose you choose the password
+<codeph>secretClientPassword</codeph>.</p></info>
+</step>
+<step>
+<cmd>On the client system, issue the following command to create the client's
+public/private key pair.</cmd>
+<info><p>You will be prompted to enter the password plus some identifying
+information (your input is marked <codeph><b>bold</b></codeph>):</p></info>
+<stepxmp><codeblock><b>keytool -genkey -alias MyClientName -keystore ~/vault/ClientKeyStore</b>
+Enter keystore password: <b>secretClientPassword</b>
+What is your first and last name?
+[Unknown]: <b>MyFirstName MyLastName</b>
+What is the name of your organizational unit?
+[Unknown]: <b>Proofreading Department</b>
+What is the name of your organization?
+[Unknown]: <b>Name of my bookstore</b>
+What is the name of your City or Locality?
+[Unknown]: <b>New York</b>
+What is the name of your State or Province?
+[Unknown]: <b>NY</b>
+What is the two-letter country code for this unit?
+[Unknown]: <b>US</b>
+Is CN=MyFirstName MyLastName, OU=Proofreading Department, O=Name of my bookstore, L=New York, ST=NY, C=US correct?
+[no]: <b>yes</b>
+
+
+Enter key password for &lt;MyClientName&gt;
+   (RETURN if same as keystore password):</codeblock>
+</stepxmp>
+</step>
+<step><cmd>Next, create a certificate for this client. Enter the command all on
+one line:</cmd>
+<stepxmp><codeblock><b>keytool -export -alias MyClientName \
+-keystore ~/vault/ClientKeyStore  -rfc -file ClientCertificate \
+-storepass secretClientPassword</b></codeblock>
+</stepxmp>
+<info>This command creates a file called <codeph>ClientCertificate</codeph>.
+Later, you will import this file into the server's trust store.</info>
+</step>
+</steps>
+</taskbody>
+</task>

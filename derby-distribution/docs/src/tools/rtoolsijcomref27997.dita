@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at      
+
+http://www.apache.org/licenses/LICENSE-2.0  
+
+Unless required by applicable law or agreed to in writing, software  
+distributed under the License is distributed on an "AS IS" BASIS,  
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+See the License for the specific language governing permissions and  
+limitations under the License.
+-->
+<!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN" "../dtd/reference.dtd">
+<reference xml:lang="en-us" id="rtoolsijcomref27997">
+<title>Protocol command</title>
+<shortdesc>The <codeph>Protocol</codeph> command specifies the protocol for
+establishing connections and automatically loads the appropriate
+driver.</shortdesc>
+<prolog><metadata>
+<keywords><indexterm>Protocol command</indexterm>
+</keywords>
+</metadata>
+</prolog><refbody>
+<section>
+<p>Providing a protocol allows you to use a shortened database connection URL
+for connections. You can provide only the database name (and a subsubprotocol
+name if needed) instead of the full protocol. In addition, you do not need to
+use the
+<codeph><xref href="rtoolsijcomref39042.dita">Driver</xref></codeph> command
+or specify a driver at start-up, since the driver is loaded automatically.</p>
+</section>
+<refsyn><title>Syntax</title>
+<codeblock><b>PROTOCOL <i><xref href="rtoolsijcomref34110.dita">String</xref></i> [ AS <i><xref href="rtoolsijcomref40155.dita">Identifier</xref></i> ]</b></codeblock>
+<p>The protocol specified by the <i>String</i> is the part of the database
+connection URL syntax appropriate for your environment, including the JDBC
+protocol and the protocol specific to
+<ph conref="../conrefs.dita#prod/productshortname"></ph>. For further
+information about the <ph conref="../conrefs.dita#prod/productshortname"></ph>
+database connection URL, see <xref href="ctoolsijtools16011.dita"/>. Only
+<ph conref="../conrefs.dita#prod/productshortname"></ph> protocols are
+supported. Those protocols are listed in
+<xref href="rtoolsijpropref35032.dita"/>.</p>
+<p>If you name the protocol by specifying an <i>Identifier</i>, you can refer to
+the protocol name in the
+<codeph><xref href="rtoolsijcomref22318.dita">Connect</xref></codeph>
+command.</p>
+</refsyn>
+<example><title>Examples</title>
+<codeblock>ij&gt; <b>protocol 'jdbc:derby:';</b>
+ij&gt; <b>connect 'sample';</b></codeblock>
+<codeblock>ij&gt; <b>protocol 'jdbc:derby:';</b>
+ij&gt; <b>connect 'memory:sample;create=true';</b></codeblock>
+<codeblock>ij&gt; <b>protocol 'jdbc:derby:memory:';</b>
+ij&gt; <b>connect 'sample;create=true';</b></codeblock>
+</example></refbody></reference>

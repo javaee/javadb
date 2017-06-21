@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+ <!DOCTYPE map PUBLIC "-//OASIS//DTD DITA Map//EN" "map.dtd">
+<!-- 
+            Licensed to the Apache Software Foundation (ASF) under one
+            or more contributor license agreements.  See the NOTICE file
+            distributed with this work for additional information
+            regarding copyright ownership.  The ASF licenses this file
+            to you under the Apache License, Version 2.0 (the
+            "License"); you may not use this file except in compliance
+            with the License.  You may obtain a copy of the License at
+
+              http://www.apache.org/licenses/LICENSE-2.0
+
+            Unless required by applicable law or agreed to in writing,
+            software distributed under the License is distributed on an
+            "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+            KIND, either express or implied.  See the License for the
+            specific language governing permissions and limitations
+            under the License.
+-->
+<map xml:lang="en-us" title="Derby Security Guide">
+<topicmeta>
+<copyright>
+<copyryear year="2004, @COPYRIGHT_YEAR@"/>
+<copyrholder>Apache Software Foundation</copyrholder>
+</copyright>
+<prodinfo>
+<prodname>Derby Security Guide</prodname>
+<vrmlist><vrm version="@RELEASE_ID_SHORT@"/></vrmlist>
+<brand>Apache Derby</brand></prodinfo>
+</topicmeta>
+<topicref href="rseccopyright.dita" navtitle="Copyright"/>
+<topicref href="rseclicense.dita" navtitle="License"/>
+<topicref href="csecpref29520.dita" navtitle="About this guide">
+<topicref href="csecpref11181.dita" navtitle="Purpose of this guide"/>
+<topicref href="csecpref24290.dita" navtitle="Audience"/>
+<topicref href="csecpref23947.dita" navtitle="How this guide is organized"/>
+</topicref>
+<topicref collection-type="family" href="csecintro.dita" navtitle="Part One: Introduction to database security">
+<topicref collection-type="family" href="csecintrowhy.dita" navtitle="Why databases need security">
+<topicref href="csecintrovuln.dita" navtitle="Vulnerabilities of unsecured databases"/>
+<topicref href="csecintrothreats.dita" navtitle="Threats to unsecured databases"/>
+</topicref>
+<topicref collection-type="family" href="csecintrodefenses.dita" navtitle="Defenses against security threats">
+<topicref href="csecintroderbydefenses.dita" navtitle="Derby defenses against threats"/>
+<topicref href="csecintrootherdefenses.dita" navtitle="Defenses outside of Derby"/>
+</topicref>
+<topicref href="csecintromapping.dita" navtitle="Defenses mapped to threats"/>
+<topicref href="csecintrosafer.dita" navtitle="Designing safer Derby applications"/>
+<topicref href="csecterms.dita" navtitle="Security terminology"/>
+</topicref>
+<topicref collection-type="family" href="cseccsecuree.dita" navtitle="Part Two: Configuring security for Derby">
+<topicref collection-type="family" href="cseccsecure12392.dita" navtitle="Basic security configuration tasks">
+<topicref href="tseccsecure81850.dita" navtitle="Configuring security in an embedded environment"/>
+<topicref href="tseccsecure82556.dita" navtitle="Configuring security in a client/server environment">
+<topicref href="csecnetservsecurity.dita" navtitle="Network Server security"/>
+</topicref>
+</topicref>
+<topicref collection-type="family" href="cseccsecure24366.dita" navtitle="Configuring database encryption">
+<topicref href="cseccsecure96815.dita" navtitle="Requirements for Derby encryption"/>
+<topicref collection-type="family" href="cseccsecure97760.dita" navtitle="Working with encryption">
+<topicref href="cseccsecure88690.dita" navtitle="Encrypting databases on creation"/>
+<topicref href="tseccsecureunencrypteddb.dita" navtitle="Encrypting an existing unencrypted database"/>
+<topicref collection-type="family" href="cseccsecure866716.dita" navtitle="Creating a boot password">
+<topicref href="cseccsecure31493.dita" navtitle="Specifying an alternate encryption provider"/>
+<topicref href="cseccsecure67151.dita" navtitle="Specifying an alternate encryption algorithm"/>
+</topicref>
+<topicref collection-type="family" href="tseccsecurenewkeyoverview.dita" navtitle="Encrypting databases with a new key">
+<topicref href="tseccsecurenewbootpw.dita" navtitle="Encrypting databases with a new boot password"/>
+<topicref href="tseccsecurenewextkey.dita" navtitle="Encrypting databases with a new external key"/>
+</topicref>
+<topicref href="cseccsecure60146.dita" navtitle="Booting an encrypted database"/>
+<topicref href="cseccsecuredecryptdb.dita" navtitle="Decrypting an encrypted database"/>
+</topicref>
+</topicref>
+<topicref href="cseccsecure90988.dita" navtitle="Using signed jar files"/>
+<topicref collection-type="family" href="csecssl.dita" navtitle="Configuring SSL/TLS">
+<topicref href="tsecsslclientkeycert.dita" navtitle="Creating a client key pair and certificate"/>
+<topicref href="tsecsslserverkeycert.dita" navtitle="Creating a server key pair and certificate"/>
+<topicref href="tsecsslimportcerts.dita" navtitle="Importing certificates"/>
+<topicref href="csecsslbootconn.dita" navtitle="Booting the server and connecting to it"/>
+<topicref href="csecsslkeys.dita" navtitle="Key and certificate handling"/>
+<topicref href="csecsslserver.dita" navtitle="Starting the server with SSL/TLS"/>
+<topicref href="csecsslclient.dita" navtitle="Running the client with SSL/TLS"/>
+<topicref href="csecssladmin.dita" navtitle="Other server commands"/>
+</topicref>
+<topicref collection-type="family" href="cseccsecureidentity.dita" navtitle="Understanding identity in Derby">
+<topicref collection-type="family" href="cseccsecure37241.dita" navtitle="Users and authorization identifiers">
+<topicref href="cseccsecure24458.dita" navtitle="Authorization identifiers, user authentication, and user authorization"/>
+<topicref href="cseccsecure865580.dita" navtitle="User names and schemas"/>
+<topicref href="rseccsecure622.dita" navtitle="Exceptions when using authorization identifiers"/>
+</topicref>
+<topicref href="cseccsecuredbowner.dita" navtitle="Database Owner"/>
+</topicref>
+<topicref collection-type="family" href="cseccsecure42374.dita" navtitle="Configuring user authentication">
+<topicref collection-type="family" href="cseccsecure41285.dita" navtitle="Configuring LDAP authentication">
+<topicref href="csecldapbooting.dita" navtitle="Booting an LDAP server"/>
+<topicref href="cseccsecure863446.dita" navtitle="Setting up Derby to use your LDAP directory service"/>
+<topicref href="cseccsecure876908.dita" navtitle="Guest access to search for DNs"/>
+<topicref href="cseccsecure863546.dita" navtitle="LDAP performance issues"/>
+<topicref href="cseccsecure863676.dita" navtitle="LDAP restrictions"/>
+<topicref href="cseccsecure864242.dita" navtitle="JNDI-specific properties for external directory services"/>
+</topicref>
+<topicref collection-type="family" href="cseccsecurenativeauth.dita" navtitle="Configuring NATIVE authentication">
+<topicref href="csecnativeenable.dita" navtitle="Enabling NATIVE authentication explicitly"/>
+<topicref href="csecnativecreddb.dita" navtitle="Working with a credentials database"/>
+<topicref href="csecnativeotherprops.dita" navtitle="NATIVE authentication and other database properties"/>
+<topicref href="csecnativemanagecreds.dita" navtitle="Managing users and passwords"/>
+<topicref href="csecnativeconvert.dita" navtitle="Converting an existing database to use NATIVE authentication"/>
+</topicref>
+<topicref href="cseccsecure21561.dita" navtitle="Specifying authentication with a user-defined class">
+<topicref href="rsecexudclass.dita" navtitle="Example of setting a user-defined class"/>
+</topicref>
+<topicref href="rseccsecure557.dita" navtitle="List of user-authentication properties"/>
+<topicref href="cseccsecure79358.dita" navtitle="Programming applications for Derby user authentication"/>
+<topicref href="rseccsecure305.dita" navtitle="Login failure exceptions with user authentication"/>
+<topicref href="csecnetservauthent.dita" navtitle="Configuring Network Server authentication in special circumstances">
+<topicref href="csecappsclientsecurity.dita" navtitle="Configuring Network Client authentication without SSL/TLS"/>
+<topicref href="csecapps49914.dita" navtitle="Configuring Network Server authentication without SSL/TLS"/>
+</topicref>
+</topicref>
+<topicref collection-type="family" href="csecauthorization.dita" navtitle="Configuring user authorization">
+<topicref collection-type="family" href="csecauthorcoarse.dita" navtitle="Configuring coarse-grained user authorization">
+<topicref href="rseccsecure190.dita" navtitle="Read-only and full access permissions"/>
+<topicref href="cseccsecure865818.dita" navtitle="Setting the default connection access mode"/>
+<topicref href="rseccsecure379.dita" navtitle="User authorization exceptions"/>
+</topicref>
+<topicref collection-type="family" href="csecauthorfine.dita" navtitle="Configuring fine-grained user authorization">
+<topicref href="cseccsecuregrantrevokeaccess.dita" navtitle="Using SQL standard authorization"/>
+<topicref href="cseccsecureprivileges.dita" navtitle="Privileges on views, triggers, constraints, and generated columns"/>
+<topicref href="cseccsecureroles.dita" navtitle="Using SQL roles"/>
+<topicref href="cseccsecuresqlauthupgrade.dita" navtitle="Upgrading an old database to use SQL standard authorization"/>
+<topicref href="rseccsecuresqlauthexceptions.dita" navtitle="SQL standard authorization exceptions"/>
+<topicref href="rseccsecurenativeauthex.dita" navtitle="NATIVE authentication and SQL authorization example"/>
+</topicref>
+</topicref>
+<topicref collection-type="family" href="csecjavasecurity.dita" navtitle="Configuring Java security">
+<topicref href="rsecnetservbasic.dita" navtitle="Basic Java security policy file"/>
+<topicref href="rsecpolicysample.dita" navtitle="Sample customized Java security policy file"/>
+<topicref href="csecrunpolicy.dita" navtitle="Using a Java security policy file"/>
+<topicref href="csecembeddedperms.dita" navtitle="Running embedded Derby with a security manager"/>
+<topicref href="tsecnetservrun.dita" navtitle="Running the Network Server with a security manager"/>
+<topicref href="tsecnetservopen.dita" navtitle="Running the Network Server without a security manager"/>
+</topicref>
+<topicref href="csecnetservfileperms.dita" navtitle="Restricting file permissions"/>
+<topicref collection-type="family" href="csecputtogether.dita" navtitle="Putting it all together">
+<topicref href="csecputstart.dita" navtitle="Starting a secured Network Server"/>
+<topicref href="csecputrun.dita" navtitle="Creating and using a secure database"/>
+<topicref href="csecputstop.dita" navtitle="Stopping the secured Network Server"/>
+</topicref>
+</topicref>
+<topicref href="rsectrademderby.dita" navtitle="Trademarks"></topicref>
+</map>

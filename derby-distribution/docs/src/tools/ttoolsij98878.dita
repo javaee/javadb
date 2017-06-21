@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN"
+ "../dtd/task.dtd">
+<!-- 
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at      
+
+http://www.apache.org/licenses/LICENSE-2.0  
+
+Unless required by applicable law or agreed to in writing, software  
+distributed under the License is distributed on an "AS IS" BASIS,  
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+See the License for the specific language governing permissions and  
+limitations under the License.
+-->
+<task id="ttoolsij98878" xml:lang="en-us">
+<title>Running ij scripts</title>
+<shortdesc>You can run scripts in <codeph>ij</codeph> in any of the following
+ways.</shortdesc>
+<taskbody>
+<steps-unordered>
+<step><cmd>Name an input file as a command-line argument.</cmd>
+<stepxmp>For example:
+<codeblock><b>java org.apache.derby.tools.ij <i>myscript.sql</i></b></codeblock></stepxmp>
+</step>
+<step><cmd>Redirect standard input to come from a file.</cmd>
+<stepxmp>For example:
+<codeblock><b>java org.apache.derby.tools.ij &lt; <i>myscript.sql</i></b></codeblock></stepxmp>
+</step>
+<step><cmd>Use the
+<codeph><xref href="rtoolsijcomref28886.dita">Run</xref></codeph> command from
+the <codeph>ij</codeph> command line.</cmd>
+<stepxmp>For example:
+<codeblock>ij&gt; <b>run '<i>myscript.sql</i>';</b></codeblock></stepxmp>
+</step>
+</steps-unordered>
+<result><note type="note">If you name an input file as a command-line argument
+or if you use the
+<codeph><xref href="rtoolsijcomref28886.dita">Run</xref></codeph> command,
+<codeph>ij</codeph> echoes input from a file. If you redirect standard input to
+come from a file, <codeph>ij</codeph> does not echo commands.</note></result>
+<example><p>You can save output in any of the following ways: </p>
+<ul>
+<li>By redirecting output to a file:
+<codeblock><b>java org.apache.derby.tools.ij <i>myscript.sql</i> &gt; <i>myoutput.txt</i></b></codeblock>
+</li>
+<li>By setting the <codeph>ij.outfile</codeph> property:
+<codeblock><b>java -Dij.outfile=<i>myoutput.txt</i> org.apache.derby.tools.ij 
+    myscript.sql</b></codeblock></li>
+</ul> </example>
+<postreq>
+<p><codeph>ij</codeph> exits when you enter the
+<codeph><xref href="rtoolsijcomref33358.dita">Exit</xref></codeph> command or, if executing a
+script, when the end of the command file is reached. When you use the
+<codeph>Exit</codeph> command, <codeph>ij</codeph>
+automatically shuts down an embedded
+<ph conref="../conrefs.dita#prod/productshortname"></ph> system by issuing a
+<codeph>connect jdbc:derby:;shutdown=true</codeph> request. It does not shut
+down <ph conref="../conrefs.dita#prod/productshortname"></ph> if it is running
+in a server framework.</p>
+</postreq>
+</taskbody>
+</task>

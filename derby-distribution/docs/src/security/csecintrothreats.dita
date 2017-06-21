@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN"
+ "../dtd/concept.dtd">
+<!-- 
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at      
+
+   http://www.apache.org/licenses/LICENSE-2.0  
+
+Unless required by applicable law or agreed to in writing, software  
+distributed under the License is distributed on an "AS IS" BASIS,  
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+See the License for the specific language governing permissions and  
+limitations under the License.
+-->
+<concept id="csecintrothreats" xml:lang="en-us">
+<title>Threats to unsecured databases</title>
+<shortdesc>A threat is potential damage caused by an attacker using a technique
+to exploit a vulnerability. We have already seen examples of
+<ph conref="../conrefs.dita#prod/productshortname"></ph> vulnerabilities.
+Examples of damages, attackers, and techniques follow.</shortdesc>
+<prolog></prolog>
+<conbody>
+<p>Significant damages include the following.</p>
+<ul>
+<li><b>Denial-of-service attacks</b>: An attacker can monopolize resources on
+the host machine. For instance, an attacker can launch a runaway procedure on
+the <ph conref="../conrefs.dita#prod/productshortname"></ph> virtual machine,
+fill up the file system, or pepper the
+<ph conref="../conrefs.dita#prod/productshortname"></ph> server with incessant
+connection requests.</li>
+<li><b>Theft</b>: An attacker can read private information stored in a
+<ph conref="../conrefs.dita#prod/productshortname"></ph> database or transmitted
+across the network. With enough privileges and by exploiting application code
+visible on the classpath, an attacker can use
+<ph conref="../conrefs.dita#prod/productshortname"></ph> to read private
+information stored elsewhere on the server machine or even on other machines
+inside the firewall.</li>
+<li><b>Corruption</b>: An attacker can modify or destroy information stored in a
+<ph conref="../conrefs.dita#prod/productshortname"></ph> database or elsewhere
+inside the firewall.</li>
+</ul>
+<p>Attackers include the following.</p>
+<ul>
+<li><b>Insiders</b>: These are privileged persons who enjoy access to systems
+inside the firewall and maybe even to restricted machine rooms. Drunken System
+Administrators and disgruntled co-workers can cause significant damage.</li>
+<li><b>Outsiders</b>: These include politically motivated governments and
+guerillas, commercially motivated businesses and criminals, and thrill-seeking
+attackers.</li>
+</ul>
+<p>Techniques of attack include the following.</p>
+<ul>
+<li><b>SQL injection</b>: This technique plagues applications that construct
+queries by concatenating input from clients. A clever client can put SQL into
+these fields. That SQL, not intended by the application, then runs inside the
+database.</li>
+<li><b>Man-in-the-middle</b>: In this technique, the client believes that it is
+talking to the server. In reality, the connection has been intercepted by
+another machine. The device in the middle can examine and alter the
+traffic.</li>
+<li><b>Eavesdropping</b>: This is a special case of the man-in-the-middle
+attack. The attacker listens to the network traffic but does not interfere with
+it. An example of this technique is password sniffing, in which a machine in the
+middle intercepts the credentials handshake between client and server.</li>
+<li><b>Malware</b>: This is a general term for viruses, worms, trojan horses,
+and other intrusive or destructive code that can infect a machine.</li>
+<li><b>Probing</b>: This is the technical equivalent of jiggling door handles to
+see what doors are unlocked.</li>
+<li><b>Physical access</b>: This refers to the low-tech, brute-force technique
+of gaining physical access to a restricted area or machine and, for instance,
+exploiting superuser powers that might be available from a system's
+console.</li>
+<li><b>Social engineering</b>: This refers to the low-tech technique of gaining
+and abusing the confidence of someone who has the keys.</li>
+</ul>
+</conbody>
+</concept>

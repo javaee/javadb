@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN"
+ "../dtd/concept.dtd">
+<!-- 
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at      
+
+   http://www.apache.org/licenses/LICENSE-2.0  
+
+Unless required by applicable law or agreed to in writing, software  
+distributed under the License is distributed on an "AS IS" BASIS,  
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+See the License for the specific language governing permissions and  
+limitations under the License.
+-->
+<concept id="csecintrosafer" xml:lang="en-us">
+<title>Designing safer <ph conref="../conrefs.dita#prod/productshortname"></ph>
+applications</title>
+<shortdesc>The following tips should help you write and deploy safer
+applications that use <ph conref="../conrefs.dita#prod/productshortname"></ph>.
+</shortdesc>
+<prolog></prolog>
+<conbody>
+<ul>
+<li><b>Create a launch account</b>: Create an operating system account for the
+System Administrator. This will be the account that launches
+<ph conref="../conrefs.dita#prod/productshortname"></ph>. This account should
+not be the operating system's superuser.</li>
+<li><b>Limit file permissions</b>: Limit the file permissions of this System
+Administrator account to just the directories that the application should be
+allowed to read and write. Do not grant read or write access on these
+directories to any other operating system accounts.</li>
+<li><b>Create a policy file</b>: Write your own Java Security policy that
+restricts the directories that
+<ph conref="../conrefs.dita#prod/productshortname"></ph> can access and the
+sockets on which it can accept connections. See
+<xref href="csecjavasecurity.dita"/> for more information.</li>
+<li><b>Prevent JDBC leaks</b>: Do not let JDBC connections leak outside your
+intranet's firewall. If possible, design your application so that external
+clients talk to an application server, which in turn communicates with
+<ph conref="../conrefs.dita#prod/productshortname"></ph>. Limit the JDBC
+connections to communication between the application server and
+<ph conref="../conrefs.dita#prod/productshortname"></ph>.</li>
+<li><b>Protect against injection</b>: Do not construct queries by concatenating
+strings that are filled in by clients. To parameterize your queries, use JDBC
+<codeph>?</codeph> parameters in <codeph>PreparedStatement</codeph>s.</li>
+<li><b>Deploy your shields</b>: By default, enable all defenses mentioned in
+this section. If you need to turn off a defense for performance reasons, then
+carefully consider how you will protect your application from the threats which
+that defense parries.</li>
+</ul>
+</conbody>
+</concept>

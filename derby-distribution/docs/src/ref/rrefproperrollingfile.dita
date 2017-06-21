@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN"
+ "../dtd/reference.dtd">
+<!-- 
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at      
+
+http://www.apache.org/licenses/LICENSE-2.0  
+
+Unless required by applicable law or agreed to in writing, software  
+distributed under the License is distributed on an "AS IS" BASIS,  
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+See the License for the specific language governing permissions and  
+limitations under the License.
+-->
+<reference id="rrefproperrollingfile" xml:lang="en-us">
+<title>derby.stream.error.style</title>
+<shortdesc>The <i>derby.stream.error.style</i> property specifies that the
+<ph conref="../conrefs.dita#prod/productshortname"></ph> log file should be
+rolled over when it reaches a certain size.</shortdesc>
+<prolog><metadata>
+<keywords><indexterm>derby.stream.error.style property</indexterm>
+<indexterm>Error log<indexterm>rolling over</indexterm></indexterm></keywords>
+</metadata></prolog>
+<refbody>
+<section><title>Function</title>
+<p>If you set this property to <codeph>rollingFile</codeph> (the only supported
+value), <ph conref="../conrefs.dita#prod/productshortname"></ph> by default
+creates up to 10 rolling files named <i>derby-0.log</i>, <i>derby-1.log</i>, and
+so on, up to <i>derby-9.log</i>, each with a maximum length of 1,024,000
+bytes.</p>
+<p>You can override any of these defaults by setting one or more of the
+following properties:</p>
+<ul>
+<li><i><xref href="rrefproperrollingfilecount.dita"/></i></li>
+<li><i><xref href="rrefproperrollingfilelimit.dita"/></i></li>
+<li><i><xref href="rrefproperrollingfilepattern.dita"/></i></li>
+</ul>
+<p>If you set this property, the
+<i><xref href="rrefproper33027.dita">derby.stream.error.field</xref></i>,
+<i><xref href="rrefproper18151.dita">derby.stream.error.file</xref></i>, and
+<i><xref href="rrefproper35028.dita">derby.stream.error.method</xref></i>
+properties are ignored.</p>
+<p>This property works in accordance with the setting of the
+<i><xref href="rrefproper13217.dita">derby.infolog.append</xref></i> property.
+If <i>derby.infolog.append</i> is not set or is set to false, any existing log
+files will be rolled over and a new log file will be created when the
+<ph conref="../conrefs.dita#prod/productshortname"></ph> engine is started. If
+<i>derby.infolog.append</i> is set to true, the latest existing log file, if
+any, will be appended to.</p>
+</section>
+<refsyn><title>Syntax</title>
+<codeblock><b>derby.stream.error.style=<i>style</i></b></codeblock>
+</refsyn>
+<section><title>Default</title>
+<p>Not set.</p> </section>
+<example><title>Example</title>
+<codeblock><b>derby.stream.error.style=rollingFile</b></codeblock>
+</example>
+<section><title>Scope</title>
+<p><xref href="crefproper51399.dita#crefproper51399/rrefproper41229">system-wide</xref></p>
+</section>
+<section><title>Dynamic or static</title>
+<p>This property is static; if you change it while
+<ph conref="../conrefs.dita#prod/productshortname"></ph> is running, the change
+does not take effect until you reboot.</p> </section>
+</refbody>
+</reference>

@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at      
+
+http://www.apache.org/licenses/LICENSE-2.0  
+
+Unless required by applicable law or agreed to in writing, software  
+distributed under the License is distributed on an "AS IS" BASIS,  
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+See the License for the specific language governing permissions and  
+limitations under the License.
+-->
+<!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN"
+ "../dtd/reference.dtd">
+<reference id="rtoolsoptdbreader" xml:lang="en-us">
+<title>Using the rawDBReader optional tool</title>
+<shortdesc>The <codeph>rawDBReader</codeph> optional tool creates functions
+and views, which can be used to extract data out of a corrupt or unbootable database
+into a new, healthy database.</shortdesc>
+<prolog><metadata>
+<keywords>
+<indexterm>optional tools<indexterm>rawDBReader</indexterm></indexterm>
+<indexterm>rawDBReader optional tool</indexterm>
+<indexterm>tools<indexterm>rawDBReader optional tool</indexterm></indexterm>
+</keywords>
+</metadata></prolog>
+<refbody>
+<section>
+
+<title>Overview</title>
+<p>
+Derby is a stable, well-tested database engine. Nevertheless, it is possible for a Derby database to become corrupt.
+If a Derby database becomes corrupt but remains bootable (for instance, a single index becomes inconsistent),
+then the damage may be located by querying the <codeph>SYSCS_UTIL.SYSCS_CHECK_TABLE</codeph>
+system table function and the damage may be repaired by running the <codeph>SYSCS_UTIL.SYSCS_COMPRESS_TABLE</codeph>
+system procedure. These tools are documented in the <i>Derby Developer's Guide</i>.
+</p>
+
+<p>
+However, if the database is unbootable, then the best approach is to restore the database from a recent backup.
+If a backup isn't available, then you may be able to extract some data out of the corrupt database
+by using the <codeph>rawDBReader</codeph> optional tool. The <codeph>rawDBReader</codeph> tool is not guaranteed to
+retrieve all of the data. In some situations, the tool may retrieve data which was deleted before
+the database became unbootable. The <codeph>rawDBReader</codeph> optional tool
+is a last resort to salvage something.
+</p>
+
+<p>
+When running the <codeph>rawDBReader</codeph> tool, you will work with two databases. Both of these databases
+must be on the machine where you are running the tool.
+</p>
+
+<ul>
+<li><b>corruptDB</b> - This is the corrupt or unbootable database whose data you are trying to salvage.</li>
+<li><b>healthyDB</b> - This is a new database which you create in order to hold the retrieved data.</li>
+</ul>
+
+<p>
+The rawDBReader tool works by copying all of your user data from the corrupt database into
+a totally separate, healthy database. Each table in the corrupt database will be copied to
+a fresh table in the healthy database. The healthy target table will have the same schema name, the same table name,
+and the same column names as the original, corrupt table.
+</p>
+
+<p>
+There are three steps to using <codeph>rawDBReader</codeph>:
+</p>
+
+<ul>
+<li><b>load</b> - You call <i>SYSCS_REGISTER_TOOL</i> with
+arguments specific to your situation. This will prepare
+the healthy database to accept data from the
+corrupt database. This will also generate a text
+file containing a series of commands. This is the recovery script.</li>
+<li><b>extract</b> - You then run the recovery script in order to
+retrieve your data from the corrupt database and copy the data into the healthy database.</li>
+<li><b>unload</b> - Finally, you can remove the tool via another call
+to <i>SYSCS_REGISTER_TOOL</i>.</li>
+</ul>
+
+<p>
+These steps are described in greater detail below.
+</p>
+
+</section>
+
+<section>
+<title>Loading the tool</title>
+
+<p>
+To run the <codeph>rawDBReader</codeph> tool, you must be
+signed on to the machine where the corrupt database
+resides. Your classpath must contain <i>derby.jar</i>, <i>derbytools.jar</i>, and
+<i>derbyoptionaltools.jar</i>.
+</p>
+
+<p>
+To load the <codeph>rawDBReader</codeph> tool, connect to the healthy database and issue the following statement:
+</p>
+
+<codeblock><b>
+call syscs_util.syscs_register_tool
+(
+  'rawDBReader',
+  true,
+  $recoveryScript,
+  $controlSchema,
+  $schemaPrefix,
+  $corruptDBPath,
+  $corruptEncryptionAttributes,
+  $corruptDatabaseOwner,
+  $corruptDatabaseOwnerPassword
+);
+</b></codeblock>
+
+<p>Where the arguments have these meanings:</p>
+
+<ul>
+<li><b>$recoveryScript</b> - The name of a file into which a recovery script will be written.</li>
+<li><b>$controlSchema</b> - The name of a schema which will be created in the healthy database and which will hold
+table functions and views for querying the core catalogs of the corrupt database.</li>
+<li><b>$schemaPrefix</b> - A string which will be prefixed to the names of user schemas which will be created in the
+healthy database. For every schema in the corrupt database, a corresponding schema will be created in the healthy database.
+These schemas will hold functions and views which can be used to extract data out of the corrupt database.</li>
+<li><b>$corruptDBPath</b> - The file path to the corrupt database directory.</li>
+<li><b>$corruptEncryptionAttributes</b> - The encryption directives with which the corrupt database was created. May be null.</li>
+<li><b>$corruptDatabaseOwner</b> - The name of the owner of the corrupt database.</li>
+<li><b>$corruptDatabaseOwnerPassword</b> - The password of the owner of the corrupt database. May be null.</li>
+</ul>
+
+<p>
+The schema prefix is just a tag which helps the tool create unique schema names that won't conflict
+with the names of user schemas. The control schema is a separate schema whose name should not conflict with
+any user schemas. If the corrupt database has the following user schemas...
+</p>
+
+<codeblock><b>
+S1
+S2
+</b></codeblock>
+
+<p>
+...then the healthy database will have the following schemas after loading the <codeph>rawDBReader</codeph> tool
+and after running the recovery script:
+</p>
+
+<codeblock><b>
+S1
+S2
+$controlSchema
+$schemaPrefixS1
+$schemaPrefixS2
+</b></codeblock>
+
+<p>
+For instance, if the corrupt database was created without encryption and without specifying a database owner,
+then the following command would load  the <codeph>rawDBReader</codeph> optional tool:
+</p>
+
+<codeblock><b>
+call syscs_util.syscs_register_tool
+(
+  'rawDBReader',
+  true,
+  'recoverMyData.sql',
+  'CONTROL',
+  'BAD_',
+  'tmpdbs/corruptDB',
+  null,
+  'APP',
+  null
+);
+</b></codeblock>
+
+<p>
+If, on the other hand, the corrupt database was created with encryption and with credentials for a database owner,
+then you would load the tool with a command like the following statement:
+</p>
+
+<codeblock><b>
+call syscs_util.syscs_register_tool
+(
+  'rawDBReader',
+  true,
+  'recoverMyData.sql',
+  'CONTROL',
+  'BAD_',
+  'tmpdbs/corruptDB',
+  'bootPassword=DBpassword',
+  'dbo',
+  'DBO_password'
+);
+</b></codeblock>
+
+</section>
+
+<section>
+<title>Running the recovery script</title>
+
+<p>
+Loading the tool will write a recovery script containing statements which will create schemas and tables in the
+healthy database. The schemas and tables correspond to the user schemas and tables in the corrupt database. The script will also
+contain statements which extract data out of the corrupt tables into their healthy counterparts. Here's a
+sample recovery script:
+</p>
+
+<codeblock><b>
+connect 'jdbc:derby:tmpdbs/healthyDB';
+
+create schema "S1";
+
+-- siphon data out of c490.dat
+create table "S1"."T1" as select * from "BAD_S1"."T1" with no data;
+insert into "S1"."T1" select * from "BAD_S1"."T1";
+
+create schema "S2";
+
+-- siphon data out of c4a0.dat
+create table "S1"."T2" as select * from "BAD_S1"."T2" with no data;
+insert into "S1"."T2" select * from "BAD_S1"."T2";
+
+-- siphon data out of c4b0.dat
+create table "S2"."T1" as select * from "BAD_S2"."T1" with no data;
+insert into "S2"."T1" select * from "BAD_S2"."T1";
+
+-- siphon data out of c4c0.dat
+create table "S2"."T2" as select * from "BAD_S2"."T2" with no data;
+insert into "S2"."T2" select * from "BAD_S2"."T2";
+</b></codeblock>
+
+</section>
+
+<section>
+<title>Unloading the tool</title>
+
+<p>
+You can unload the tool after you have run the recovery script and copied data out of
+the corrupt database into the healthy database. Note that you must specify the same control schema and schema prefix
+which you specified when you loaded the tool:
+</p>
+
+<codeblock><b>
+call syscs_util.syscs_register_tool
+(
+  'rawDBReader',
+  false,
+  'CONTROL',
+  'BAD_'
+);
+</b></codeblock>
+
+</section>
+</refbody>
+</reference>
