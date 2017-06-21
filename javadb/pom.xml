@@ -47,7 +47,7 @@
     <parent>
         <groupId>javadb</groupId>
         <artifactId>parent</artifactId>	
-        <version>10.13.1.1-SNAPSHOT</version>
+        <version>10.13.1.1</version>
     </parent>
     
     <groupId>javadb</groupId>
