@@ -58,13 +58,13 @@
     <name>JavaDB distribution for GlassFish</name>
     
     <licenses>
-		    <license>
-			      <name>
+        <license>
+	    <name>
                 Dual license consisting of the CDDL v1.1 and GPL v2
             </name>
-			      <url>https://oss.oracle.com/licenses/CDDL+GPL-1.1</url>
-			      <distribution>repo</distribution>
-		    </license>
+	    <url>https://oss.oracle.com/licenses/CDDL+GPL-1.1</url>
+	    <distribution>repo</distribution>
+        </license>
     </licenses>
     
     <modules>
@@ -92,8 +92,8 @@
             scm:git:https://github.com/javaee/javadb.git
         </developerConnection>
         <url>https://github.com/javaee/javadb</url>
-      <tag>HEAD</tag>
-  </scm>
+        <tag>HEAD</tag>
+    </scm>
   
     <build>
         <resources>
@@ -103,44 +103,44 @@
             </resource>
         </resources>
         <plugins>
-    	      <plugin>
- 	              <groupId>org.apache.maven.plugins</groupId>
-  		          <artifactId>maven-javadoc-plugin</artifactId>
-  		          <executions>
-  		              <execution>
-   		                  <id>attach-javadocs</id>
-      			            <goals>
-       		 	                <goal>jar</goal>
-      			            </goals>
-    		            </execution>
-  		          </executions>
-	          </plugin>
-	          <plugin>
-  		          <groupId>org.apache.maven.plugins</groupId>
- 		            <artifactId>maven-source-plugin</artifactId>
-		            <version>2.4</version>
-  		          <executions>
-    		            <execution>
-      		              <id>attach-sources</id>
-      		              <goals>
-        	                  <goal>jar-no-fork</goal>
-      		              </goals>
-    		            </execution>
-  		          </executions>
+    	    <plugin>
+ 	        <groupId>org.apache.maven.plugins</groupId>
+  		<artifactId>maven-javadoc-plugin</artifactId>
+  		<executions>
+  		    <execution>
+   		        <id>attach-javadocs</id>
+      			<goals>
+       		 	    <goal>jar</goal>
+      			</goals>
+    		    </execution>
+  		</executions>
+	    </plugin>
+	    <plugin>
+  	        <groupId>org.apache.maven.plugins</groupId>
+ 		<artifactId>maven-source-plugin</artifactId>
+		<version>2.4</version>
+  		<executions>
+    		    <execution>
+      		        <id>attach-sources</id>
+      		        <goals>
+        	            <goal>jar-no-fork</goal>
+      		        </goals>
+    		    </execution>
+  		</executions>
             </plugin>
-	          <plugin>
-	              <groupId>org.apache.maven.plugins</groupId>
-	              <artifactId>maven-gpg-plugin</artifactId>
-	              <executions>
-	                  <execution>
-		                    <id>sign-artifacts</id>
-		                    <phase>verify</phase>
-		                    <goals>
-		                        <goal>sign</goal>
-		                    </goals>
+	    <plugin>
+	        <groupId>org.apache.maven.plugins</groupId>
+	        <artifactId>maven-gpg-plugin</artifactId>
+	        <executions>
+	            <execution>
+		        <id>sign-artifacts</id>
+		        <phase>verify</phase>
+		        <goals>
+		            <goal>sign</goal>
+		        </goals>
                     </execution>
-	              </executions>
-	          </plugin>
+	        </executions>
+	    </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
@@ -159,7 +159,7 @@
                     </execution>
                 </executions>
             </plugin>
-	          <plugin>
+	    <plugin>
                 <groupId>org.glassfish.build</groupId>
                 <artifactId>glassfishbuild-maven-plugin</artifactId>
                 <version>3.2.20</version>
@@ -169,7 +169,7 @@
                     <excludes>KEYS</excludes>
                 </configuration>
             </plugin>
-	          <plugin>
+	    <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>
                 <version>2.5.3</version>
@@ -186,7 +186,20 @@
                         <version>1.8.1</version>
                     </dependency>
                 </dependencies>
-	          </plugin>
+	    </plugin>
+            <plugin>
+                <groupId>org.glassfish.copyright</groupId>
+                <artifactId>glassfish-copyright-maven-plugin</artifactId>
+                <version>1.42</version>
+                <configuration>
+                    <scm>git</scm>
+                    <scmOnly>true</scmOnly>
+                    <exclude>
+                        <pattern>.md</pattern>
+                        <pattern>LICENSE</pattern>
+                    </exclude>
+                </configuration>
+            </plugin> 
         </plugins>
     </build>
     
